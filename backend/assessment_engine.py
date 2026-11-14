@@ -730,7 +730,11 @@ def evaluate_integrated_health(
         },
     )
 
-    return {
+    from database import fetch_system_state
+    from marscare_enhancer import build_marscare_extensions
+    comm_state = fetch_system_state("comm_state") or {}
+    baseline_dict = baseline if isinstance(baseline, dict) else (baseline.model_dump() if hasattr(baseline, "model_dump") else {})
+    result = {
         "overall_status": overall_status.value,
         "mission_day": latest["mission_day"],
         "mission_phase": phase,
@@ -748,6 +752,8 @@ def evaluate_integrated_health(
         "body_regions": body_regions,
         "rag_analysis": rag_summary,
     }
+    result.update(build_marscare_extensions(latest, history, baseline_dict, comm_state, result))
+    return result
 
 
 def generate_local_emergency_protocol(

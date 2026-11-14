@@ -108,7 +108,15 @@ def _build_full_state() -> Dict[str, Any]:
         "store_forward_reports": reports,
         "psych_questionnaires": psych_history,
         "knowledge_corpus": [asdict(doc) for doc in KNOWLEDGE_CORPUS],
+        "local_ai_status": get_local_ai_status(),
     }
+
+
+from local_ai_rag import get_local_ai_status
+from marscare_routes import initialize_marscare_rag, marscare_router
+
+initialize_marscare_rag()
+app.include_router(marscare_router, prefix="/api")
 
 
 @app.get("/api/health")

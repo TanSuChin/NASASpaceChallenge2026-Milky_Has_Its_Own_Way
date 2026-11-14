@@ -56,6 +56,7 @@ export interface TelemetryRecord {
   systolic_bp_mmhg: number;
   diastolic_bp_mmhg: number;
   spo2_pct: number;
+  respiratory_rate_bpm?: number;
   body_temp_c: number;
   dizziness_severity: number;
   faintness_presyncope: boolean;
@@ -158,6 +159,74 @@ export interface RAGAnalysisResponse {
   citations: RAGCitation[];
 }
 
+export interface GlanceSummary {
+  overall_status: RiskLevel;
+  how_am_i_doing: string;
+  what_has_changed: string;
+  should_i_take_action: string;
+  provenance_label: string;
+}
+
+export interface MarsCareBodyRegionMeasurement {
+  label: string;
+  value: string;
+  unit: string;
+  baseline: string;
+  recorded_at: string;
+}
+
+export interface MarsCareBodyRegion {
+  id: string;
+  name: string;
+  status: RiskLevel;
+  summary: string;
+  measurements: MarsCareBodyRegionMeasurement[];
+  recent_trend: { sol: number; value: number }[];
+  trend_label: string;
+  spaceflight_risk: string;
+  action_label: string;
+}
+
+export interface HazardModule4Step {
+  id: string;
+  title: string;
+  status: RiskLevel;
+  provenance: string;
+  what_are_we_monitoring: string;
+  what_has_changed: string;
+  why_it_matters_in_space: string;
+  what_should_i_do_next: string;
+}
+
+export interface StructuredExplanation {
+  what_was_detected: string[];
+  contributing_measurements: string[];
+  associated_factors: string[];
+  relevant_hazard: string[];
+  next_steps: string[];
+}
+
+export interface GuidanceTierItem {
+  action: string;
+  rationale: string;
+  source: string;
+}
+
+export interface LocalAIStatus {
+  ollama_available: boolean;
+  ollama_model: string | null;
+  sentence_transformers_installed: boolean;
+  sentence_transformers_cached: boolean;
+  active_engine_mode: string;
+  offline_guaranteed: boolean;
+}
+
+export interface CommModeInfo {
+  mode: 'CONNECTED' | 'DELAYED' | 'OFFLINE';
+  label: string;
+  summary: string;
+}
+
 export interface IntegratedAssessment {
   overall_status: RiskLevel;
   mission_day: number;
@@ -172,6 +241,12 @@ export interface IntegratedAssessment {
   active_alerts: ActiveAlert[];
   body_regions: BodyRegionAssessment[];
   rag_analysis: RAGAnalysisResponse;
+  comm_mode?: CommModeInfo;
+  glance_summary?: GlanceSummary;
+  marscare_body_regions?: MarsCareBodyRegion[];
+  hazard_modules_4step?: HazardModule4Step[];
+  structured_explanation?: StructuredExplanation;
+  guidance_tiers?: Record<string, GuidanceTierItem[]>;
 }
 
 export interface StoreForwardReport {
@@ -271,5 +346,6 @@ export interface FullSystemState {
   store_forward_reports: StoreForwardReport[];
   psych_questionnaires: PsychQuestionnaireRecord[];
   knowledge_corpus: KnowledgeDocItem[];
+  local_ai_status?: LocalAIStatus;
 }
 

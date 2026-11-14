@@ -65,6 +65,7 @@ def init_db() -> None:
             systolic_bp_mmhg REAL NOT NULL,
             diastolic_bp_mmhg REAL NOT NULL,
             spo2_pct REAL NOT NULL,
+            respiratory_rate_bpm REAL NOT NULL DEFAULT 16.0,
             body_temp_c REAL NOT NULL,
             dizziness_severity INTEGER NOT NULL,
             faintness_presyncope INTEGER NOT NULL,
@@ -142,13 +143,104 @@ def init_db() -> None:
 
     conn.commit()
 
-    # Seed if empty
+    # Schema migration guard for existing tarscare_local.db
+    cur.execute("PRAGMA table_info(telemetry_records)")
+    cols = {r["name"] for r in cur.fetchall()}
+    if "respiratory_rate_bpm" not in cols:
+        cur.execute(
+            "ALTER TABLE telemetry_records ADD COLUMN respiratory_rate_bpm REAL NOT NULL DEFAULT 16.0"
+        )
+        conn.commit()
+
+    # Seed if empty, and backfill Sols 155-170 if upgrading from 14-Sol DB
     cur.execute("SELECT COUNT(*) as cnt FROM telemetry_records")
     row = cur.fetchone()
     if row["cnt"] == 0:
         seed_synthetic_data(conn)
+    _ensure_30_sol_synthetic_history(conn)
 
     conn.close()
+
+
+def _ensure_30_sol_synthetic_history(conn: sqlite3.Connection) -> None:
+    """Guarantees 30 Sols (155-184) of synthetic history for 7/14/30-day charts without overwriting user records."""
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(*) as cnt FROM telemetry_records WHERE mission_day = 155")
+    if cur.fetchone()["cnt"] > 0:
+        return
+    early_sols = [
+        # day, phase, grav, abs_mgy, eq_msv, cum_msv, rad_evt, mood, stress, fatigue, work, sleep_h, sleep_q, hr, sys_bp, dia_bp, spo2, resp_rate, temp, dizz, strength, bal, co2_mmhg, humid, aqi, notes
+        (155, "MICROGRAVITY_TRANSIT", 0.0, 0.43, 1.04, 135.2, "GCR_BACKGROUND", 8.2, 2.4, 2.9, 5.2, 7.4, 87.0, 58.0, 111.0, 70.0, 98.5, 15.0, 36.6, 0, 98.1, 94.0, 2.2, 46.0, 18.0, "Transit Day 155: nominal deep-space cruise; baseline cardiovascular stability."),
+        (156, "MICROGRAVITY_TRANSIT", 0.0, 0.43, 1.05, 136.2, "GCR_BACKGROUND", 8.3, 2.5, 3.0, 5.3, 7.5, 88.0, 58.0, 110.0, 69.0, 98.4, 15.0, 36.6, 0, 98.0, 93.8, 2.2, 46.0, 18.0, "Transit Day 156: routine ARED lower-body loading completed."),
+        (157, "MICROGRAVITY_TRANSIT", 0.0, 0.44, 1.06, 137.3, "GCR_BACKGROUND", 8.1, 2.6, 3.1, 5.4, 7.3, 86.0, 59.0, 111.0, 70.0, 98.5, 15.2, 36.6, 0, 97.9, 93.6, 2.3, 45.0, 19.0, "Transit Day 157: sleep hygiene schedule steady."),
+        (158, "MICROGRAVITY_TRANSIT", 0.0, 0.44, 1.06, 138.4, "GCR_BACKGROUND", 8.0, 2.7, 3.2, 5.6, 7.2, 85.0, 59.0, 111.0, 70.0, 98.4, 15.1, 36.6, 0, 97.8, 93.5, 2.3, 45.0, 19.0, "Transit Day 158: weekly cabin swab & water quality check nominal."),
+        (159, "MICROGRAVITY_TRANSIT", 0.0, 0.45, 1.07, 139.4, "GCR_BACKGROUND", 8.2, 2.5, 3.0, 5.1, 7.6, 88.0, 58.0, 110.0, 70.0, 98.5, 14.9, 36.6, 0, 97.8, 93.6, 2.2, 46.0, 18.0, "Transit Day 159: crew social conference & Earth video family exchange."),
+        (160, "MICROGRAVITY_TRANSIT", 0.0, 0.44, 1.06, 140.5, "GCR_BACKGROUND", 8.1, 2.6, 3.1, 5.4, 7.4, 86.0, 59.0, 111.0, 70.0, 98.4, 15.0, 36.6, 0, 97.7, 93.4, 2.3, 45.0, 19.0, "Transit Day 160: nominal optic nerve ultrasound & tonometry check."),
+        (161, "MICROGRAVITY_TRANSIT", 0.0, 0.46, 1.09, 141.6, "GCR_BACKGROUND", 7.9, 2.9, 3.3, 5.7, 7.1, 84.0, 60.0, 112.0, 71.0, 98.3, 15.3, 36.6, 0, 97.6, 93.2, 2.4, 45.0, 20.0, "Transit Day 161: ECLSS filter maintenance shift."),
+        (162, "MICROGRAVITY_TRANSIT", 0.0, 0.45, 1.08, 142.7, "GCR_BACKGROUND", 8.0, 2.8, 3.2, 5.5, 7.3, 85.0, 59.0, 111.0, 70.0, 98.4, 15.1, 36.6, 0, 97.6, 93.2, 2.3, 46.0, 19.0, "Transit Day 162: nominal cardio ergometer session."),
+        (163, "MICROGRAVITY_TRANSIT", 0.0, 0.44, 1.07, 143.7, "GCR_BACKGROUND", 8.1, 2.6, 3.0, 5.3, 7.5, 87.0, 58.0, 110.0, 69.0, 98.5, 15.0, 36.6, 0, 97.5, 93.1, 2.2, 46.0, 18.0, "Transit Day 163: restful sleep window achieved."),
+        (164, "MICROGRAVITY_TRANSIT", 0.0, 0.45, 1.08, 144.8, "GCR_BACKGROUND", 8.0, 2.7, 3.1, 5.5, 7.4, 86.0, 59.0, 111.0, 70.0, 98.4, 15.1, 36.6, 0, 97.5, 93.0, 2.3, 45.0, 19.0, "Transit Day 164: orbital navigation course correction check."),
+        (165, "MICROGRAVITY_TRANSIT", 0.0, 0.46, 1.09, 145.9, "GCR_BACKGROUND", 7.9, 2.8, 3.3, 5.6, 7.2, 85.0, 59.0, 111.0, 70.0, 98.4, 15.2, 36.6, 0, 97.4, 93.0, 2.4, 45.0, 19.0, "Transit Day 165: nominal flight physiology."),
+        (166, "MICROGRAVITY_TRANSIT", 0.0, 0.45, 1.08, 147.0, "GCR_BACKGROUND", 8.0, 2.7, 3.2, 5.4, 7.4, 86.0, 59.0, 110.0, 70.0, 98.4, 15.0, 36.6, 0, 97.4, 93.1, 2.3, 46.0, 19.0, "Transit Day 166: crew cognitive reaction task baseline on target."),
+        (167, "MICROGRAVITY_TRANSIT", 0.0, 0.44, 1.07, 148.1, "GCR_BACKGROUND", 8.1, 2.6, 3.1, 5.3, 7.5, 87.0, 58.0, 110.0, 70.0, 98.5, 15.0, 36.6, 0, 97.3, 93.1, 2.2, 46.0, 18.0, "Transit Day 167: off-duty recovery & music journaling."),
+        (168, "MICROGRAVITY_TRANSIT", 0.0, 0.45, 1.08, 149.1, "GCR_BACKGROUND", 8.0, 2.7, 3.1, 5.4, 7.4, 86.0, 59.0, 111.0, 70.0, 98.4, 15.1, 36.6, 0, 97.3, 93.0, 2.3, 45.0, 19.0, "Transit Day 168: landing suit sizing & stowage verification."),
+        (169, "MICROGRAVITY_TRANSIT", 0.0, 0.44, 1.07, 150.2, "GCR_BACKGROUND", 8.1, 2.6, 3.0, 5.4, 7.5, 87.0, 59.0, 111.0, 70.0, 98.5, 15.0, 36.6, 0, 97.2, 93.0, 2.3, 46.0, 19.0, "Transit Day 169: approach navigation simulation."),
+        (170, "MICROGRAVITY_TRANSIT", 0.0, 0.44, 1.08, 151.0, "GCR_BACKGROUND", 8.1, 2.6, 3.1, 5.5, 7.5, 87.0, 59.0, 111.0, 70.0, 98.4, 15.0, 36.6, 0, 97.2, 93.0, 2.3, 46.0, 19.0, "Transit Day 170: nominal pre-insertion readiness."),
+    ]
+    for row in early_sols:
+        (
+            day, phase, grav, abs_mgy, eq_msv, cum_msv, rad_evt,
+            mood, stress, fatigue, work, sleep_h, sleep_q,
+            hr, sys_bp, dia_bp, spo2, resp_rate, temp, dizz, strength, bal,
+            co2_mmhg, humid, aqi, notes
+        ) = row
+        ts = f"2026-10-{day - 139:02d}T08:00:00Z"
+        cur.execute(
+            """
+            INSERT INTO telemetry_records (
+                timestamp, mission_day, mission_phase, gravity_g, provenance,
+                absorbed_dose_mgy, absorbed_dose_rate_mgy_hr, equivalent_dose_msv,
+                equivalent_dose_rate_msv_day, cumulative_effective_dose_msv,
+                radiation_source, radiation_event_type,
+                mood_score, stress_level, emotional_wellbeing, fatigue_level,
+                workload_score, social_interaction_score,
+                sleep_duration_hrs, sleep_quality_pct, sleep_schedule_window,
+                sleep_irregularities, feeling_isolated, concentration_difficulty, motivation_level,
+                heart_rate_bpm, systolic_bp_mmhg, diastolic_bp_mmhg, spo2_pct, respiratory_rate_bpm, body_temp_c,
+                dizziness_severity, faintness_presyncope,
+                physical_activity_mins, exercise_performance_pct, muscle_strength_idx,
+                exercise_adherence_pct, musculoskeletal_discomfort,
+                balance_score, coordination_score, spatial_disorientation, visual_disturbance_sans,
+                cabin_temp_c, cabin_pressure_kpa, oxygen_pct, co2_mmhg, co2_ppm,
+                humidity_pct, air_quality_index, env_warning_event,
+                respiratory_symptoms, infection_symptoms, hygiene_adherence_pct, notes
+            ) VALUES (
+                ?, ?, ?, ?, ?,
+                ?, ?, ?, ?, ?, ?, ?,
+                ?, ?, ?, ?, ?, ?,
+                ?, ?, ?, ?, ?, ?, ?,
+                ?, ?, ?, ?, ?, ?, ?, ?,
+                ?, ?, ?, ?, ?,
+                ?, ?, ?, ?,
+                ?, ?, ?, ?, ?, ?, ?, ?,
+                ?, ?, ?, ?
+            )
+            """,
+            (
+                ts, day, phase, grav, DataProvenance.SYNTHETIC_DEMO.value,
+                abs_mgy, round(abs_mgy / 24.0, 4), eq_msv, eq_msv, cum_msv,
+                "HABITAT_TEPC_PLUS_CREW_DOSIMETER (SYNTHETIC)", rad_evt,
+                mood, stress, round((mood + (10 - stress)) / 2.0, 1), fatigue,
+                work, 7.8, sleep_h, sleep_q, "22:30 - 05:30 UTC-MARS",
+                1, 0, 0, 8.1,
+                hr, sys_bp, dia_bp, spo2, resp_rate, temp,
+                dizz, 0, 110.0, 95.0, strength, 95.0, 0,
+                bal, round(bal + 2.5, 1), 0, 0,
+                21.5, 70.3, 21.1, co2_mmhg, round(co2_mmhg * 1315.0, 0),
+                humid, aqi, "NONE", json.dumps([]), json.dumps([]), 97.0, notes,
+            ),
+        )
+    conn.commit()
 
 
 def seed_synthetic_data(conn: sqlite3.Connection) -> None:
@@ -322,6 +414,7 @@ def seed_synthetic_data(conn: sqlite3.Connection) -> None:
         )
 
     conn.commit()
+    _ensure_30_sol_synthetic_history(conn)
 
 
 def _row_to_telemetry_dict(row: sqlite3.Row) -> Dict[str, Any]:
@@ -331,6 +424,7 @@ def _row_to_telemetry_dict(row: sqlite3.Row) -> Dict[str, Any]:
     d["faintness_presyncope"] = bool(d["faintness_presyncope"])
     d["spatial_disorientation"] = bool(d["spatial_disorientation"])
     d["visual_disturbance_sans"] = bool(d["visual_disturbance_sans"])
+    d.setdefault("respiratory_rate_bpm", 16.0)
     d["respiratory_symptoms"] = json.loads(d["respiratory_symptoms"] or "[]")
     d["infection_symptoms"] = json.loads(d["infection_symptoms"] or "[]")
     return d
@@ -380,7 +474,7 @@ def insert_telemetry_record(data: Dict[str, Any]) -> Dict[str, Any]:
             workload_score, social_interaction_score,
             sleep_duration_hrs, sleep_quality_pct, sleep_schedule_window,
             sleep_irregularities, feeling_isolated, concentration_difficulty, motivation_level,
-            heart_rate_bpm, systolic_bp_mmhg, diastolic_bp_mmhg, spo2_pct, body_temp_c,
+            heart_rate_bpm, systolic_bp_mmhg, diastolic_bp_mmhg, spo2_pct, respiratory_rate_bpm, body_temp_c,
             dizziness_severity, faintness_presyncope,
             physical_activity_mins, exercise_performance_pct, muscle_strength_idx,
             exercise_adherence_pct, musculoskeletal_discomfort,
@@ -393,7 +487,7 @@ def insert_telemetry_record(data: Dict[str, Any]) -> Dict[str, Any]:
             ?, ?, ?, ?, ?, ?, ?,
             ?, ?, ?, ?, ?, ?,
             ?, ?, ?, ?, ?, ?, ?,
-            ?, ?, ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?, ?, ?,
             ?, ?, ?, ?, ?,
             ?, ?, ?, ?,
             ?, ?, ?, ?, ?, ?, ?, ?,
@@ -430,6 +524,7 @@ def insert_telemetry_record(data: Dict[str, Any]) -> Dict[str, Any]:
             data["systolic_bp_mmhg"],
             data["diastolic_bp_mmhg"],
             data["spo2_pct"],
+            data.get("respiratory_rate_bpm", 16.0),
             data["body_temp_c"],
             data["dizziness_severity"],
             int(bool(data["faintness_presyncope"])),

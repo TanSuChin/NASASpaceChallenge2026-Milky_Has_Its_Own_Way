@@ -8,57 +8,64 @@ web
 
 ## Stack
 
-React, TypeScript, Tailwind CSS, Recharts, Three.js (Frontend); Python, FastAPI, Pydantic, SQLite, local vector/embedding retrieval + RAG with deterministic offline fallback (Backend) — explicitly specified in Master Development Prompt.
+React, TypeScript, Tailwind CSS, Recharts, Host Grotesk typography (Frontend); Python, FastAPI, Pydantic, SQLite (`tarscare_local.db` backend identifiers preserved), Sentence-Transformers + optional local Ollama LLM inference with deterministic offline RAG fallback (Backend).
 
 ## Users
 
-Astronaut crew members on long-duration deep-space missions (specifically Mars transit, Mars surface ~0.38g operations, and Earth return 1g re-adaptation) operating under intermittent or delayed communication with Earth Flight Surgeons.
+Astronaut crew members on long-duration deep-space missions (Earth 1g, Interplanetary Microgravity 0g, Mars surface ~0.38g) operating millions of kilometres from Earth under communication delays or blackouts.
 
 ## Product Purpose
 
-TARSCARE AI is an autonomous astronaut health monitoring and decision-support system that enables astronauts to independently collect health telemetry, compare against personal baselines, assess physical and psychological risks across NASA's five human-spaceflight hazards, retrieve evidence-informed medical guidance via local RAG over NASA/CSA research, and execute store-and-forward telemetry synchronization and local emergency escalation without continuous Earth connectivity.
+**MarsCare AI — Your Personal Health Companion in Deep Space** is an autonomous astronaut health-monitoring and self-assessment web application. It helps astronauts answer "How am I doing?", "What has changed?", and "Should I take any action?", explore their body systems via an interactive human anatomy centerpiece, assess risks across NASA's five human-spaceflight hazards, ask a local RAG-powered AI Health Assistant grounded in NASA & CSA research, and maintain full autonomy offline with queued Earth synchronization.
 
 ## Positioning
 
-Unlike terrestrial telemedicine or generic health dashboards that assume fixed 1g reference ranges and continuous cloud/clinician connectivity, TARSCARE AI evaluates longitudinal changes against individual astronaut baselines conditioned on mission gravity phase (microgravity, 0.38g Mars surface, 1g Earth return), explicit data provenance (real research reference, synthetic demo telemetry, simulated environmental telemetry, or user-entered reading), and NASA's five spaceflight hazard domains with 100% offline-resilient RAG and emergency protocols.
+Unlike terrestrial telemedicine or generic smartwatch/hospital dashboards that assume 1g norms and continuous Earth internet connectivity, MarsCare AI acts as a calm, reassuring, astronaut-specific onboard companion. It compares readings against each astronaut's personal baseline and current gravity phase (`0g`, `0.38g`, `1.0g`), explicitly tags data provenance (`Real Research Data`, `Simulated Data`, `User-Entered Data`), and operates seamlessly across Connected, Delayed, and Offline states.
 
 ## Operating Context
 
-Used aboard a deep-space habitat or spacecraft medical workstation (dark ambient lighting to preserve circadian and instrument legibility) where one-way light time to Earth ranges from 3 to 22 minutes or complete solar conjunction blackout. Astronauts perform routine check-ins, investigate anomalies across body systems and spacecraft environmental sensors, query onboard NASA/CSA scientific literature (HRP, OSDR, ARMAS/RDP context, CCISS, CARDIOBREATH, C-STARS), and queue encrypted medical packages for store-and-forward Deep Space Network synchronization.
+Operated aboard a deep-space habitat or spacecraft tablet/workstation in dark ambient conditions (`#0B0D1A` / `#121522`) with one-way light delays up to 22 minutes or conjunction blackouts.
 
 ## Capabilities and Constraints
 
-- Five functional hazard modules:
-  1. Space Radiation (Gy absorbed vs. Sv equivalent/effective dose distinction, GCR vs. SPE, mission-configured thresholds, explicit note that NASA RDP/ARMAS is Earth high-altitude/aircraft data rather than direct Mars surface data).
-  2. Isolation and Confinement (mood, stress, fatigue, workload, sleep duration/quality/irregularities, self-assessment questionnaire, non-diagnostic behavioural guidance).
-  3. Distance from Earth & Autonomous Medical Support (communication status, one-way delay, store-and-forward report queue, local sync simulation, offline-first medical procedures & emergency escalation).
-  4. Gravity Fields & Physiological Adaptation (microgravity, 0.38g Mars, 1g Earth return; cardiovascular, musculoskeletal, and sensorimotor/SANS monitoring; ARED/treadmill/balance countermeasure guidance).
-  5. Hostile and Closed Environments (cabin temperature, pressure, O2, CO2, humidity, air quality, warning events, correlate with respiratory/fatigue/temp symptoms without auto-diagnosing infection).
-- Integrated Astronaut Health Assessment Engine classifying into NORMAL, WARNING, or CRITICAL using personal baselines, trends, mission phase, and configurable prototype thresholds.
-- Local RAG engine indexing curated NASA HRP and CSA scientific documents with chunking, dense/hybrid vector retrieval, source citations, and local LLM or deterministic synthesis fallback.
-- Seven accessible screens: Mission Health Dashboard, Interactive Human Body Map, Five Hazard Monitoring, Health Assessment Input, AI Health Analysis, Health Guidance & Recommendations, and Health History & Reports.
-- Strict safety boundaries: no clinical diagnosis, no unsupported medication prescriptions, no fabricated NASA citations or invented clinical thresholds, and explicit data provenance tags on every record.
+- **Main Navigation (6 items):**
+  1. `Mission Overview` (3-question health glance, overall status + explanation, 6 vital signs with baseline comparison & timestamp, **Interactive Human Body** centerpiece with 7 regions [`Head and Brain`, `Eyes`, `Heart`, `Lungs`, `Muscles`, `Bones`, `Whole Body`], 5 hazard overview cards, 7/14/30-day interactive trend charts, and important alerts)
+  2. `Health Assessment` (Dual-method check-in: Manual measurement input + Selectable symptom checklists organized by category, followed by immediate assessment summary)
+  3. `Spaceflight Hazards` (5 connected modules — Space Radiation, Isolation and Confinement, Distance from Earth, Gravity Fields, Hostile and Closed Environments — each structured in 4 sections: *What are we monitoring?*, *What has changed?*, *Why does it matter in space?*, *What should I do next?*)
+  4. `AI Health Assistant` (Conversational RAG companion backed by NASA HRP, OSDR, Life Sciences Portal, Radiation Data Portal / RadLab, Environmental Data Application, and CSA CCISS, CARDIOBREATH, C-STARS, TBone, Vascular; auto-detects local Ollama/Sentence-Transformers with deterministic offline fallback; explicitly states when evidence is insufficient; never prescribes meds or overrides emergency procedures)
+  5. `Health History` (Date-filtered 7/14/30-day longitudinal review of daily vitals, assessments, baseline shifts, historical alerts, radiation logs, psychological check-ins, exercise/sleep logs, and local report generation with Earth sync status)
+  6. `Communication Status` (Mission distance, one-way delay, Connected/Delayed/Offline simulation toggle, last sync timestamp, pending reports queue, and local AI availability indicator)
+- **Four-Tier Health Guidance (`Immediate action`, `Preventive action`, `Further assessment`, `Medical escalation`)** displayed after every health assessment and in dedicated guidance views.
+- **Safety & Scientific Integrity:** Preserve physical units (`Gy` vs `Sv`, `mmHg`, `%`, `°C`), do not invent NASA-approved exposure limits, do not diagnose psychological disorders or infections from environmental data alone, and do not claim clinical validation.
+- **Backend Identifier Continuity:** Keep existing `TARSCARE AI` backend identifiers, database schema compatibility (`tarscare_local.db`), and REST API structure while upgrading payloads and UI branding to **MarsCare AI**.
 
 ## Brand Commitments
 
-- Name: TARSCARE AI – Autonomous Astronaut Health Monitoring and Decision Support System.
-- Pinned aesthetic brief: Dark navy and space-inspired visual theme, clean medical dashboard, modern typography, consistent visual hierarchy, interactive charts, clear medical status indicators (NORMAL / WARNING / CRITICAL), responsive desktop and tablet layouts.
+- Frontend Brand: **MarsCare AI — Your Personal Health Companion in Deep Space**.
+- Pinned Visual Palette:
+  - Main background: `#0B0D1A`
+  - Secondary background: `#121522`
+  - Primary text: `#FAF9FA`
+  - Secondary text: `#E5E5E4`
+  - Accent glow: `#A5D8FF` (subtle glow behind key product elements)
+  - Main button: `#EEF0F6` (pill-shaped) with `#040404` button text
+  - Status colours (status indicators only): Green (`Normal`), Amber (`Warning`), Red (`Critical`)
+- Typography & Shapes: `Host Grotesk` (self-hosted/local fallback), large readable headings, pill-shaped primary buttons, ~16px rounded cards, desktop + spacecraft tablet + mobile responsive layouts.
 
 ## Evidence on Hand
 
-- Curated NASA Human Research Program (HRP) five hazards documentation, CSA radiation monitoring (2026), CCISS, CARDIOBREATH, C-STARS, and NASA Radiation Data Portal (ARMAS context) reference corpus stored locally in the repository for RAG retrieval.
-- Synthetic astronaut demonstration telemetry dataset clearly labeled as `SYNTHETIC_DEMO` / `SIMULATED_ENV` / `USER_ENTERED` / `REAL_RESEARCH_REF`.
+- Local curated corpus in `backend/knowledge_base.py` covering NASA HRP, OSDR, Life Sciences Portal, Radiation Data Portal / RadLab, Environmental Data Application, and CSA radiation monitoring, CCISS, CARDIOBREATH, C-STARS, TBone, and Vascular research.
+- 30-day realistic synthetic astronaut demonstration dataset clearly labeled as simulated vs. real research reference vs. user-entered.
 
 ## Product Principles
 
-1. **Autonomy under delay:** Every critical assessment, protocol lookup, and RAG explanation works locally with zero dependency on external cloud APIs.
-2. **Baseline and gravity awareness:** Interpret physiological metrics relative to the individual astronaut's pre-flight/in-flight baseline and current gravitational environment rather than static terrestrial norms.
-3. **Radical scientific and data honesty:** Preserve exact physical units (mGy vs. mSv, mmHg, %, ppm), label synthetic vs. user vs. research data on every record, and cite retrieved NASA/CSA sources without clinical overclaim.
-4. **Operational clarity under stress:** High-contrast telemetry, unambiguous NORMAL/WARNING/CRITICAL state indicators, and immediate emergency escalation workflows.
+1. **Calm, reassuring companion under stress:** Clear answers to *How am I doing?*, *What has changed?*, and *Should I take any action?* without overwhelming clinical clutter.
+2. **Anatomical clarity without medical jargon:** The centered Interactive Human Body lets any crew member explore risks, measurements, and trends intuitively.
+3. **Baseline, gravity, and provenance honesty:** Compare against personal baseline across `0g`, `0.38g`, and `1g`, and distinguish real, simulated, and user-entered data.
+4. **Offline-first resilience:** Every assessment, RAG query, report archive, and emergency protocol works with zero internet connectivity.
 
 ## Accessibility & Inclusion
 
-- High contrast ratios (≥ 4.5:1 for body text, ≥ 3:1 for large telemetry numerals) against dark navy spacecraft workstation surfaces.
-- Tabular numerals (`font-variant-numeric: tabular-nums`) for all telemetry readouts, timestamps, and dosages.
-- Clear keyboard focus states and semantic form labels across all assessment checklists and body map regions.
-
+- High-contrast `#FAF9FA` and `#E5E5E4` typography on `#0B0D1A` and `#121522` surfaces, and `#040404` on `#EEF0F6` pill buttons.
+- Tabular numerals (`font-variant-numeric: tabular-nums`) on all physiological and dosimetric readouts.
+- Full keyboard navigation across all 6 main screens, 7 human body regions, and 5 hazard modules.

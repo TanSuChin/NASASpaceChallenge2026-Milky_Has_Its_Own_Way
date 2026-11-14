@@ -124,6 +124,7 @@ class HealthMeasurementSubmission(BaseModel):
     systolic_bp_mmhg: float = Field(default=105.0, ge=60.0, le=220.0)
     diastolic_bp_mmhg: float = Field(default=68.0, ge=40.0, le=140.0)
     spo2_pct: float = Field(default=97.8, ge=70.0, le=100.0)
+    respiratory_rate_bpm: float = Field(default=16.0, ge=6.0, le=45.0)
     body_temp_c: float = Field(default=36.7, ge=34.0, le=42.0)
     dizziness_severity: int = Field(default=1, ge=0, le=3, description="0=None, 1=Mild, 2=Moderate, 3=Severe")
     faintness_presyncope: bool = False

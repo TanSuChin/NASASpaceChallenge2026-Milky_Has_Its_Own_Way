@@ -5,21 +5,23 @@ primary_target: "frontend/src/App.tsx"
 related_targets: []
 ---
 
-# Surface Brief: TARSCARE AI Medical Workstation (`frontend/src/App.tsx`)
+# Surface Brief: MarsCare AI — Autonomous Deep-Space Personal Health Companion (`frontend/src/App.tsx`)
 
-- **Scope:** Full 7-screen autonomous astronaut health monitoring and decision-support web application
+- **Scope:** Full 6-screen astronaut personal health companion (`Mission Overview` featuring centered `Interactive Human Body`, `Health Assessment`, `Spaceflight Hazards`, `AI Health Assistant`, `Health History`, `Communication Status`), preserving `TARSCARE AI` backend identifiers.
 - **Mode:** Operate
+- **Chosen Direction Sketch:** `.impeccable/mocks/decision/challenger-wayfinding.html` (`Crew Wayfinding Triage Bands`)
+- **Build Path:** `code` (`buildPathFlipped: false`)
 
 ## Direction contract
 
-THESIS: An autonomous Mars-mission bio-astronautics workstation where every physiological reading is evaluated against the astronaut's personal baseline and current gravity phase (0g, 0.38g, 1g) across NASA's five hazards, refusing generic terrestrial clinic cards or decorative sci-fi HUD chrome.
+THESIS: An autonomous deep-space personal health companion built around directional Crew Wayfinding Triage Bands that answer "How am I doing?", "What has changed?", and "Should I take any action?" on first glance, anchored by a luminous centered Interactive Human Body corridor that turns every physiological shift into calm, evidence-informed action without Earth dependency.
 
-OWN-WORLD: Deep spaceflight workstation navy (`#080d1a` ground, `#0f172a` instrument panels, `#1e293b` 1px structural hairlines), high-contrast alabaster telemetry numerals (`#f8fafc`), sky-cyan operational accents (`#38bdf8`), and strict semantic state coding (`#10b981` NORMAL, `#f59e0b` WARNING, `#ef4444` CRITICAL) with explicit provenance badges (`REAL_RESEARCH_REF`, `SYNTHETIC_DEMO`, `SIMULATED_ENV`, `USER_ENTERED`). Raised from `rw-centre-rail-reference-setting` (1px hairline structural rules and keyed citation/baseline-delta rails) and `wayfinding-cartography-signage-terminal-yellow-wayfinding` (unambiguous directional escalation strips for WARNING/CRITICAL protocols).
+OWN-WORLD: Calm deep-space navy surfaces (`#0B0D1A` main background, `#121522` secondary cards with `16px` radius), crisp `#FAF9FA` primary text and `#E5E5E4` secondary text in `Host Grotesk`, soft `#A5D8FF` ambient radial illumination strictly reserved behind key companion focal elements (such as the centered Interactive Human Body and active triage band), `#EEF0F6` pill-shaped primary buttons with `#040404` ink, and green/amber/red used exclusively for `Normal`, `Warning`, and `Critical` health status and data-provenance badges (`Real Research Data`, `Simulated Data`, `User-Entered Data`). Refuses decorative sci-fi clutter, eyebrow kickers above headings, >1px left borders, gradient text, and emoji icons.
 
-STORY: The astronaut sees their current mission day, gravity regime, Earth communication delay, overall risk classification, and five-hazard status at a glance; inspects body systems or hazard telemetry against personal baselines; submits new measurements/symptoms; receives local RAG-backed explanations citing NASA/CSA literature; and executes offline store-and-forward reporting or immediate emergency protocols.
+STORY: Opening Mission Overview immediately gives the astronaut plain-language triage answers across the horizontal wayfinding band alongside Mission Day (Sol), crew profile, and communication status; selecting any of the 7 body regions (`Head and Brain`, `Eyes`, `Heart`, `Lungs`, `Muscles`, `Bones`, `Whole Body`) highlights the anatomy, reveals linked measurements, 7-day trends, spaceflight risk context, and a pill `Start Health Assessment` CTA; drilling into any of the 5 hazards shows a unified 4-section brief (*What are we monitoring?*, *What has changed?*, *Why does it matter in space?*, *What should I do next?*); submitting measurements or categorized symptoms yields an explained assessment plus 4-tier Health Guidance; and the offline-first RAG assistant + Health History + 3-state Communication Status (`Connected`, `Delayed`, `Offline`) keep care continuous even without Earth contact.
 
-FIRST VIEWPORT: Top mission telemetry bar (Astronaut Profile, Sol/Mission Day, Gravity Regime switcher, Earth One-Way Light Time & Offline Sync Queue, Quick Demo Scenario Selector, Emergency Protocol trigger), left vertical navigation rail for the 7 required screens, and the main operational workspace leading with the Integrated Health Assessment status banner, 5-Hazard matrix, baseline comparison telemetry charts, and active alert escalation panel.
+FIRST VIEWPORT: Top horizontal bar (`MarsCare AI`, 6 pill-capable nav tabs, astronaut profile + Mission Sol + communication pill + provenance tag); directly underneath, the monumental Crew Wayfinding Triage Band (large Sol numeral + *How am I doing?*, *What has changed?*, *Should I take any action?* + `#EEF0F6` `Start Health Assessment` pill button); below that, the 3-column Interactive Human Body corridor (left 7-region selector wayfinding rail with live region status, centered glowing Interactive Human Body vector explorer, right Latest Telemetry vs. Personal Baseline card stack + selected organ insight); grounded by the 5-hazard wayfinding status strip above 7/14/30-day trend charts and recent alerts below the fold.
 
-FORM: Candidate 5 (Mars Transit Bio-Astronautics Clinical Command Ledger, brief-pinned dark navy medical dashboard), seed:0e69e1d3909137df.
+FORM: Crew Wayfinding Triage Bands (adopted challenger `wayfinding-cartography-signage-terminal-yellow-wayfinding` adapted to MarsCare AI navy palette, paired with anatomical landmark correspondence from `notation-diagram-systems-orienteering-map`), `seed:545159eea7949b0d`.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

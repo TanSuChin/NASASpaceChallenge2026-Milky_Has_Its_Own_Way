@@ -1,173 +1,129 @@
 ---
-name: TARSCARE AI
-description: Autonomous Astronaut Health Monitoring and Decision Support System
+name: MarsCare AI
+description: Your Personal Health Companion in Deep Space (built on the TARSCARE AI autonomous backend)
 colors:
-  primary-cyan: "#38bdf8"
-  primary-cyan-deep: "#0284c7"
-  status-normal: "#10b981"
-  status-warning: "#f59e0b"
-  status-critical: "#ef4444"
-  space-ground: "#070b14"
-  panel-surface: "#0d1424"
-  panel-elevated: "#131d33"
-  rule-hairline: "#1e2d4a"
-  text-alabaster: "#f8fafc"
-  text-slate: "#cbd5e1"
-  text-muted-blue: "#a8b8d0"
+  accent-glow: "#A5D8FF"
+  cta-fill: "#EEF0F6"
+  cta-ink: "#040404"
+  status-normal: "#10B981"
+  status-warning: "#F59E0B"
+  status-critical: "#EF4444"
+  space-ground: "#0B0D1A"
+  surface-panel: "#121522"
+  surface-elevated: "#181C2E"
+  rule-hairline: "rgba(255, 255, 255, 0.08)"
+  text-primary: "#FAF9FA"
+  text-secondary: "#E5E5E4"
 typography:
+  display:
+    fontFamily: "'Host Grotesk Variable', 'Host Grotesk', 'Segoe UI', system-ui, sans-serif"
+    fontSize: "1.875rem"
+    fontWeight: 700
+    lineHeight: 1.2
   headline:
-    fontFamily: "Public Sans, Segoe UI, -apple-system, sans-serif"
-    fontSize: "1.5rem"
+    fontFamily: "'Host Grotesk Variable', 'Host Grotesk', 'Segoe UI', system-ui, sans-serif"
+    fontSize: "1.25rem"
     fontWeight: 600
-    lineHeight: 1.25
-  title:
-    fontFamily: "Public Sans, Segoe UI, -apple-system, sans-serif"
-    fontSize: "1rem"
-    fontWeight: 600
-    lineHeight: 1.4
+    lineHeight: 1.3
   body:
-    fontFamily: "Public Sans, Segoe UI, -apple-system, sans-serif"
+    fontFamily: "'Host Grotesk Variable', 'Host Grotesk', 'Segoe UI', system-ui, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 400
     lineHeight: 1.6
   label:
-    fontFamily: "Fira Code, Consolas, monospace"
+    fontFamily: "'Host Grotesk Variable', 'Host Grotesk', 'Segoe UI', system-ui, sans-serif"
     fontSize: "0.75rem"
-    fontWeight: 500
+    fontWeight: 600
     lineHeight: 1.4
 rounded:
-  sm: "4px"
-  md: "8px"
+  card: "16px"
+  inner: "12px"
+  pill: "9999px"
 spacing:
   xs: "6px"
   sm: "12px"
   md: "16px"
-  lg: "24px"
+  lg: "20px"
 components:
   button-primary:
-    backgroundColor: "{colors.primary-cyan}"
-    textColor: "{colors.space-ground}"
-    rounded: "{rounded.sm}"
+    backgroundColor: "{colors.cta-fill}"
+    textColor: "{colors.cta-ink}"
+    rounded: "{rounded.pill}"
+    padding: "10px 20px"
+  button-secondary:
+    backgroundColor: "{colors.surface-panel}"
+    textColor: "{colors.text-primary}"
+    rounded: "{rounded.pill}"
     padding: "8px 16px"
-  button-primary-hover:
-    backgroundColor: "{colors.primary-cyan-deep}"
   card-panel:
-    backgroundColor: "{colors.panel-surface}"
-    textColor: "{colors.text-alabaster}"
-    rounded: "{rounded.md}"
+    backgroundColor: "{colors.surface-panel}"
+    textColor: "{colors.text-primary}"
+    rounded: "{rounded.card}"
     padding: "20px"
 ---
 
-# Design System: TARSCARE AI
+# Design System: MarsCare AI
 
 ## Overview
 
-**Creative North Star: "The Mars Transit Bio-Astronautics Clinical Command Ledger"**
+**Creative Direction: "Crew Wayfinding Triage Bands"** (`seed:545159eea7949b0d`)
 
-TARSCARE AI is an operational spacecraft medical workstation designed for deep-space habitats under low ambient light and up to 22-minute one-way communication delays from Earth. The interface fuses NASA Flight Surgeon console scanability with flight-data cue-card precision: every physiological measurement is anchored to the astronaut's personal baseline, current gravitational environment (`0g`, `0.38g`, `1.0g`), and explicit data provenance (`REAL_RESEARCH_REF`, `SYNTHETIC_DEMO`, `SIMULATED_ENV`, `USER_ENTERED`).
-
-The visual world rejects decorative sci-fi HUD chrome, neon halos, gradient text, and generic terrestrial clinic templates in favor of 1px structural hairlines, high-contrast tabular numerals, and unambiguous semantic state coding (`NORMAL`, `WARNING`, `CRITICAL`).
+**MarsCare AI** is a calm, human-centered deep-space health companion powered autonomously by the preserved **TARSCARE AI** FastAPI + SQLite + local RAG engine. Designed for crew members operating weeks or minutes out of synchronous Earth contact, the interface immediately answers three questions above the fold — **How am I doing?**, **What has changed?**, and **Should I take any action?** — while placing an interactive anatomical body explorer (`Head and Brain`, `Eyes`, `Heart`, `Lungs`, `Muscles`, `Bones`, `Whole Body`) directly in the centerpiece of `Mission Overview`.
 
 **Key Characteristics:**
-- Deep orbital navy ground (`#070b14`) paired with layered slate-navy instrument panels (`#0d1424` and `#131d33`).
-- Strict 1px structural borders (`#1e2d4a`) and keyed provenance/citation badges derived from ruled technical ledgers.
-- High-salience directional alert and emergency protocol strips when physiological or environmental metrics breach configured thresholds.
-- Tabular numeric alignment (`font-variant-numeric: tabular-nums`) across all dosimetry (`mGy` vs. `mSv`), cardiovascular, and ECLSS atmospheric tables.
+- Deep navy canvas (`#0B0D1A`) paired with calm slate surfaces (`#121522`) and `16px` rounded containers.
+- Soft sky-blue illumination (`#A5D8FF`) reserved strictly for subtle atmospheric halo behind the Interactive Human Body centerpiece and active selection outlines.
+- Neutral off-white pill primary buttons (`#EEF0F6` fill with `#040404` ink) so interactive actions never compete visually with medical warning states.
+- Semantic Green (`#10B981`), Amber (`#F59E0B`), and Red (`#EF4444`) used exclusively to communicate health assessment or communication link status.
+- Self-hosted `Host Grotesk Variable` typeface (`@fontsource-variable/host-grotesk`) with `font-variant-numeric: tabular-nums` across Sol readouts, dosimetry (`mGy` vs. `mSv`), vitals, and trend charts.
 
 ## Colors
 
-A restrained dark-workstation palette where saturated color is reserved strictly for primary actions, active selection, and three-tier operational health states.
+### Neutrals & Atmospheric Surfaces
+- **Deep Space Background** (`#0B0D1A`): Primary application background and inset measurement rows.
+- **Secondary Habitat Surface** (`#121522`): Primary `16px` rounded card container background.
+- **Primary Foreground** (`#FAF9FA`): High-contrast headings, numeric values, and critical narrative text.
+- **Secondary Foreground** (`#E5E5E4`): Supporting copy, unit labels, and baseline context.
+- **Primary CTA Fill / Ink** (`#EEF0F6` / `#040404`): Pill-shaped primary buttons and active top-level navigation pills.
 
-### Primary
-- **Orbital Telemetry Cyan** (`#38bdf8`): Used for primary action buttons, active screen/region selection borders, baseline reference lines, and scientific citation identifiers.
-- **Deep Telemetry Cyan** (`#0284c7`): Hover and active state for primary controls.
-
-### Secondary
-- **Bio-Nominal Emerald** (`#10b981`): Indicates `NORMAL` hazard assessments, synchronized store-and-forward packets (`SYNCHRONIZED_ACK`), and parameters within personal baseline tolerance.
-- **Caution Excursion Amber** (`#f59e0b`): Indicates `WARNING` baseline deviations, queued store-and-forward buffers (`QUEUED_LOCAL_BUFFER`), and solar conjunction blackout status.
-- **Autonomous Emergency Crimson** (`#ef4444`): Indicates `CRITICAL` threshold exceedances (e.g., acute Solar Particle Events or orthostatic presyncope) and triggers the zero-latency Crew Medical Officer emergency checklist.
-
-### Neutral
-- **Deep Habitat Void** (`#070b14`): Primary application background and input well fill.
-- **Instrument Panel Navy** (`#0d1424`): Primary container surface for telemetry tables, charts, and assessment forms.
-- **Elevated Console Slate** (`#131d33`): Secondary surface for callouts, active table headers, and sub-panels.
-- **Structural Rule Hairline** (`#1e2d4a`): 1px structural dividers and panel borders.
-- **Telemetry Alabaster** (`#f8fafc`): Primary heading and numeric readout foreground.
-- **Instrument Slate** (`#cbd5e1`): Primary body prose and table cell text.
-- **Tinted Steel Blue** (`#a8b8d0`): Secondary labels, units, and baseline reference captions (tinted from the navy hue rather than neutral gray, maintaining ≥ 7:1 contrast).
+### Illumination & Semantic Status
+- **Accent Glow** (`#A5D8FF`): Active body-region rings, sparkline stroke, focus outlines, and radial hero glow behind the anatomical SVG.
+- **Normal Status** (`#10B981` / Emerald): Parameters within personal baseline or direct Earth link active.
+- **Warning Status** (`#F59E0B` / Amber): Baseline drift, elevated solar particle flux / CO₂, or delayed Earth communication.
+- **Critical Status** (`#EF4444` / Red): Acute threshold exceedance or communication blackout requiring onboard escalation protocols.
 
 ### Named Rules
-**The Semantic State Exclusivity Rule.** Emerald, Amber, and Crimson appear only when encoding `NORMAL`, `WARNING`, or `CRITICAL` medical/environmental states—never as decorative card accents.
+**The Neutral Chrome / Semantic Status Exclusivity Rule.** Neutral controls (`#EEF0F6`) stay neutral; Green, Amber, and Red appear only when communicating health status or Earth communication readiness.
 
 ## Typography
 
-**Display & UI Font:** Public Sans (with Segoe UI and system-ui fallbacks)
-**Label/Mono Font:** Fira Code (with Consolas fallback)
-
-**Character:** Clean, US-government/NASA-heritage technical humanist sans (`Public Sans`) for rapid legibility under stress, paired with `Fira Code` exclusively for provenance codes, report UIDs, and physical unit identifiers.
+**Primary Typeface:** `'Host Grotesk Variable'`, `'Host Grotesk'`, `'Segoe UI'`, `system-ui`, `sans-serif`
 
 ### Hierarchy
-- **Headline** (600 weight, `1.5rem`, `1.25` line-height): Screen titles and primary operational headers.
-- **Title** (600 weight, `1rem`, `1.4` line-height): Panel headings and organ-system subheaders.
-- **Body** (400 weight, `0.875rem`, `1.6` line-height, `65–70ch` max measure): RAG research explanations, clinical rationales, and protocol steps.
-- **Label** (500 weight, `0.75rem`, `1.4` line-height): Provenance tags (`SYNTHETIC_DEMO`, `REAL_RESEARCH_REF`), procedure codes (`PROC-RAD-SPE-01`), and table headers.
+- **Sol / Triage Anchor** (`700` weight, `2.25rem–3rem`, `tabular-nums`): Immediate Sol indicator on the triage band.
+- **Page / Modal Headings** (`700` weight, `1.5rem–1.875rem`, `line-height: 1.2`): Screen titles without uppercase eyebrow labels above headings.
+- **Card / Section Titles** (`600` weight, `1.0625rem–1.25rem`): Anatomical inspector headers, triage prompts, and guidance tiers.
+- **Body & Guidance Copy** (`400` weight, `0.875rem`, `line-height: 1.6`): Clear, reassuring medical explanations and recommended next steps.
 
-### Named Rules
-**The Tabular Telemetry Rule.** Every numeric readout, baseline delta, timestamp, and dosimetric table enforces `font-variant-numeric: tabular-nums` so digits align vertically across longitudinal Sol comparisons.
+## Layout & Navigation
 
-## Layout
+- **Six Top-Level Navigation Pills:** `Mission Overview`, `Health Assessment`, `Spaceflight Hazards`, `AI Health Assistant`, `Health History`, and `Communication Status`.
+- **Top Status Header:** MarsCare AI brand mark, astronaut profile (`Cmdr. Elena Vance-Chen, Ph.D.`), current `Sol`, active communication state pill (`Connected` / `Delayed` / `Offline`), overall status trigger for Emergency Protocol, and Demo Dataset reset button.
+- **Interactive Human Body Staging:** 3-column wayfinding corridor (`270px` numbered region rail → central illuminated SVG human body → live region readings + `7-Sol Trend` sparkline + `Spaceflight Context` + `Start Health Assessment` CTA).
 
-The interface uses a persistent top command header (Astronaut Profile, Sol badge, Demo Scenario loader, Earth One-Way Light Time indicator, Overall Status pill, and CMO Emergency trigger) over a 12-column responsive grid (`max-width: 1600px`): a 2-to-3 column left navigation rail for the 7 required screens and a 9-to-10 column operational workspace.
+## Shapes & Elevation
 
-## Elevation & Depth
-
-Depth is established primarily through tonal surface layering (`#070b14` ground → `#0d1424` panel → `#131d33` elevated sub-panel) reinforced by 1px `#1e2d4a` borders and soft offset shadows.
-
-### Shadow Vocabulary
-- **Panel Rest Elevation** (`box-shadow: 0 8px 24px -4px rgba(2, 6, 23, 0.65)`): Applied to primary instrument panels.
-- **Elevated Sub-Panel** (`box-shadow: 0 10px 28px -6px rgba(2, 6, 23, 0.75)`): Applied to active overlays and protocol drawers.
-
-### Named Rules
-**The Zero-Halo Rule.** Never use zero-offset colored neon glows (`0 0 15px`); all shadows carry a downward vertical offset and soft dark-navy blur.
-
-## Shapes
-
-- **Panel Corners:** `8px` (`rounded-lg`) for primary containers; `4px` (`rounded`) for buttons, inputs, status badges, and data tables.
-- **Borders:** Strictly `1px solid` (`#1e2d4a` at rest, `#38bdf8` when selected). No thick colored `border-left` stripes above `1px`.
-
-## Components
-
-### Buttons
-- **Shape:** Subtle technical radius (`4px`).
-- **Primary:** Orbital Telemetry Cyan (`#38bdf8`) background with dark navy (`#070b14`) semibold text (`8px 16px` padding).
-- **Hover / Focus:** Transitions to Deep Telemetry Cyan (`#0284c7`) on hover; `2px solid #38bdf8` focus-visible outline with `2px` offset.
-- **Emergency Action:** Deep crimson fill (`#450a0a`) with `1px solid rgba(239, 68, 68, 0.7)` border and `#fee2e2` label.
-
-### Chips
-- **Style:** Compact `4px` radius badges with `1px` semantic borders and monospace/tabular typography for risk classifications (`NORMAL`, `WARNING`, `CRITICAL`) and data provenance (`SYNTHETIC_DEMO`, `USER_ENTERED`, `REAL_RESEARCH_REF`).
-
-### Cards / Containers
-- **Corner Style:** `8px` radius.
-- **Background:** `#0d1424` with `#131d33` inner wells.
-- **Border:** `1px solid #1e2d4a`.
-- **Internal Padding:** `20px` (`p-5`).
-
-### Inputs / Fields
-- **Style:** `1px solid #263859` over `#070b14` background, `4px` radius, `#f8fafc` text.
-- **Focus:** `2px solid #38bdf8` outline.
-
-### Navigation
-- **Style:** Left vertical 7-screen rail with SVG iconography (`1.75px` stroke), `#162440` active surface fill, and `1px solid #38bdf8` active border.
+- **Cards:** `border-radius: 16px`, subtle `1px solid rgba(255,255,255,0.08)` hairlines, and grounded dark shadow (`0 12px 32px -8px rgba(4, 6, 16, 0.72)`).
+- **Buttons:** Pill geometry (`border-radius: 9999px`) for top navigation pills, primary CTAs, hazard filters, and symptom chips.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** distinguish physical absorbed radiation dose (`mGy`) from biologically weighted equivalent/effective dose (`mSv`) in every radiation readout.
-- **Do** display an explicit provenance badge (`SYNTHETIC_DEMO`, `USER_ENTERED`, `SIMULATED_ENV`, `REAL_RESEARCH_REF`) on every telemetry record and citation.
-- **Do** compare physiological measurements against the astronaut's personal baseline and current gravity regime (`0g`, `0.38g`, `1.0g`).
+- **Do** distinguish physical absorbed radiation dose (`mGy`) from biologically weighted equivalent/effective dose (`mSv`) wherever radiation is shown.
+- **Do** preserve explicit provenance tags (`Simulated Data`, `User-Entered Data`, `Real Research Data`, `Simulated Env`) across telemetry, alerts, and reports.
+- **Do** state clearly that MarsCare AI provides autonomous prototype decision support without diagnosing psychiatric conditions, diagnosing infections from sensors, or prescribing medications.
 
 ### Don't:
-- **Don't** place small uppercase kicker or eyebrow labels above headings; let headings carry their own hierarchy.
-- **Don't** use thick colored left borders (`border-left > 1px`), gradient text, or decorative glassmorphism.
-- **Don't** represent NASA Radiation Data Portal (ARMAS) Earth aviation measurements as direct Martian surface telemetry, or claim clinical validation for prototype decision rules.
-
+- **Don't** place small uppercase kicker/eyebrow labels above headings or wrap cards in thick `border-left` stripes (`> 1px`).
+- **Don't** represent NASA Radiation Data Portal (ARMAS) aviation/atmospheric measurements as Mars surface data or invent unapproved NASA exposure limits.
+- **Don't** block autonomous operation when Earth communication is delayed or offline.

@@ -7,19 +7,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        space: {
-          950: '#070b14',
-          900: '#0d1424',
-          850: '#111a2e',
-          800: '#16213a',
-          700: '#1e2d4d',
+          marscare: {
+            bg: '#0B0D1A',
+            card: '#121522',
+            elevated: '#181C2E',
+            ink: '#FAF9FA',
+            muted: '#E5E5E4',
+            glow: '#A5D8FF',
+            btn: '#EEF0F6',
+            btnInk: '#040404',
+          }
+        },
+        fontFamily: {
+          sans: ['"Host Grotesk Variable"', '"Host Grotesk"', 'Segoe UI', 'system-ui', 'sans-serif'],
+          mono: ['ui-monospace', 'SFMono-Regular', 'Consolas', 'monospace'],
         }
       },
-      fontFamily: {
-        sans: ['Public Sans', 'Segoe UI', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        mono: ['Fira Code', 'Consolas', 'ui-monospace', 'monospace'],
-      }
     },
-  },
-  plugins: [],
-}
+    plugins: [],
+  }
