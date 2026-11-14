@@ -12,14 +12,20 @@ interface InteractiveHumanBodyProps {
   onAskAssistant: (topic: string) => void;
 }
 
-const REGION_HOTSPOTS: Record<string, { x: number; y: number; num: number }> = {
-  head_and_brain: { x: 140, y: 26, num: 1 },
-  eyes: { x: 140, y: 50, num: 2 },
-  heart: { x: 152, y: 122, num: 3 },
-  lungs: { x: 120, y: 122, num: 4 },
-  muscles: { x: 194, y: 155, num: 5 },
-  bones: { x: 122, y: 274, num: 6 },
-  whole_body: { x: 64, y: 318, num: 7 },
+interface HotspotCoord {
+  xPct: number;
+  yPct: number;
+  num: number;
+}
+
+const REGION_HOTSPOTS: Record<string, HotspotCoord> = {
+  head_and_brain: { xPct: 48.0, yPct: 3.8, num: 1 },
+  eyes: { xPct: 54.5, yPct: 7.4, num: 2 },
+  heart: { xPct: 52.0, yPct: 24.8, num: 3 },
+  lungs: { xPct: 41.8, yPct: 24.2, num: 4 },
+  muscles: { xPct: 72.0, yPct: 25.5, num: 5 },
+  bones: { xPct: 41.0, yPct: 57.5, num: 6 },
+  whole_body: { xPct: 16.0, yPct: 84.0, num: 7 },
 };
 
 export const InteractiveHumanBody: React.FC<InteractiveHumanBodyProps> = ({
@@ -97,15 +103,15 @@ export const InteractiveHumanBody: React.FC<InteractiveHumanBodyProps> = ({
         </p>
       </div>
 
-      {/* Center Stage: Interactive Human Body with Subtle Blue Glow */}
+      {/* Center Stage: Realistic 3D Medical Anatomy Render + Precision Interactive Overlay */}
       <div className="mc-card-glow relative p-4 flex flex-col items-center justify-between overflow-hidden min-h-[345px]">
         {/* Ambient radial illumination behind key product feature */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[310px] h-[310px] rounded-full"
+          className="pointer-events-none absolute top-[54%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full"
           style={{
             background:
-              'radial-gradient(circle, rgba(165,216,255,0.22) 0%, rgba(165,216,255,0.06) 52%, transparent 74%)',
+              'radial-gradient(circle, rgba(165,216,255,0.24) 0%, rgba(165,216,255,0.07) 52%, transparent 74%)',
           }}
         />
 
@@ -119,198 +125,134 @@ export const InteractiveHumanBody: React.FC<InteractiveHumanBodyProps> = ({
           </span>
         </div>
 
-        {/* SVG Anatomical Silhouette & Organ Layers */}
-        <div className="relative z-10 my-1 flex items-center justify-center w-full max-w-[245px]">
-          <svg
-            viewBox="0 0 280 390"
-            className="w-full max-h-[268px] select-none"
-            role="img"
-            aria-label={`Interactive human anatomy diagram highlighting ${activeRegion.name}`}
+        {/* Full-Height 3D Translucent Medical Anatomy Stage (Exact 622:1156 Ratio) */}
+        <div className="relative z-10 flex-1 w-full flex items-center justify-center pt-2 pb-1">
+          <div
+            className="relative h-[400px] sm:h-[435px] max-w-full select-none"
+            style={{ aspectRatio: '622 / 1156' }}
           >
-            {/* Whole-body outline ring when Whole Body active */}
-            {activeRegion.id === 'whole_body' && (
-              <ellipse
-                cx="140"
-                cy="195"
-                rx="108"
-                ry="178"
-                fill="rgba(165,216,255,0.06)"
-                stroke="#A5D8FF"
-                strokeWidth="1.5"
-                strokeDasharray="6 4"
-              />
-            )}
+            <img
+              src="/mars-human-anatomy.png"
+              alt={`3D medical anatomical scan highlighting ${activeRegion.name}`}
+              className="w-full h-full object-contain pointer-events-none select-none"
+              style={{ filter: 'drop-shadow(0 14px 28px rgba(4, 6, 16, 0.72))' }}
+              draggable={false}
+            />
 
-            {/* Outer calm human silhouette */}
-            <g
-              fill="rgba(165,216,255,0.07)"
-              stroke="rgba(165,216,255,0.42)"
-              strokeWidth="1.5"
-              strokeLinejoin="round"
+            {/* Precision Anatomical Region Highlight Contours (Shown cleanly for selected & hoverable targets) */}
+            <svg
+              viewBox="0 0 622 1156"
+              className="absolute inset-0 w-full h-full pointer-events-none"
+              aria-hidden="true"
             >
-              {/* Head & Neck */}
-              <ellipse cx="140" cy="46" rx="26" ry="31" />
-              <path d="M126 74 L126 88 L154 88 L154 74" />
-              {/* Shoulders, Torso, Arms, Legs */}
-              <path d="M90 94 Q140 80 190 94 L218 175 L200 182 L182 128 L178 210 L170 356 L148 356 L144 234 L136 234 L132 356 L110 356 L102 210 L98 128 L80 182 L62 175 Z" />
-            </g>
+              {activeRegion.id === 'whole_body' && (
+                <ellipse
+                  cx="311"
+                  cy="578"
+                  rx="286"
+                  ry="550"
+                  fill="rgba(165,216,255,0.05)"
+                  stroke="#A5D8FF"
+                  strokeWidth="3"
+                  strokeDasharray="14 10"
+                />
+              )}
 
-            {/* Spine & Bones Layer */}
-            <g
-              onClick={() => onSelectRegion('bones')}
-              className="cursor-pointer transition-opacity"
-            >
-              <line
-                x1="140"
-                y1="90"
-                x2="140"
-                y2="215"
-                stroke={colorForRegion('bones', regions.find((r) => r.id === 'bones')?.status || 'NORMAL')}
-                strokeWidth={activeRegion.id === 'bones' ? '4' : '2.2'}
-                strokeDasharray="5 3"
-              />
-              <path
-                d="M124 236 L120 342 M156 236 L160 342"
-                stroke={colorForRegion('bones', regions.find((r) => r.id === 'bones')?.status || 'NORMAL')}
-                strokeWidth={activeRegion.id === 'bones' ? '4.5' : '2.5'}
-                strokeLinecap="round"
-              />
-            </g>
+              {activeRegion.id === 'head_and_brain' && (
+                <ellipse
+                  cx="311"
+                  cy="50"
+                  rx="48"
+                  ry="32"
+                  fill="rgba(165,216,255,0.16)"
+                  stroke="#A5D8FF"
+                  strokeWidth="3"
+                />
+              )}
 
-            {/* Muscles Layer (Deltoid + Quad overlays) */}
-            <g onClick={() => onSelectRegion('muscles')} className="cursor-pointer">
-              <ellipse
-                cx="86"
-                cy="142"
-                rx="8"
-                ry="22"
-                transform="rotate(14 86 142)"
-                fill={activeRegion.id === 'muscles' ? 'rgba(165,216,255,0.42)' : 'rgba(165,216,255,0.14)'}
-                stroke={colorForRegion('muscles', regions.find((r) => r.id === 'muscles')?.status || 'NORMAL')}
-                strokeWidth="1.6"
-              />
-              <ellipse
-                cx="194"
-                cy="142"
-                rx="8"
-                ry="22"
-                transform="rotate(-14 194 142)"
-                fill={activeRegion.id === 'muscles' ? 'rgba(165,216,255,0.42)' : 'rgba(165,216,255,0.14)'}
-                stroke={colorForRegion('muscles', regions.find((r) => r.id === 'muscles')?.status || 'NORMAL')}
-                strokeWidth="1.6"
-              />
-              <ellipse
-                cx="121"
-                cy="272"
-                rx="10"
-                ry="30"
-                fill={activeRegion.id === 'muscles' ? 'rgba(165,216,255,0.34)' : 'rgba(165,216,255,0.08)'}
-                stroke={colorForRegion('muscles', regions.find((r) => r.id === 'muscles')?.status || 'NORMAL')}
-                strokeWidth="1.4"
-              />
-              <ellipse
-                cx="159"
-                cy="272"
-                rx="10"
-                ry="30"
-                fill={activeRegion.id === 'muscles' ? 'rgba(165,216,255,0.34)' : 'rgba(165,216,255,0.08)'}
-                stroke={colorForRegion('muscles', regions.find((r) => r.id === 'muscles')?.status || 'NORMAL')}
-                strokeWidth="1.4"
-              />
-            </g>
+              {activeRegion.id === 'eyes' && (
+                <g fill="rgba(165,216,255,0.18)" stroke="#A5D8FF" strokeWidth="2.5">
+                  <circle cx="287" cy="84" r="14" />
+                  <circle cx="335" cy="84" r="14" />
+                </g>
+              )}
 
-            {/* Lungs Layer */}
-            <g onClick={() => onSelectRegion('lungs')} className="cursor-pointer">
-              <path
-                d="M116 108 Q134 108 136 138 Q136 154 116 152 Q105 148 106 126 Q108 112 116 108 Z"
-                fill={activeRegion.id === 'lungs' ? 'rgba(165,216,255,0.42)' : 'rgba(165,216,255,0.14)'}
-                stroke={colorForRegion('lungs', regions.find((r) => r.id === 'lungs')?.status || 'NORMAL')}
-                strokeWidth="1.8"
-              />
-              <path
-                d="M164 108 Q146 108 144 138 Q144 154 164 152 Q175 148 174 126 Q172 112 164 108 Z"
-                fill={activeRegion.id === 'lungs' ? 'rgba(165,216,255,0.42)' : 'rgba(165,216,255,0.14)'}
-                stroke={colorForRegion('lungs', regions.find((r) => r.id === 'lungs')?.status || 'NORMAL')}
-                strokeWidth="1.8"
-              />
-            </g>
+              {activeRegion.id === 'heart' && (
+                <ellipse
+                  cx="322"
+                  cy="286"
+                  rx="36"
+                  ry="42"
+                  fill="rgba(165,216,255,0.18)"
+                  stroke="#A5D8FF"
+                  strokeWidth="3"
+                />
+              )}
 
-            {/* Heart Layer */}
-            <g onClick={() => onSelectRegion('heart')} className="cursor-pointer">
-              <circle
-                cx="148"
-                cy="128"
-                r="13"
-                fill={activeRegion.id === 'heart' ? 'rgba(165,216,255,0.52)' : 'rgba(165,216,255,0.2)'}
-                stroke={colorForRegion('heart', regions.find((r) => r.id === 'heart')?.status || 'NORMAL')}
-                strokeWidth="2.2"
-              />
-            </g>
+              {activeRegion.id === 'lungs' && (
+                <g fill="rgba(165,216,255,0.14)" stroke="#A5D8FF" strokeWidth="2.8">
+                  <ellipse cx="262" cy="276" rx="44" ry="68" transform="rotate(8 262 276)" />
+                  <ellipse cx="362" cy="276" rx="44" ry="68" transform="rotate(-8 362 276)" />
+                </g>
+              )}
 
-            {/* Head & Brain Layer */}
-            <g onClick={() => onSelectRegion('head_and_brain')} className="cursor-pointer">
-              <ellipse
-                cx="140"
-                cy="34"
-                rx="18"
-                ry="14"
-                fill={activeRegion.id === 'head_and_brain' ? 'rgba(165,216,255,0.48)' : 'rgba(165,216,255,0.16)'}
-                stroke={colorForRegion('head_and_brain', regions.find((r) => r.id === 'head_and_brain')?.status || 'NORMAL')}
-                strokeWidth="1.8"
-              />
-            </g>
+              {activeRegion.id === 'muscles' && (
+                <g fill="rgba(165,216,255,0.14)" stroke="#A5D8FF" strokeWidth="2.5">
+                  <ellipse cx="176" cy="292" rx="22" ry="64" transform="rotate(14 176 292)" />
+                  <ellipse cx="446" cy="292" rx="22" ry="64" transform="rotate(-14 446 292)" />
+                  <ellipse cx="255" cy="635" rx="24" ry="86" />
+                  <ellipse cx="367" cy="635" rx="24" ry="86" />
+                </g>
+              )}
 
-            {/* Eyes / Neuro-Ocular Layer */}
-            <g onClick={() => onSelectRegion('eyes')} className="cursor-pointer">
-              <circle
-                cx="131"
-                cy="48"
-                r="4.5"
-                fill={activeRegion.id === 'eyes' ? '#FAF9FA' : 'rgba(165,216,255,0.5)'}
-                stroke={colorForRegion('eyes', regions.find((r) => r.id === 'eyes')?.status || 'NORMAL')}
-                strokeWidth="1.6"
-              />
-              <circle
-                cx="149"
-                cy="48"
-                r="4.5"
-                fill={activeRegion.id === 'eyes' ? '#FAF9FA' : 'rgba(165,216,255,0.5)'}
-                stroke={colorForRegion('eyes', regions.find((r) => r.id === 'eyes')?.status || 'NORMAL')}
-                strokeWidth="1.6"
-              />
-            </g>
+              {activeRegion.id === 'bones' && (
+                <g stroke="#A5D8FF" strokeLinecap="round" fill="none">
+                  <line x1="311" y1="168" x2="311" y2="482" strokeWidth="4" strokeDasharray="12 8" />
+                  <path d="M248 566 L254 810 M374 566 L368 810" strokeWidth="4.5" />
+                </g>
+              )}
+            </svg>
 
-            {/* Numbered landmark buttons directly paired with Left Rail */}
-            {Object.entries(REGION_HOTSPOTS).map(([id, pos]) => {
-              const isSel = id === activeRegion.id;
+            {/* Clickable Anatomical Hit Zones + Numbered Landmark Buttons (1-7) */}
+            {regions.map((region) => {
+              const pos = REGION_HOTSPOTS[region.id];
+              if (!pos) return null;
+              const isSel = region.id === activeRegion.id;
+              const ringColor = colorForRegion(region.id, region.status);
+
               return (
-                <g
-                  key={id}
-                  onClick={() => onSelectRegion(id)}
-                  className="cursor-pointer"
+                <button
+                  key={region.id}
+                  type="button"
+                  onClick={() => onSelectRegion(region.id)}
+                  aria-label={`Select ${region.name} (${region.status})`}
+                  title={`${pos.num}. ${region.name}`}
+                  style={{ left: `${pos.xPct}%`, top: `${pos.yPct}%` }}
+                  className="group absolute -translate-x-1/2 -translate-y-1/2 p-1.5 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A5D8FF] cursor-pointer"
                 >
-                  <circle
-                    cx={pos.x}
-                    cy={pos.y}
-                    r={isSel ? 11 : 9}
-                    fill={isSel ? '#EEF0F6' : '#0B0D1A'}
-                    stroke={isSel ? '#A5D8FF' : 'rgba(165,216,255,0.6)'}
-                    strokeWidth="1.5"
-                  />
-                  <text
-                    x={pos.x}
-                    y={pos.y + 3.5}
-                    textAnchor="middle"
-                    fontSize="10"
-                    fontWeight="700"
-                    fill={isSel ? '#040404' : '#FAF9FA'}
+                  {isSel && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 rounded-full animate-ping bg-[#A5D8FF]/35"
+                    />
+                  )}
+                  <span
+                    style={{
+                      borderColor: isSel ? '#A5D8FF' : ringColor,
+                      boxShadow: isSel ? '0 0 14px rgba(165, 216, 255, 0.55)' : undefined,
+                    }}
+                    className={`relative w-5 h-5 rounded-full border text-[11px] font-bold tabular-data flex items-center justify-center transition-all duration-150 ${
+                      isSel
+                        ? 'bg-[#EEF0F6] text-[#040404] scale-110'
+                        : 'bg-[#0B0D1A]/90 text-[#FAF9FA] group-hover:scale-110 group-hover:border-[#A5D8FF]'
+                    }`}
                   >
                     {pos.num}
-                  </text>
-                </g>
+                  </span>
+                </button>
               );
             })}
-          </svg>
+          </div>
         </div>
       </div>
 

@@ -159,6 +159,19 @@ def init_db() -> None:
         seed_synthetic_data(conn)
     _ensure_30_sol_synthetic_history(conn)
 
+    # Upgrade legacy demo astronaut name in existing local DB if present
+    cur.execute("SELECT value_json FROM system_state WHERE key = 'baseline'")
+    brow = cur.fetchone()
+    if brow and "Elena Vance-Chen" in brow["value_json"]:
+        bdata = json.loads(brow["value_json"])
+        bdata["name"] = "SuChai"
+        bdata["astronaut_id"] = "ARES-IV-SUCHAI"
+        cur.execute(
+            "INSERT OR REPLACE INTO system_state (key, value_json) VALUES ('baseline', ?)",
+            (json.dumps(bdata),),
+        )
+        conn.commit()
+
     conn.close()
 
 

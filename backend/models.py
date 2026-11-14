@@ -30,8 +30,8 @@ class RiskLevel(str, Enum):
 
 
 class AstronautBaseline(BaseModel):
-    astronaut_id: str = "ARES-IV-CMDR-CHEN"
-    name: str = "Cmdr. Elena Vance-Chen, Ph.D."
+    astronaut_id: str = "ARES-IV-SUCHAI"
+    name: str = "SuChai"
     role: str = "Mission Commander & Crew Medical Officer"
     age: int = 41
     mission_name: str = "Ares-Horizon IV Deep Space Mars Expedition"

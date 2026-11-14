@@ -108,7 +108,7 @@ components:
 ## Layout & Navigation
 
 - **Six Top-Level Navigation Pills:** `Mission Overview`, `Health Assessment`, `Spaceflight Hazards`, `AI Health Assistant`, `Health History`, and `Communication Status`.
-- **Top Status Header:** MarsCare AI brand mark, astronaut profile (`Cmdr. Elena Vance-Chen, Ph.D.`), current `Sol`, active communication state pill (`Connected` / `Delayed` / `Offline`), overall status trigger for Emergency Protocol, and Demo Dataset reset button.
+- **Top Status Header:** MarsCare AI brand mark, astronaut profile (`SuChai`), current `Sol`, active communication state pill (`Connected` / `Delayed` / `Offline`), overall status trigger for Emergency Protocol, and Demo Dataset reset button.
 - **Interactive Human Body Staging:** 3-column wayfinding corridor (`270px` numbered region rail → central illuminated SVG human body → live region readings + `7-Sol Trend` sparkline + `Spaceflight Context` + `Start Health Assessment` CTA).
 
 ## Shapes & Elevation
