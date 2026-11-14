@@ -146,8 +146,8 @@ export const SpaceflightHazardsView: React.FC<SpaceflightHazardsViewProps> = ({
                 type="button"
                 onClick={() => onSelectHazard(hm.id)}
                 className={`px-4 py-2 rounded-full text-sm font-medium inline-flex items-center gap-2 transition-colors ${isSel
-                    ? 'bg-[#EEF0F6] text-[#040404]'
-                    : 'bg-[#0B0D1A] text-[#E5E5E4] border border-white/10 hover:text-[#FAF9FA]'
+                  ? 'bg-[#EEF0F6] text-[#040404]'
+                  : 'bg-[#0B0D1A] text-[#E5E5E4] border border-white/10 hover:text-[#FAF9FA]'
                   }`}
               >
                 <Icon className="w-4 h-4" />
@@ -230,8 +230,8 @@ export const SpaceflightHazardsView: React.FC<SpaceflightHazardsViewProps> = ({
                       type="button"
                       onClick={() => setGravityExplorer(g)}
                       className={`px-2.5 py-1 rounded-full text-xs font-semibold ${gravityExplorer === g
-                          ? 'bg-[#EEF0F6] text-[#040404]'
-                          : 'bg-[#121522] text-[#E5E5E4]/80'
+                        ? 'bg-[#EEF0F6] text-[#040404]'
+                        : 'bg-[#121522] text-[#E5E5E4]/80'
                         }`}
                     >
                       {g}
@@ -300,10 +300,10 @@ export const SpaceflightHazardsView: React.FC<SpaceflightHazardsViewProps> = ({
             {activeMod.id === 'radiation'
               ? 'Distinction notice: Absorbed dose (Gy) is distinct from equivalent/effective dose (Sv). The NASA Radiation Data Portal (ARMAS) represents Earth atmosphere flights, not Mars surface exposure.'
               : activeMod.id === 'isolation'
-                ? 'Clinical safeguard: MarsCare AI tracks mood, stress, and sleep recovery trends without diagnosing depression, anxiety, or psychiatric conditions.'
-                : activeMod.id === 'environment'
-                  ? 'Clinical safeguard: Correlates respiratory dryness or headaches with cabin CO₂/humidity and NASA OSDR/EDA guidance without auto-diagnosing infection.'
-                  : 'Scientific alignment: Grounded in NASA Human Research Program (HRP) and Canadian Space Agency (CSA) studies (CCISS, CARDIOBREATH, C-STARS, TBone, Vascular).'}
+                  ? 'Clinical safeguard: TARSCARE tracks mood, stress, and sleep recovery trends without diagnosing depression, anxiety, or psychiatric conditions.'
+                  : activeMod.id === 'environment'
+                    ? 'Clinical safeguard: Correlates respiratory dryness or headaches with cabin CO₂/humidity and NASA OSDR/EDA guidance without auto-diagnosing infection.'
+                    : 'Scientific alignment: Grounded in NASA Human Research Program (HRP) and Canadian Space Agency (CSA) studies (CCISS, CARDIOBREATH, C-STARS, TBone, Vascular).'}
           </div>
         </div>
 

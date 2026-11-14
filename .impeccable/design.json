@@ -1,211 +1,211 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-11-14T18:30:00+08:00",
-  "title": "Design System: MarsCare AI",
+  "title": "Design System: TARSCARE",
   "extensions": {
     "colorMeta": {
-        "accent-glow": {
-          "role": "primary",
+      "accent-glow": {
+        "role": "primary",
         "displayName": "Deep Space Sky Illumination",
-          "canonical": "#A5D8FF",
-          "tonalRamp": [
-            "#0B0D1A",
-            "#121522",
-            "#1B2942",
-            "#2B466E",
-            "#5A8FBD",
-            "#A5D8FF",
-            "#D8EEFF",
-            "#FAF9FA"
-          ]
-        },
-        "status-normal": {
-          "role": "secondary",
+        "canonical": "#A5D8FF",
+        "tonalRamp": [
+          "#0B0D1A",
+          "#121522",
+          "#1B2942",
+          "#2B466E",
+          "#5A8FBD",
+          "#A5D8FF",
+          "#D8EEFF",
+          "#FAF9FA"
+        ]
+      },
+      "status-normal": {
+        "role": "secondary",
         "displayName": "Normal Status Green",
-          "canonical": "#10B981",
-          "tonalRamp": [
-            "#064E3B",
-            "#065F46",
-            "#047857",
-            "#059669",
-            "#10B981",
-            "#34D399",
-            "#6EE7B7",
-            "#A7F3D0"
-          ]
-        },
-        "status-warning": {
-          "role": "secondary",
+        "canonical": "#10B981",
+        "tonalRamp": [
+          "#064E3B",
+          "#065F46",
+          "#047857",
+          "#059669",
+          "#10B981",
+          "#34D399",
+          "#6EE7B7",
+          "#A7F3D0"
+        ]
+      },
+      "status-warning": {
+        "role": "secondary",
         "displayName": "Warning Status Amber",
-          "canonical": "#F59E0B",
-          "tonalRamp": [
-            "#451A03",
-            "#78350F",
-            "#92400E",
-            "#B45309",
-            "#D97706",
-            "#F59E0B",
-            "#FBBF24",
-            "#FDE68A"
-          ]
-        },
-        "status-critical": {
-          "role": "tertiary",
+        "canonical": "#F59E0B",
+        "tonalRamp": [
+          "#451A03",
+          "#78350F",
+          "#92400E",
+          "#B45309",
+          "#D97706",
+          "#F59E0B",
+          "#FBBF24",
+          "#FDE68A"
+        ]
+      },
+      "status-critical": {
+        "role": "tertiary",
         "displayName": "Critical Status Red",
-          "canonical": "#EF4444",
-          "tonalRamp": [
-            "#450A0A",
-            "#7F1D1D",
-            "#991B1B",
-            "#B91C1C",
-            "#DC2626",
-            "#EF4444",
-            "#F87171",
-            "#FECACA"
-          ]
-        },
-        "space-ground": {
-          "role": "neutral",
+        "canonical": "#EF4444",
+        "tonalRamp": [
+          "#450A0A",
+          "#7F1D1D",
+          "#991B1B",
+          "#B91C1C",
+          "#DC2626",
+          "#EF4444",
+          "#F87171",
+          "#FECACA"
+        ]
+      },
+      "space-ground": {
+        "role": "neutral",
         "displayName": "Dark Navy Background",
-          "canonical": "#0B0D1A",
-          "tonalRamp": [
-            "#040404",
-            "#0B0D1A",
-            "#121522",
-            "#181C2E",
-            "#2C324A",
-            "#E5E5E4",
-            "#EEF0F6",
-            "#FAF9FA"
-          ]
-        }
-      },
-      "typographyMeta": {
-      "display": {
-          "displayName": "Triage Anchor / Page Title",
-          "purpose": "Sol counter, page titles, and high-level orientation headings."
-        },
-        "headline": {
-          "displayName": "Section Title",
-          "purpose": "Interactive Human Body header, triage questions, and guidance sections."
-        },
-        "body": {
-          "displayName": "Clinical & Companion Copy",
-          "purpose": "Explanations, baseline narratives, and RAG scientific literature responses."
-        },
-        "label": {
-          "displayName": "Telemetry & Pill Labels",
-          "purpose": "Units (BPM, mmHg, mGy, mSv), timestamps, and provenance tags."
-        }
-      },
-      "shadows": [
-      {
-          "name": "card-ground",
-          "value": "0 12px 32px -8px rgba(4, 6, 16, 0.72)",
-          "purpose": "Primary 16px rounded surface cards."
-        },
-        {
-          "name": "hero-glow",
-          "value": "radial-gradient(circle, rgba(165,216,255,0.22) 0%, rgba(165,216,255,0.06) 52%, transparent 74%)",
-          "purpose": "Subtle ambient illumination behind Interactive Human Body SVG."
-        }
-      ],
-      "motion": [
-      {
-          "name": "ease-calm",
-          "value": "cubic-bezier(0.16, 1, 0.3, 1)",
-          "purpose": "Smooth transitions when switching body regions, hazard modules, or tabs."
-        }
-      ],
-      "breakpoints": [
-        {
-          "name": "sm",
-          "value": "640px"
-        },
-        {
-          "name": "md",
-          "value": "768px"
-        },
-        {
-          "name": "lg",
-          "value": "1024px"
-        },
-        {
-          "name": "xl",
-          "value": "1280px"
-        }
-      ]
+        "canonical": "#0B0D1A",
+        "tonalRamp": [
+          "#040404",
+          "#0B0D1A",
+          "#121522",
+          "#181C2E",
+          "#2C324A",
+          "#E5E5E4",
+          "#EEF0F6",
+          "#FAF9FA"
+        ]
+      }
     },
-    "components": [
+    "typographyMeta": {
+      "display": {
+        "displayName": "Triage Anchor / Page Title",
+        "purpose": "Sol counter, page titles, and high-level orientation headings."
+      },
+      "headline": {
+        "displayName": "Section Title",
+        "purpose": "Interactive Human Body header, triage questions, and guidance sections."
+      },
+      "body": {
+        "displayName": "Clinical & Companion Copy",
+        "purpose": "Explanations, baseline narratives, and RAG scientific literature responses."
+      },
+      "label": {
+        "displayName": "Telemetry & Pill Labels",
+        "purpose": "Units (BPM, mmHg, mGy, mSv), timestamps, and provenance tags."
+      }
+    },
+    "shadows": [
       {
-        "name": "Primary Pill CTA Button",
-        "kind": "button",
-        "refersTo": "button-primary",
-        "html": "<button class=\"mc-btn-primary\">Start Assessment →</button>",
-        "css": ".mc-btn-primary { background: #EEF0F6; color: #040404; border-radius: 9999px; font-weight: 600; border: none; cursor: pointer; } .mc-btn-primary:hover { background: #FAF9FA; box-shadow: 0 0 22px rgba(165, 216, 255, 0.28); }"
+        "name": "card-ground",
+        "value": "0 12px 32px -8px rgba(4, 6, 16, 0.72)",
+        "purpose": "Primary 16px rounded surface cards."
       },
       {
-        "name": "Secondary Pill Button",
-        "kind": "button",
-        "refersTo": "button-secondary",
-        "description": "Dark navy pill button for supporting actions and tab pills.",
-        "html": "<button class=\"mc-btn-secondary\">Ask AI</button>",
-        "css": ".mc-btn-secondary { background: #121522; color: #FAF9FA; border: 1px solid rgba(255,255,255,0.12); border-radius: 9999px; font-weight: 500; }"
-      },
-      {
-        "name": "Habitat Surface Card",
-        "kind": "card",
-        "refersTo": "card-panel",
-        "html": "<div class=\"mc-card\">How am I doing?</div>",
-        "css": ".mc-card { background: #121522; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; box-shadow: 0 12px 32px -8px rgba(4, 6, 16, 0.72); }"
-      },
-      {
-        "name": "Semantic Status Badge",
-        "kind": "chip",
-        "refersTo": "chip-status",
-        "html": "<span class=\"mc-badge-warn\">Warning</span>",
-        "css": ".mc-badge-warn { background: rgba(245, 158, 11, 0.14); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 9999px; padding: 2px 10px; font-size: 12px; font-weight: 600; }"
-      },
-      {
-        "name": "Top Navigation Pill",
-        "kind": "nav",
-        "refersTo": "nav-item",
-        "html": "<button class=\"mc-nav-active\">Mission Overview</button>",
-        "css": ".mc-nav-active { background: #EEF0F6; color: #040404; border-radius: 9999px; font-weight: 600; padding: 8px 16px; font-size: 14px; }"
+        "name": "hero-glow",
+        "value": "radial-gradient(circle, rgba(165,216,255,0.22) 0%, rgba(165,216,255,0.06) 52%, transparent 74%)",
+        "purpose": "Subtle ambient illumination behind Interactive Human Body SVG."
       }
     ],
-    "narrative": {
-      "northStar": "Crew Wayfinding Triage Bands (seed:545159eea7949b0d)",
-      "overview": "MarsCare AI pairs an approachable, calm spacecraft medical companion interface with the autonomous TARSCARE AI backend, prioritizing immediate 3-question triage and an interactive human body explorer.",
-      "keyCharacteristics": [
-        "Subtle #A5D8FF ambient illumination focused behind the Interactive Human Body centerpiece.",
-        "Off-white #EEF0F6 pill buttons with #040404 ink keeping interactive controls visually distinct from Green/Amber/Red medical status cues.",
-        "Self-hosted Host Grotesk Variable typography with strict tabular numerals on vitals and dosimetry."
-      ],
-      "rules": [
-        {
-          "name": "The Neutral Chrome / Semantic Status Exclusivity Rule",
-          "body": "Neutral buttons and cards stay neutral (#EEF0F6 / #121522); Green, Amber, and Red appear solely for health risk classifications and Earth communication link state.",
-          "section": "colors"
-        },
-        {
-          "name": "The Tabular Telemetry Rule",
-          "body": "Every numeric readout, Sol counter, baseline delta, and table column applies tabular-nums so figures align vertically.",
-          "section": "typography"
-        },
-        {
-          "name": "The Focused Hero Illumination Rule",
-          "body": "Use soft #A5D8FF ambient radial glow sparingly behind the Interactive Human Body centerpiece rather than decorating every card.",
-          "section": "elevation"
-        }
-      ],
-      "dos": [
-        "Do show explicit data provenance (Simulated Data, User-Entered Data, Real Research Data).",
-        "Do keep core medical evaluation, body exploration, and RAG explanations fully operational offline."
-      ],
-      "donts": [
-        "Don't represent Earth atmospheric radiation (NASA RDP/ARMAS) as direct Mars exposure data.",
-        "Don't diagnose psychiatric disorders or infections automatically, or prescribe medications."
-      ]
+    "motion": [
+      {
+        "name": "ease-calm",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Smooth transitions when switching body regions, hazard modules, or tabs."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Pill CTA Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "html": "<button class=\"mc-btn-primary\">Start Assessment →</button>",
+      "css": ".mc-btn-primary { background: #EEF0F6; color: #040404; border-radius: 9999px; font-weight: 600; border: none; cursor: pointer; } .mc-btn-primary:hover { background: #FAF9FA; box-shadow: 0 0 22px rgba(165, 216, 255, 0.28); }"
+    },
+    {
+      "name": "Secondary Pill Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Dark navy pill button for supporting actions and tab pills.",
+      "html": "<button class=\"mc-btn-secondary\">Ask AI</button>",
+      "css": ".mc-btn-secondary { background: #121522; color: #FAF9FA; border: 1px solid rgba(255,255,255,0.12); border-radius: 9999px; font-weight: 500; }"
+    },
+    {
+      "name": "Habitat Surface Card",
+      "kind": "card",
+      "refersTo": "card-panel",
+      "html": "<div class=\"mc-card\">How am I doing?</div>",
+      "css": ".mc-card { background: #121522; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; box-shadow: 0 12px 32px -8px rgba(4, 6, 16, 0.72); }"
+    },
+    {
+      "name": "Semantic Status Badge",
+      "kind": "chip",
+      "refersTo": "chip-status",
+      "html": "<span class=\"mc-badge-warn\">Warning</span>",
+      "css": ".mc-badge-warn { background: rgba(245, 158, 11, 0.14); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 9999px; padding: 2px 10px; font-size: 12px; font-weight: 600; }"
+    },
+    {
+      "name": "Top Navigation Pill",
+      "kind": "nav",
+      "refersTo": "nav-item",
+      "html": "<button class=\"mc-nav-active\">Mission Overview</button>",
+      "css": ".mc-nav-active { background: #EEF0F6; color: #040404; border-radius: 9999px; font-weight: 600; padding: 8px 16px; font-size: 14px; }"
     }
+  ],
+  "narrative": {
+    "northStar": "Crew Wayfinding Triage Bands (seed:545159eea7949b0d)",
+    "overview": "TARSCARE pairs an approachable, calm spacecraft medical companion interface with an autonomous local RAG and SQLite backend, prioritizing immediate 3-question triage and an interactive human body explorer.",
+    "keyCharacteristics": [
+      "Subtle #A5D8FF ambient illumination focused behind the Interactive Human Body centerpiece.",
+      "Off-white #EEF0F6 pill buttons with #040404 ink keeping interactive controls visually distinct from Green/Amber/Red medical status cues.",
+      "Self-hosted Host Grotesk Variable typography with strict tabular numerals on vitals and dosimetry."
+    ],
+    "rules": [
+      {
+        "name": "The Neutral Chrome / Semantic Status Exclusivity Rule",
+        "body": "Neutral buttons and cards stay neutral (#EEF0F6 / #121522); Green, Amber, and Red appear solely for health risk classifications and Earth communication link state.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Telemetry Rule",
+        "body": "Every numeric readout, Sol counter, baseline delta, and table column applies tabular-nums so figures align vertically.",
+        "section": "typography"
+      },
+      {
+        "name": "The Focused Hero Illumination Rule",
+        "body": "Use soft #A5D8FF ambient radial glow sparingly behind the Interactive Human Body centerpiece rather than decorating every card.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do show explicit data provenance (Simulated Data, User-Entered Data, Real Research Data).",
+      "Do keep core medical evaluation, body exploration, and RAG explanations fully operational offline."
+    ],
+    "donts": [
+      "Don't represent Earth atmospheric radiation (NASA RDP/ARMAS) as direct Mars exposure data.",
+      "Don't diagnose psychiatric disorders or infections automatically, or prescribe medications."
+    ]
   }
+}

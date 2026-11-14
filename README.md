@@ -1,7 +1,7 @@
-# MarsCare AI — Your Personal Health Companion in Deep Space
-**NASA Space Apps Challenge 2026 · Team Milky Has Its Own Way** *(Powered autonomously by the TARSCARE AI backend engine)*
+# TARSCARE — Your Personal Health Companion in Deep Space
+**NASA Space Apps Challenge 2026 · Team Milky Has Its Own Way**
 
-**MarsCare AI** is a calm, offline-first autonomous health-monitoring and self-assessment web application designed for astronauts on long-duration deep-space missions, particularly Mars missions. Built atop the preserved **TARSCARE AI** FastAPI + SQLite + local RAG backend (`backend/`, `tarscare_local.db`, `/api/*`), MarsCare AI enables astronauts to answer three urgent questions at a glance — **How am I doing?**, **What has changed?**, and **Should I take any action?** — explore their body systems interactively, monitor NASA's five human-spaceflight hazards, run self-assessments with dual manual/symptom entry, and consult offline NASA & CSA research without relying on Earth connectivity.
+**TARSCARE** is a calm, offline-first autonomous health-monitoring and self-assessment web application designed for astronauts on long-duration deep-space missions, particularly Mars missions. Built atop the **TARSCARE** FastAPI + SQLite + local RAG backend (`backend/`, `tarscare_local.db`, `/api/*`), TARSCARE enables astronauts to answer three urgent questions at a glance — **How am I doing?**, **What has changed?**, and **Should I take any action?** — explore their body systems interactively, monitor NASA's five human-spaceflight hazards, run self-assessments with dual manual/symptom entry, and consult offline NASA & CSA research without relying on Earth connectivity.
 
 ---
 
@@ -9,7 +9,7 @@
 
 ```mermaid
 flowchart TD
-    subgraph Frontend["MarsCare AI Frontend (React + TypeScript + Tailwind + Host Grotesk + Recharts)"]
+    subgraph Frontend["TARSCARE Frontend (React + TypeScript + Tailwind + Host Grotesk + Recharts)"]
         V1["1. Mission Overview & Interactive Human Body"]
         V2["2. Health Assessment (Manual + Symptoms + Behavioral Check-In)"]
         V3["3. Spaceflight Hazards (5 Four-Step Modules)"]
@@ -20,7 +20,7 @@ flowchart TD
 
     subgraph Backend["TARSCARE AI Autonomous Backend (Python + FastAPI + Pydantic)"]
         API["REST API (/api/state, /api/assessment/evaluate, /api/rag/query, /api/comm/mode, /api/reports/generate)"]
-        ENG["Integrated 5-Hazard Assessment Engine & MarsCare Enhancer"]
+        ENG["Integrated 5-Hazard Assessment Engine & Companion Enhancer"]
         RAG["Offline RAG Engine (TF-IDF + BM25 + Optional Cached Sentence-Transformers / Local Ollama)"]
         SF["Simulated Store-and-Forward Earth Sync Queue"]
         EMG["Zero-Latency Onboard Emergency Escalation Checklist"]
@@ -58,7 +58,7 @@ python -m uvicorn main:app --host 127.0.0.1 --port 8000
 On startup, `backend/database.py` initializes `backend/tarscare_local.db` with 30 Sols of realistic synthetic Mars mission telemetry (`Sol 155–184`) and indexes 15 pre-bundled NASA/CSA research documents.
 - **Offline Semantic RAG & Optional Local Ollama:** `backend/local_ai_rag.py` auto-detects locally cached HuggingFace `all-MiniLM-L6-v2` weights (`HF_HUB_OFFLINE=1` — zero network requests, background warmup) and probes `127.0.0.1:11434` for Ollama, falling back seamlessly to deterministic TF-IDF + BM25 synthesis whenever either is unavailable.
 
-### Step 2: Start the MarsCare AI Frontend (`http://127.0.0.1:5173`)
+### Step 2: Start the TARSCARE Frontend (`http://127.0.0.1:5173`)
 In a second terminal:
 ```powershell
 cd frontend

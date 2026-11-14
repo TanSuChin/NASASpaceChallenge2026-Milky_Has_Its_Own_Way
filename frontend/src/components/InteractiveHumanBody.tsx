@@ -77,8 +77,8 @@ export const InteractiveHumanBody: React.FC<InteractiveHumanBodyProps> = ({
                 aria-selected={isSelected}
                 onClick={() => onSelectRegion(region.id)}
                 className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all duration-150 ${isSelected
-                    ? 'bg-[#A5D8FF]/15 border border-[#A5D8FF] text-[#FAF9FA]'
-                    : 'bg-[#0B0D1A]/85 border border-white/[0.06] text-[#E5E5E4] hover:border-[#A5D8FF]/40 hover:text-[#FAF9FA]'
+                  ? 'bg-[#A5D8FF]/15 border border-[#A5D8FF] text-[#FAF9FA]'
+                  : 'bg-[#0B0D1A]/85 border border-white/[0.06] text-[#E5E5E4] hover:border-[#A5D8FF]/40 hover:text-[#FAF9FA]'
                   }`}
               >
                 <span className="flex items-center gap-2.5 text-sm font-medium">
@@ -241,11 +241,10 @@ export const InteractiveHumanBody: React.FC<InteractiveHumanBodyProps> = ({
                       borderColor: isSel ? '#A5D8FF' : ringColor,
                       boxShadow: isSel ? '0 0 14px rgba(165, 216, 255, 0.55)' : undefined,
                     }}
-                    className={`relative w-5 h-5 rounded-full border text-[11px] font-bold tabular-data flex items-center justify-center transition-all duration-150 ${
-                      isSel
+                    className={`relative w-5 h-5 rounded-full border text-[11px] font-bold tabular-data flex items-center justify-center transition-all duration-150 ${isSel
                         ? 'bg-[#EEF0F6] text-[#040404] scale-110'
                         : 'bg-[#0B0D1A]/90 text-[#FAF9FA] group-hover:scale-110 group-hover:border-[#A5D8FF]'
-                    }`}
+                      }`}
                   >
                     {pos.num}
                   </span>
@@ -358,7 +357,7 @@ export const InteractiveHumanBody: React.FC<InteractiveHumanBodyProps> = ({
               )
             }
             className="mc-btn-secondary px-4 py-2.5 text-sm inline-flex items-center justify-center gap-1.5"
-            title="Ask MarsCare AI Assistant about this body region"
+            title="Ask TARSCARE Health Assistant about this body region"
           >
             <MessageSquare className="w-4 h-4 text-[#A5D8FF]" />
             <span>Ask AI</span>

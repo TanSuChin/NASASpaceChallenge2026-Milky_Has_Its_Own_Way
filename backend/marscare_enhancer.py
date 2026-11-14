@@ -362,7 +362,7 @@ def build_marscare_extensions(
                 "source": "NASA Life Sciences Portal (NLSP)",
             },
             {
-                "action": "Ask the MarsCare AI Health Assistant to cross-check symptoms against habitat ECLSS logs.",
+                "action": "Ask the TARSCARE Health Assistant to cross-check symptoms against habitat ECLSS logs.",
                 "rationale": "Separates environmental CO2/humidity effects from physiological changes cleanly offline.",
                 "source": "NASA HRP / CSA C-STARS",
             },

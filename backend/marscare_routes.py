@@ -84,7 +84,7 @@ def initialize_marscare_rag() -> None:
         if any(w in ql for w in ("prescribe", "prescription", "dosage", "dose of ", "antibiotic", "amoxicillin", "medication")):
             base_res["sufficient_evidence"] = False
             base_res["answer"] = (
-                "Insufficient evidence and out-of-scope clinical request: MarsCare AI is an autonomous educational and health-monitoring "
+                "Insufficient evidence and out-of-scope clinical request: TARSCARE is an autonomous educational and health-monitoring "
                 "companion built on NASA/CSA spaceflight research references. It cannot prescribe medications, recommend drug dosages, "
                 "or replace onboard Crew Medical Officer protocols or Flight Surgeon guidance.\n\n"
                 + (base_res.get("answer") or "")
@@ -219,7 +219,7 @@ def api_generate_report(req: ReportGenerateRequest) -> Dict[str, Any]:
     assessment = evaluate_integrated_health(latest, history, baseline, rad_limits, env_limits, comm_state)
     comm_norm = normalize_comm_mode(comm_state)
     is_direct = comm_norm["mode"] == "CONNECTED"
-    title = req.title or f"Sol {latest['mission_day']} MarsCare Autonomous Health Summary"
+    title = req.title or f"Sol {latest['mission_day']} TARSCARE Autonomous Health Summary"
     summary = (
         f"Overall: {assessment['overall_status']} | HR {latest['heart_rate_bpm']:.0f} BPM, "
         f"BP {latest['systolic_bp_mmhg']:.0f}/{latest['diastolic_bp_mmhg']:.0f} mmHg, "

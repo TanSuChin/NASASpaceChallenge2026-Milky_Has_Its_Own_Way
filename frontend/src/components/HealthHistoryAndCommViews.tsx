@@ -74,7 +74,7 @@ export const HealthHistoryView: React.FC<HistoryProps> = ({ state, onStateUpdate
   const downloadSummaryMarkdown = () => {
     const latest = state.latest_telemetry;
     const lines = [
-      `# MarsCare AI Local Health Summary — Sol ${latest.mission_day}`,
+      `# TARSCARE Local Health Summary — Sol ${latest.mission_day}`,
       `Astronaut: ${state.astronaut.name} (${state.astronaut.role})`,
       `Overall Status: ${state.assessment.overall_status}`,
       `Communication Mode: ${state.assessment.comm_mode?.label || 'Delayed'} (${state.comm_state.one_way_delay_minutes} min one-way)`,
@@ -90,14 +90,14 @@ export const HealthHistoryView: React.FC<HistoryProps> = ({ state, onStateUpdate
       `## How Am I Doing?`,
       `${state.assessment.glance_summary?.how_am_i_doing || ''}`,
       ``,
-      `Generated autonomously offline by MarsCare AI (TARSCARE backend). Not a clinical diagnosis.`,
+      `Generated autonomously offline by TARSCARE. Not a clinical diagnosis.`,
     ].join('\n');
 
     const blob = new Blob([lines], { type: 'text/markdown;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `marscare-sol-${latest.mission_day}-summary.md`;
+    a.download = `tarscare-sol-${latest.mission_day}-summary.md`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -120,9 +120,8 @@ export const HealthHistoryView: React.FC<HistoryProps> = ({ state, onStateUpdate
                 key={d}
                 type="button"
                 onClick={() => setDaysWindow(d)}
-                className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                  daysWindow === d ? 'bg-[#EEF0F6] text-[#040404]' : 'text-[#E5E5E4]'
-                }`}
+                className={`px-3 py-1 rounded-full text-xs font-semibold ${daysWindow === d ? 'bg-[#EEF0F6] text-[#040404]' : 'text-[#E5E5E4]'
+                  }`}
               >
                 {d}d
               </button>
@@ -139,9 +138,8 @@ export const HealthHistoryView: React.FC<HistoryProps> = ({ state, onStateUpdate
                 key={pf.id}
                 type="button"
                 onClick={() => setProvFilter(pf.id)}
-                className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  provFilter === pf.id ? 'bg-[#A5D8FF]/20 text-[#FAF9FA]' : 'text-[#E5E5E4]/80'
-                }`}
+                className={`px-3 py-1 rounded-full text-xs font-medium ${provFilter === pf.id ? 'bg-[#A5D8FF]/20 text-[#FAF9FA]' : 'text-[#E5E5E4]/80'
+                  }`}
               >
                 {pf.label}
               </button>
@@ -335,13 +333,12 @@ export const CommunicationStatusView: React.FC<CommProps> = ({
             </p>
           </div>
           <span
-            className={`px-4 py-1.5 rounded-full text-sm font-semibold inline-flex items-center gap-2 ${
-              currentMode === 'CONNECTED'
+            className={`px-4 py-1.5 rounded-full text-sm font-semibold inline-flex items-center gap-2 ${currentMode === 'CONNECTED'
                 ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
                 : currentMode === 'OFFLINE'
-                ? 'bg-red-500/15 text-red-300 border border-red-500/30'
-                : 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
-            }`}
+                  ? 'bg-red-500/15 text-red-300 border border-red-500/30'
+                  : 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
+              }`}
           >
             {currentMode === 'OFFLINE' ? <WifiOff className="w-4 h-4" /> : <Wifi className="w-4 h-4" />}
             <span>{state.assessment.comm_mode?.label || currentMode}</span>
@@ -374,11 +371,10 @@ export const CommunicationStatusView: React.FC<CommProps> = ({
                 type="button"
                 disabled={busy}
                 onClick={() => setCommMode(opt.id)}
-                className={`rounded-2xl p-4 text-left transition-colors border ${
-                  active
+                className={`rounded-2xl p-4 text-left transition-colors border ${active
                     ? 'bg-[#A5D8FF]/15 border-[#A5D8FF]'
                     : 'bg-[#0B0D1A] border-white/[0.08] hover:border-[#A5D8FF]/45'
-                }`}
+                  }`}
               >
                 <div className="flex items-center justify-between mb-1.5">
                   <strong className="text-base text-[#FAF9FA]">{opt.title}</strong>

@@ -83,13 +83,13 @@ export const AIHealthAssistantView: React.FC<AIHealthAssistantViewProps> = ({
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-[1.55fr_1fr] gap-6 items-start">
-      {/* Left: Conversational MarsCare AI Companion */}
+      {/* Left: Conversational TARSCARE Companion */}
       <div className="mc-card p-5 lg:p-6 flex flex-col gap-5">
         <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-white/[0.08]">
           <div className="flex items-center gap-2.5">
             <Sparkles className="w-5 h-5 text-[#A5D8FF]" />
             <div>
-              <h1 className="text-xl font-bold text-[#FAF9FA]">MarsCare AI Health Assistant</h1>
+              <h1 className="text-xl font-bold text-[#FAF9FA]">TARSCARE Health Assistant</h1>
               <p className="text-xs text-[#E5E5E4]/75">
                 Offline-first companion backed by NASA HRP, OSDR, RadLab, NLSP, EDA &amp; CSA research
               </p>
@@ -102,8 +102,8 @@ export const AIHealthAssistantView: React.FC<AIHealthAssistantViewProps> = ({
               {aiStatus?.ollama_available
                 ? `Local Ollama (${aiStatus.ollama_model})`
                 : aiStatus?.sentence_transformers_cached
-                ? 'Offline Semantic RAG'
-                : 'Deterministic Offline RAG'}
+                  ? 'Offline Semantic RAG'
+                  : 'Deterministic Offline RAG'}
             </span>
           </div>
         </div>
@@ -128,14 +128,13 @@ export const AIHealthAssistantView: React.FC<AIHealthAssistantViewProps> = ({
           {turns.map((turn, idx) => (
             <div
               key={idx}
-              className={`rounded-2xl p-4 ${
-                turn.role === 'user'
+              className={`rounded-2xl p-4 ${turn.role === 'user'
                   ? 'bg-[#181C2E] ml-8 border border-[#A5D8FF]/30'
                   : 'bg-[#0B0D1A] mr-4 border border-white/[0.08]'
-              }`}
+                }`}
             >
               <div className="text-xs font-semibold text-[#A5D8FF] mb-1.5">
-                {turn.role === 'user' ? 'You (Crew Member)' : 'MarsCare AI Companion'}
+                {turn.role === 'user' ? 'You (Crew Member)' : 'TARSCARE Companion'}
               </div>
               <div className="text-sm text-[#FAF9FA] whitespace-pre-line leading-relaxed">
                 {turn.text}

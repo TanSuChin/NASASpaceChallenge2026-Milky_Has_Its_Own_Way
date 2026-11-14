@@ -1,6 +1,6 @@
 ---
-name: MarsCare AI
-description: Your Personal Health Companion in Deep Space (built on the TARSCARE AI autonomous backend)
+name: TARSCARE
+description: Your Personal Health Companion in Deep Space (Autonomous Astronaut Health Monitoring System)
 colors:
   accent-glow: "#A5D8FF"
   cta-fill: "#EEF0F6"
@@ -62,13 +62,13 @@ components:
     padding: "20px"
 ---
 
-# Design System: MarsCare AI
+# Design System: TARSCARE
 
 ## Overview
 
 **Creative Direction: "Crew Wayfinding Triage Bands"** (`seed:545159eea7949b0d`)
 
-**MarsCare AI** is a calm, human-centered deep-space health companion powered autonomously by the preserved **TARSCARE AI** FastAPI + SQLite + local RAG engine. Designed for crew members operating weeks or minutes out of synchronous Earth contact, the interface immediately answers three questions above the fold — **How am I doing?**, **What has changed?**, and **Should I take any action?** — while placing an interactive anatomical body explorer (`Head and Brain`, `Eyes`, `Heart`, `Lungs`, `Muscles`, `Bones`, `Whole Body`) directly in the centerpiece of `Mission Overview`.
+**TARSCARE** is a calm, human-centered deep-space health companion powered autonomously by its FastAPI + SQLite + local RAG engine. Designed for crew members operating weeks or minutes out of synchronous Earth contact, the interface immediately answers three questions above the fold — **How am I doing?**, **What has changed?**, and **Should I take any action?** — while placing an interactive anatomical body explorer (`Head and Brain`, `Eyes`, `Heart`, `Lungs`, `Muscles`, `Bones`, `Whole Body`) directly in the centerpiece of `Mission Overview`.
 
 **Key Characteristics:**
 - Deep navy canvas (`#0B0D1A`) paired with calm slate surfaces (`#121522`) and `16px` rounded containers.
@@ -108,7 +108,7 @@ components:
 ## Layout & Navigation
 
 - **Six Top-Level Navigation Pills:** `Mission Overview`, `Health Assessment`, `Spaceflight Hazards`, `AI Health Assistant`, `Health History`, and `Communication Status`.
-- **Top Status Header:** MarsCare AI brand mark, astronaut profile (`SuChai`), current `Sol`, active communication state pill (`Connected` / `Delayed` / `Offline`), overall status trigger for Emergency Protocol, and Demo Dataset reset button.
+- **Top Status Header:** TARSCARE brand mark, astronaut profile (`SuChai`), current `Sol`, active communication state pill (`Connected` / `Delayed` / `Offline`), overall status trigger for Emergency Protocol, and Demo Dataset reset button.
 - **Interactive Human Body Staging:** 3-column wayfinding corridor (`270px` numbered region rail → central illuminated SVG human body → live region readings + `7-Sol Trend` sparkline + `Spaceflight Context` + `Start Health Assessment` CTA).
 
 ## Shapes & Elevation
@@ -121,7 +121,7 @@ components:
 ### Do:
 - **Do** distinguish physical absorbed radiation dose (`mGy`) from biologically weighted equivalent/effective dose (`mSv`) wherever radiation is shown.
 - **Do** preserve explicit provenance tags (`Simulated Data`, `User-Entered Data`, `Real Research Data`, `Simulated Env`) across telemetry, alerts, and reports.
-- **Do** state clearly that MarsCare AI provides autonomous prototype decision support without diagnosing psychiatric conditions, diagnosing infections from sensors, or prescribing medications.
+- **Do** state clearly that TARSCARE provides autonomous prototype decision support without diagnosing psychiatric conditions, diagnosing infections from sensors, or prescribing medications.
 
 ### Don't:
 - **Don't** place small uppercase kicker/eyebrow labels above headings or wrap cards in thick `border-left` stripes (`> 1px`).
