@@ -153,6 +153,8 @@ export interface RAGCitation {
 export interface RAGAnalysisResponse {
   query: string;
   engine_mode: string;
+  model_used?: string | null;
+  latency_ms?: number;
   sufficient_evidence: boolean;
   answer: string;
   safety_notice: string;
@@ -214,9 +216,15 @@ export interface GuidanceTierItem {
 
 export interface LocalAIStatus {
   ollama_available: boolean;
+  ollama_reachable?: boolean;
   ollama_model: string | null;
+  installed_chat_models?: string[];
+  installed_embed_models?: string[];
+  llm_enabled?: boolean;
+  llm_active?: boolean;
   sentence_transformers_installed: boolean;
   sentence_transformers_cached: boolean;
+  embeddings_loaded?: boolean;
   active_engine_mode: string;
   offline_guaranteed: boolean;
 }

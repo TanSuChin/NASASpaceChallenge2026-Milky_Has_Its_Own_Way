@@ -10,7 +10,7 @@ Preserves all existing TARSCARE AI endpoints while adding MarsCare UI-facing rou
 
 from __future__ import annotations
 from dataclasses import asdict
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
 
@@ -19,9 +19,11 @@ import knowledge_base
 from assessment_engine import evaluate_integrated_health
 from local_ai_rag import (
     EXTRA_CORPUS_DICTS,
+    get_dense_scores,
     get_local_ai_status,
-    rerank_with_embeddings_if_cached,
-    synthesize_with_ollama_if_available,
+    set_ai_config,
+    synthesize_with_ollama,
+    warmup_ollama_model,
 )
 from marscare_enhancer import normalize_comm_mode
 from models import (
@@ -68,48 +70,141 @@ def initialize_marscare_rag() -> None:
     if added:
         knowledge_base.rag_engine.__init__()
 
-    orig_answer_question = knowledge_base.rag_engine.answer_question
+    def _hybrid_retrieve(
+        question: str,
+        hazard_filter: Optional[str],
+        wait_for_embeddings: bool,
+    ) -> Tuple[List[Dict[str, Any]], bool]:
+        """Full-corpus hybrid retrieval blending TF-IDF lexical relevance and dense cosine similarity."""
+        candidates = knowledge_base.rag_engine.score_all_chunks(
+            question, hazard_filter=hazard_filter
+        )
+        pairs = [(c["chunk_id"], c["excerpt"]) for c in candidates]
+        dense_map = get_dense_scores(
+            question, pairs, wait_for_embeddings=wait_for_embeddings
+        )
+        used_dense = dense_map is not None
+        if dense_map:
+            for item in candidates:
+                lex = float(item.get("lexical_score", 0.0))
+                cos = max(0.0, float(dense_map.get(item["chunk_id"], 0.0)))
+                boost = 0.04 if lex > 0.12 else 0.0
+                item["dense_score"] = round(cos, 4)
+                item["relevance_score"] = round(min(0.99, 0.42 * lex + 0.58 * cos + boost), 4)
+            candidates.sort(key=lambda x: x["relevance_score"], reverse=True)
+        else:
+            candidates = [c for c in candidates if c["relevance_score"] > 0.01]
+
+        # Cap at 2 chunks per document so multiple NASA/CSA references appear together cleanly
+        results: List[Dict[str, Any]] = []
+        doc_counts: Dict[str, int] = {}
+        for item in candidates:
+            did = item["doc_id"]
+            if doc_counts.get(did, 0) >= 2:
+                continue
+            doc_counts[did] = doc_counts.get(did, 0) + 1
+            results.append(item)
+            if len(results) >= 4:
+                break
+        return results, used_dense
+
+    def _enrich_context_if_sparse(ctx: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+        enriched = dict(ctx or {})
+        if "latest_telemetry" not in enriched:
+            history = database.fetch_all_telemetry()
+            if history:
+                latest = history[-1]
+                baseline = database.fetch_system_state("baseline") or {}
+                enriched.setdefault("astronaut_name", baseline.get("name", "SuChai"))
+                enriched.setdefault("mission_day", latest.get("mission_day"))
+                enriched.setdefault("mission_phase", latest.get("mission_phase"))
+                enriched.setdefault("gravity_g", latest.get("gravity_g"))
+                enriched.setdefault("provenance", latest.get("provenance", "SYNTHETIC_DEMO"))
+                enriched["latest_telemetry"] = latest
+                enriched["baseline"] = baseline
+        return enriched
 
     def hybrid_answer_question(
         question: str,
         hazard_filter: Optional[str] = None,
         astronaut_context: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
-        base_res = orig_answer_question(
-            question=question,
+        allow_llm = bool((astronaut_context or {}).get("allow_llm", True))
+        citations, used_dense = _hybrid_retrieve(
+            question,
             hazard_filter=hazard_filter,
-            astronaut_context=astronaut_context,
+            wait_for_embeddings=allow_llm,
         )
-        ql = question.lower()
-        if any(w in ql for w in ("prescribe", "prescription", "dosage", "dose of ", "antibiotic", "amoxicillin", "medication")):
-            base_res["sufficient_evidence"] = False
-            base_res["answer"] = (
-                "Insufficient evidence and out-of-scope clinical request: TARSCARE is an autonomous educational and health-monitoring "
-                "companion built on NASA/CSA spaceflight research references. It cannot prescribe medications, recommend drug dosages, "
-                "or replace onboard Crew Medical Officer protocols or Flight Surgeon guidance.\n\n"
-                + (base_res.get("answer") or "")
-            )
         ai_status = get_local_ai_status()
-        citations = base_res.get("citations", [])
+        threshold = 0.24 if used_dense else 0.12
+        sufficient_evidence = len(citations) > 0 and citations[0]["relevance_score"] >= threshold
 
-        if citations and ai_status["sentence_transformers_cached"]:
-            texts = [c.get("excerpt", "") for c in citations]
-            scores = [float(c.get("relevance_score", 0.5)) for c in citations]
-            new_scores = rerank_with_embeddings_if_cached(question, texts, scores)
-            for idx, c in enumerate(citations):
-                c["relevance_score"] = new_scores[idx]
-            citations.sort(key=lambda item: float(item.get("relevance_score", 0.0)), reverse=True)
-            base_res["citations"] = citations
+        ql = question.lower()
+        med_terms = (
+            "prescribe", "prescription", "dosage", "dose of ", "antibiotic",
+            "amoxicillin", "ibuprofen", "acetaminophen", "medication",
+        )
+        if any(w in ql for w in med_terms):
+            return {
+                "query": question,
+                "engine_mode": ai_status["active_engine_mode"],
+                "model_used": None,
+                "latency_ms": 0,
+                "sufficient_evidence": False,
+                "answer": (
+                    "Insufficient evidence and out-of-scope clinical request: TARSCARE is an autonomous "
+                    "educational and health-monitoring companion built on NASA/CSA spaceflight research references. "
+                    "It cannot prescribe medications, recommend drug dosages, or replace onboard Crew Medical Officer "
+                    "protocols or Flight Surgeon guidance."
+                ),
+                "safety_notice": (
+                    "Decision-support output only. Does not constitute a clinical diagnosis or medication prescription."
+                ),
+                "citations": citations[:3],
+            }
 
-        if base_res.get("sufficient_evidence") and citations and ai_status["ollama_available"]:
-            ollama_ans = synthesize_with_ollama_if_available(question, citations, astronaut_context)
-            if ollama_ans:
-                base_res["answer"] = ollama_ans
-                base_res["engine_mode"] = ai_status["active_engine_mode"]
-                return base_res
+        if not sufficient_evidence:
+            res = knowledge_base.rag_engine.build_insufficient_evidence_response(
+                question,
+                citations[:3],
+                engine_mode=ai_status["active_engine_mode"],
+            )
+            res["model_used"] = None
+            res["latency_ms"] = 0
+            return res
 
-        base_res["engine_mode"] = ai_status["active_engine_mode"]
-        return base_res
+        if allow_llm and ai_status["llm_active"] and citations:
+            rich_ctx = _enrich_context_if_sparse(astronaut_context)
+            synth = synthesize_with_ollama(question, citations, rich_ctx)
+            if synth:
+                return {
+                    "query": question,
+                    "engine_mode": ai_status["active_engine_mode"],
+                    "model_used": synth["model"],
+                    "latency_ms": synth["latency_ms"],
+                    "sufficient_evidence": True,
+                    "answer": synth["answer"],
+                    "safety_notice": (
+                        "Non-diagnostic evidence summary synthesized locally via Ollama from stored NASA HRP & CSA references. "
+                        "Prototype decision rules are not clinically validated."
+                    ),
+                    "citations": citations[:3],
+                }
+
+        det_mode = (
+            "OFFLINE_SENTENCE_TRANSFORMERS"
+            if used_dense
+            else "DETERMINISTIC_OFFLINE_RAG"
+        )
+        res = knowledge_base.rag_engine.build_deterministic_answer(
+            question,
+            citations,
+            astronaut_context=astronaut_context,
+            engine_mode=det_mode,
+        )
+        res["model_used"] = None
+        res["latency_ms"] = 0
+        return res
 
     knowledge_base.rag_engine.answer_question = hybrid_answer_question  # type: ignore[method-assign]
 
@@ -148,9 +243,34 @@ class ReportGenerateRequest(BaseModel):
     title: Optional[str] = None
 
 
+class AIConfigRequest(BaseModel):
+    llm_enabled: Optional[bool] = None
+    selected_model: Optional[str] = None
+    clear_selected_model: bool = False
+
+
+class AIWarmupRequest(BaseModel):
+    model: Optional[str] = None
+
+
 @marscare_router.get("/ai/status")
 def api_ai_status() -> Dict[str, Any]:
-    return get_local_ai_status()
+    return get_local_ai_status(force_probe=True)
+
+
+@marscare_router.post("/ai/config")
+def api_set_ai_config(req: AIConfigRequest) -> Dict[str, Any]:
+    set_ai_config(
+        llm_enabled=req.llm_enabled,
+        selected_model=req.selected_model,
+        clear_selected_model=req.clear_selected_model,
+    )
+    return get_local_ai_status(force_probe=True)
+
+
+@marscare_router.post("/ai/warmup")
+def api_warmup_ai(req: Optional[AIWarmupRequest] = None) -> Dict[str, Any]:
+    return warmup_ollama_model(req.model if req else None)
 
 
 @marscare_router.post("/comm/mode")

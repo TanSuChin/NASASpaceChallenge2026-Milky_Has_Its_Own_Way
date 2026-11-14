@@ -64,8 +64,13 @@ export const MissionOverviewView: React.FC<MissionOverviewViewProps> = ({
 
   const vitalCards = useMemo(() => {
     const hrDelta = Math.round(latest.heart_rate_bpm - astronaut.baseline_hr_bpm);
-    const sleepDelta = (latest.sleep_duration_hrs - astronaut.baseline_sleep_hrs).toFixed(1);
-    const tempDelta = (latest.body_temp_c - astronaut.baseline_temp_c).toFixed(1);
+    const sbpDelta = Math.round(latest.systolic_bp_mmhg - astronaut.baseline_systolic_mmhg);
+    const dbpDelta = Math.round(latest.diastolic_bp_mmhg - astronaut.baseline_diastolic_mmhg);
+    const spo2Delta = latest.spo2_pct - astronaut.baseline_spo2_pct;
+    const tempDelta = latest.body_temp_c - astronaut.baseline_temp_c;
+    const sleepDelta = latest.sleep_duration_hrs - astronaut.baseline_sleep_hrs;
+    const moodDelta = latest.mood_score - astronaut.baseline_mood_score;
+    const stressDelta = latest.stress_level - astronaut.baseline_stress_score;
     const moodAvg = ((latest.mood_score + (10 - latest.stress_level)) / 2).toFixed(1);
     return [
       {
@@ -82,51 +87,51 @@ export const MissionOverviewView: React.FC<MissionOverviewViewProps> = ({
         title: 'Blood Pressure',
         value: `${Math.round(latest.systolic_bp_mmhg)}/${Math.round(latest.diastolic_bp_mmhg)}`,
         unit: 'mmHg',
-        baseline: `Baseline ${astronaut.baseline_systolic_mmhg}/${astronaut.baseline_diastolic_mmhg}`,
+        baseline: `Baseline ${Math.round(astronaut.baseline_systolic_mmhg)}/${Math.round(astronaut.baseline_diastolic_mmhg)} (${sbpDelta >= 0 ? '+' : ''}${sbpDelta}/${dbpDelta >= 0 ? '+' : ''}${dbpDelta})`,
         time: recordedTime,
         regionId: 'heart',
         icon: Activity,
-        flag: latest.systolic_bp_mmhg < 95 ? 'WARNING' : 'NORMAL',
+        flag: sbpDelta <= -10 || sbpDelta >= 20 ? 'WARNING' : 'NORMAL',
       },
       {
         title: 'Oxygen Saturation',
         value: `${latest.spo2_pct.toFixed(1)}`,
         unit: '%',
-        baseline: `Baseline ${astronaut.baseline_spo2_pct}%`,
+        baseline: `Baseline ${astronaut.baseline_spo2_pct.toFixed(1)}% (${spo2Delta >= 0 ? '+' : ''}${spo2Delta.toFixed(1)}%)`,
         time: recordedTime,
         regionId: 'lungs',
         icon: Wind,
-        flag: latest.spo2_pct < 95 ? 'WARNING' : 'NORMAL',
+        flag: spo2Delta <= -2.5 ? 'WARNING' : 'NORMAL',
       },
       {
         title: 'Body Temperature',
         value: `${latest.body_temp_c.toFixed(1)}`,
         unit: '°C',
-        baseline: `Baseline ${astronaut.baseline_temp_c}°C (${Number(tempDelta) >= 0 ? '+' : ''}${tempDelta})`,
+        baseline: `Baseline ${astronaut.baseline_temp_c.toFixed(1)}°C (${tempDelta >= 0 ? '+' : ''}${tempDelta.toFixed(1)}°C)`,
         time: recordedTime,
         regionId: 'whole_body',
         icon: Thermometer,
-        flag: latest.body_temp_c >= 37.8 ? 'WARNING' : 'NORMAL',
+        flag: Math.abs(tempDelta) >= 0.8 ? 'WARNING' : 'NORMAL',
       },
       {
         title: 'Sleep Duration',
         value: `${latest.sleep_duration_hrs.toFixed(1)}`,
         unit: 'hrs',
-        baseline: `Baseline ${astronaut.baseline_sleep_hrs}h (${Number(sleepDelta) >= 0 ? '+' : ''}${sleepDelta}h)`,
+        baseline: `Baseline ${astronaut.baseline_sleep_hrs.toFixed(1)}h (${sleepDelta >= 0 ? '+' : ''}${sleepDelta.toFixed(1)}h)`,
         time: recordedTime,
         regionId: 'head_and_brain',
         icon: Moon,
-        flag: latest.sleep_duration_hrs <= 6.2 ? 'WARNING' : 'NORMAL',
+        flag: sleepDelta <= -1.0 ? 'WARNING' : 'NORMAL',
       },
       {
         title: 'Stress & Mood',
         value: moodAvg,
         unit: '/10',
-        baseline: `Mood ${latest.mood_score.toFixed(1)} · Stress ${latest.stress_level.toFixed(1)}`,
+        baseline: `Baseline M ${astronaut.baseline_mood_score.toFixed(1)} / S ${astronaut.baseline_stress_score.toFixed(1)} (${moodDelta >= 0 ? '+' : ''}${moodDelta.toFixed(1)}/${stressDelta >= 0 ? '+' : ''}${stressDelta.toFixed(1)})`,
         time: recordedTime,
         regionId: 'head_and_brain',
         icon: Activity,
-        flag: latest.stress_level >= 6.0 || latest.mood_score <= 5.5 ? 'WARNING' : 'NORMAL',
+        flag: stressDelta >= 2.2 || moodDelta <= -1.8 ? 'WARNING' : 'NORMAL',
       },
     ];
   }, [latest, astronaut, recordedTime]);
@@ -265,17 +270,22 @@ export const MissionOverviewView: React.FC<MissionOverviewViewProps> = ({
 
       {/* 3. Latest Vital Signs vs Personal Baseline */}
       <section aria-label="Latest Vital Signs">
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-3.5">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
           <div>
             <h2 className="text-xl font-semibold text-[#FAF9FA]">Vital Signs vs. Personal Baseline</h2>
             <p className="text-sm text-[#E5E5E4]/75">
-              Tap any card to focus its body system above. Units and last recorded timestamps preserved.
+              Compares readings against {astronaut.name}&apos;s individual mission baseline rather than universal Earth reference ranges. Tap any card to focus its body system.
             </p>
           </div>
           <span className="inline-flex items-center gap-1.5 text-xs text-[#E5E5E4]/75">
             <Clock className="w-3.5 h-3.5 text-[#A5D8FF]" />
             <span>Updated {recordedTime}</span>
           </span>
+        </div>
+
+        <div className="mb-3.5 rounded-2xl bg-[#121522] border border-[#A5D8FF]/20 px-4 py-3 text-xs text-[#E5E5E4]/85 leading-relaxed">
+          <span className="font-semibold text-[#A5D8FF]">Baseline Recommendation: </span>
+          Avoid arbitrary thresholds or assuming that ordinary Earth-based clinical reference ranges automatically represent safe operating limits for astronauts in microgravity (0g) or partial gravity ({latest.gravity_g.toFixed(2)}g). Status flags measure relative drift from personal pre-flight and early-transit baselines alongside mission-configured prototype rules.
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3.5">
@@ -366,8 +376,8 @@ export const MissionOverviewView: React.FC<MissionOverviewViewProps> = ({
                   type="button"
                   onClick={() => setTrendDays(days)}
                   className={`px-3.5 py-1 rounded-full text-xs font-semibold transition-colors ${trendDays === days
-                      ? 'bg-[#EEF0F6] text-[#040404]'
-                      : 'text-[#E5E5E4] hover:text-[#FAF9FA]'
+                    ? 'bg-[#EEF0F6] text-[#040404]'
+                    : 'text-[#E5E5E4] hover:text-[#FAF9FA]'
                     }`}
                 >
                   {days} Days
@@ -389,8 +399,8 @@ export const MissionOverviewView: React.FC<MissionOverviewViewProps> = ({
                 type="button"
                 onClick={() => setTrendTab(t.id as TrendTab)}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors ${trendTab === t.id
-                    ? 'bg-[#A5D8FF]/20 text-[#FAF9FA] border border-[#A5D8FF]'
-                    : 'bg-[#0B0D1A] text-[#E5E5E4]/80 border border-white/[0.07] hover:text-[#FAF9FA]'
+                  ? 'bg-[#A5D8FF]/20 text-[#FAF9FA] border border-[#A5D8FF]'
+                  : 'bg-[#0B0D1A] text-[#E5E5E4]/80 border border-white/[0.07] hover:text-[#FAF9FA]'
                   }`}
               >
                 {t.label}

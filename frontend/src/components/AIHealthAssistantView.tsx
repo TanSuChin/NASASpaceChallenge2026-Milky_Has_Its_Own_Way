@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { BookOpen, Cpu, ExternalLink, Send, Sparkles } from 'lucide-react';
+import { BookOpen, Cpu, ExternalLink, RefreshCw, Send, Sparkles } from 'lucide-react';
 import { FullSystemState, RAGAnalysisResponse } from '../types';
-import { apiRequest } from './uiHelpers';
+import { apiRequest, updateLocalAIConfig, warmupLocalAI } from './uiHelpers';
 
 interface AIHealthAssistantViewProps {
   state: FullSystemState;
   initialPrompt?: string;
+  onStateUpdated?: (next: FullSystemState) => void;
 }
 
 interface ChatTurn {
@@ -24,10 +25,13 @@ const SUGGESTED_PROMPTS = [
 export const AIHealthAssistantView: React.FC<AIHealthAssistantViewProps> = ({
   state,
   initialPrompt,
+  onStateUpdated,
 }) => {
   const [question, setQuestion] = useState('');
   const [hazardFilter, setHazardFilter] = useState<string>('');
   const [loading, setLoading] = useState(false);
+  const [aiBusy, setAiBusy] = useState(false);
+  const [aiNotice, setAiNotice] = useState<string | null>(null);
   const [turns, setTurns] = useState<ChatTurn[]>([
     {
       role: 'assistant',
@@ -39,6 +43,9 @@ export const AIHealthAssistantView: React.FC<AIHealthAssistantViewProps> = ({
   const askQuestion = async (q: string) => {
     const trimmed = q.trim();
     if (!trimmed) return;
+    const recentHistory = turns
+      .slice(-4)
+      .map((t) => ({ role: t.role, content: t.text }));
     setTurns((prev) => [...prev, { role: 'user', text: trimmed }]);
     setQuestion('');
     setLoading(true);
@@ -48,7 +55,8 @@ export const AIHealthAssistantView: React.FC<AIHealthAssistantViewProps> = ({
         body: JSON.stringify({
           question: trimmed,
           hazard_filter: hazardFilter || null,
-          include_telemetry_context: true,
+          include_astronaut_context: true,
+          history: recentHistory,
         }),
       });
       setTurns((prev) => [
@@ -80,6 +88,53 @@ export const AIHealthAssistantView: React.FC<AIHealthAssistantViewProps> = ({
   }, [initialPrompt]);
 
   const aiStatus = state.local_ai_status;
+  const chatModels = aiStatus?.installed_chat_models || (aiStatus?.ollama_model ? [aiStatus.ollama_model] : []);
+  const llmEnabled = aiStatus?.llm_enabled ?? true;
+  const llmActive = Boolean(aiStatus?.ollama_available && llmEnabled);
+
+  const handleModelChange = async (modelName: string) => {
+    setAiBusy(true);
+    setAiNotice(null);
+    try {
+      await updateLocalAIConfig({ selected_model: modelName }, onStateUpdated);
+      setAiNotice(`Active local Ollama model switched to ${modelName}.`);
+    } catch (err) {
+      setAiNotice(err instanceof Error ? err.message : 'Unable to switch Ollama model.');
+    } finally {
+      setAiBusy(false);
+    }
+  };
+
+  const handleToggleLLM = async () => {
+    setAiBusy(true);
+    setAiNotice(null);
+    try {
+      const nextEnabled = !llmEnabled;
+      await updateLocalAIConfig({ llm_enabled: nextEnabled }, onStateUpdated);
+      setAiNotice(
+        nextEnabled
+          ? 'Local Ollama synthesis enabled alongside retrieved NASA/CSA evidence.'
+          : 'Deterministic offline RAG mode enabled (local LLM synthesis paused).',
+      );
+    } catch (err) {
+      setAiNotice(err instanceof Error ? err.message : 'Unable to update AI synthesis mode.');
+    } finally {
+      setAiBusy(false);
+    }
+  };
+
+  const handleWarmup = async () => {
+    setAiBusy(true);
+    setAiNotice(null);
+    try {
+      const res = await warmupLocalAI(aiStatus?.ollama_model, onStateUpdated);
+      setAiNotice(res.message);
+    } catch (err) {
+      setAiNotice(err instanceof Error ? err.message : 'Warmup request failed.');
+    } finally {
+      setAiBusy(false);
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-[1.55fr_1fr] gap-6 items-start">
@@ -96,17 +151,67 @@ export const AIHealthAssistantView: React.FC<AIHealthAssistantViewProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0B0D1A] border border-[#A5D8FF]/30 text-xs text-[#A5D8FF]">
-            <Cpu className="w-3.5 h-3.5" />
-            <span>
-              {aiStatus?.ollama_available
-                ? `Local Ollama (${aiStatus.ollama_model})`
-                : aiStatus?.sentence_transformers_cached
-                  ? 'Offline Semantic RAG'
-                  : 'Deterministic Offline RAG'}
-            </span>
+          <div className="flex flex-wrap items-center gap-2">
+            {aiStatus?.ollama_available && chatModels.length > 0 && (
+              <select
+                value={aiStatus.ollama_model || chatModels[0]}
+                onChange={(e) => handleModelChange(e.target.value)}
+                disabled={aiBusy}
+                aria-label="Select local Ollama model"
+                className="rounded-full bg-[#0B0D1A] border border-white/15 px-3 py-1.5 text-xs text-[#FAF9FA] focus:border-[#A5D8FF] focus:outline-none"
+              >
+                {chatModels.map((m) => (
+                  <option key={m} value={m}>
+                    {m}
+                  </option>
+                ))}
+              </select>
+            )}
+
+            {aiStatus?.ollama_available && (
+              <>
+                <button
+                  type="button"
+                  disabled={aiBusy}
+                  onClick={handleToggleLLM}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+                    llmActive
+                      ? 'bg-[#A5D8FF]/15 border-[#A5D8FF]/45 text-[#A5D8FF]'
+                      : 'bg-[#0B0D1A] border-white/15 text-[#E5E5E4]/85 hover:border-[#A5D8FF]/40'
+                  }`}
+                >
+                  {llmActive ? 'Local LLM: On' : 'Local LLM: Off'}
+                </button>
+                <button
+                  type="button"
+                  disabled={aiBusy}
+                  onClick={handleWarmup}
+                  className="px-3 py-1.5 rounded-full bg-[#0B0D1A] border border-white/15 text-xs text-[#E5E5E4] hover:border-[#A5D8FF]/45 inline-flex items-center gap-1.5"
+                >
+                  <RefreshCw className={`w-3 h-3 ${aiBusy ? 'animate-spin' : ''}`} />
+                  <span>Warm Up</span>
+                </button>
+              </>
+            )}
+
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0B0D1A] border border-[#A5D8FF]/30 text-xs text-[#A5D8FF]">
+              <Cpu className="w-3.5 h-3.5" />
+              <span>
+                {llmActive
+                  ? `Local Ollama (${aiStatus?.ollama_model})`
+                  : aiStatus?.sentence_transformers_cached
+                    ? 'Offline Semantic RAG'
+                    : 'Deterministic Offline RAG'}
+              </span>
+            </div>
           </div>
         </div>
+
+        {aiNotice && (
+          <div className="rounded-xl bg-[#0B0D1A] px-3.5 py-2.5 text-xs text-[#A5D8FF] border border-[#A5D8FF]/30">
+            {aiNotice}
+          </div>
+        )}
 
         {/* Quick Starter Prompts */}
         <div className="flex flex-wrap gap-2">
@@ -148,7 +253,11 @@ export const AIHealthAssistantView: React.FC<AIHealthAssistantViewProps> = ({
                         ? 'Grounded in indexed NASA & CSA sources'
                         : 'Limited / Out-of-scope evidence'}
                     </span>
-                    <span className="text-[#A5D8FF]/85">{turn.response.engine_mode}</span>
+                    <span className="text-[#A5D8FF]/85">
+                      {turn.response.engine_mode}
+                      {turn.response.model_used ? ` · ${turn.response.model_used}` : ''}
+                      {turn.response.latency_ms ? ` · ${turn.response.latency_ms} ms` : ''}
+                    </span>
                   </div>
 
                   {turn.response.citations.length > 0 && (

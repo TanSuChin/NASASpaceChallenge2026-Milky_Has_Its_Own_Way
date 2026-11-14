@@ -128,7 +128,9 @@ KNOWLEDGE_CORPUS: List[KnowledgeDoc] = [
             "3 to 22 minutes (up to 44 minutes round-trip) and complete communication blackouts lasting "
             "approximately two weeks during solar conjunction. No medical evacuation or resupply is possible. "
             "Consequently, onboard medical systems must operate offline-first with local medical databases, "
-            "autonomous anomaly detection against personal baselines, local emergency triage protocols, and "
+            "autonomous anomaly detection against personal baselines (avoiding arbitrary thresholds or assuming "
+            "ordinary Earth-based clinical reference ranges automatically represent safe operating limits in "
+            "microgravity or partial gravity), local emergency triage protocols, and "
             "store-and-forward telemetry queues that package, store locally, and synchronize structured "
             "health reports once Deep Space Network link availability is restored."
         ),
@@ -211,7 +213,9 @@ KNOWLEDGE_CORPUS: List[KnowledgeDoc] = [
         provenance="REAL_RESEARCH_REF",
         content=(
             "Under autonomous deep-space medical operations and C-STARS readiness principles, onboard "
-            "decision-support tools classify crew health states into three operational tiers: "
+            "decision-support tools avoid arbitrary fixed cutoffs or assuming ordinary Earth-based clinical reference "
+            "ranges automatically represent safe operating limits in microgravity (0g), and classify crew health "
+            "states against personal baselines into three operational tiers: "
             "NORMAL (parameters within individual baseline tolerance; continue routine countermeasure "
             "schedule), WARNING (persistent deviation from individual baseline, moderate environmental "
             "excursion, or mild-to-moderate symptoms warranting repeat measurement, countermeasure "
@@ -246,6 +250,7 @@ def _tokenize(text: str) -> List[str]:
         "the", "and", "for", "that", "with", "from", "this", "are", "was", "were",
         "have", "has", "had", "not", "but", "can", "into", "their", "they", "which",
         "such", "when", "where", "while", "during", "both", "also", "must", "may",
+        "what", "why", "how", "does", "about", "could", "should", "would", "explain",
     }
     return [w for w in words if len(w) > 2 and w not in stopwords]
 
@@ -268,20 +273,28 @@ class LocalRAGEngine:
     def _build_index(self) -> None:
         raw_chunks: List[Dict[str, Any]] = []
         for doc in self.docs:
-            # Split into meaningful 2-sentence semantic chunks with overlap
-            sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", doc.content) if s.strip()]
+            # Respect section/paragraph boundaries first, then split into 2-sentence windows with overlap
+            paragraphs = [p.strip() for p in re.split(r"\n{2,}", doc.content) if p.strip()]
+            chunk_idx = 0
             step = 2
-            for idx in range(0, len(sentences), step):
-                window = sentences[idx : idx + 3]
-                chunk_text = " ".join(window)
-                raw_chunks.append(
-                    {
-                        "chunk_id": f"{doc.doc_id}-C{idx // step + 1}",
-                        "doc": doc,
-                        "text": chunk_text,
-                        "tokens": _tokenize(f"{doc.title} {doc.hazard_category} {chunk_text}"),
-                    }
-                )
+            for para in paragraphs:
+                sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", para) if s.strip()]
+                if not sentences:
+                    continue
+                for idx in range(0, len(sentences), step):
+                    window = sentences[idx : idx + 3]
+                    chunk_text = " ".join(window)
+                    if idx > 0 and len(window) == 1 and len(chunk_text) < 40 and raw_chunks and raw_chunks[-1]["doc"].doc_id == doc.doc_id:
+                        continue
+                    chunk_idx += 1
+                    raw_chunks.append(
+                        {
+                            "chunk_id": f"{doc.doc_id}-C{chunk_idx}",
+                            "doc": doc,
+                            "text": chunk_text,
+                            "tokens": _tokenize(f"{doc.title} {doc.hazard_category} {chunk_text}"),
+                        }
+                    )
 
         # Compute IDF across chunks
         n_chunks = max(len(raw_chunks), 1)
@@ -295,6 +308,7 @@ class LocalRAGEngine:
             for tok, count in df.items()
         }
 
+        self.chunks = []
         for rc in raw_chunks:
             tokens = rc["tokens"]
             tf: Dict[str, float] = {}
@@ -319,12 +333,12 @@ class LocalRAGEngine:
                 )
             )
 
-    def retrieve(
+    def score_all_chunks(
         self,
         query: str,
         hazard_filter: Optional[str] = None,
-        top_k: int = 4,
     ) -> List[Dict[str, Any]]:
+        """Score every corpus chunk (optionally filtered by hazard) using TF-IDF cosine + acronym overlap."""
         q_tokens = _tokenize(query)
         if not q_tokens:
             q_tokens = ["spaceflight", "astronaut", "health"]
@@ -340,33 +354,38 @@ class LocalRAGEngine:
             if hazard_filter and hazard_filter.lower() != "all":
                 if hazard_filter.lower() not in chunk.hazard_category.lower():
                     continue
-            # Cosine similarity on TF-IDF vectors + domain keyword boost
             dot = sum(val * chunk.tf_vector.get(tok, 0.0) for tok, val in q_vec.items())
-            # Substring/stem overlap bonus for scientific acronyms (SANS, GCR, SPE, ARMAS, CO2, CCISS, etc.)
             overlap_bonus = 0.0
             for qt in q_tokens:
                 for ct in chunk.tokens:
                     if len(qt) >= 4 and (qt.startswith(ct[:4]) or ct.startswith(qt[:4])):
                         overlap_bonus += 0.04
-            score = min(0.99, round(dot + min(overlap_bonus, 0.28), 3))
-            if score > 0.01:
-                scored.append(
-                    {
-                        "chunk_id": chunk.chunk_id,
-                        "doc_id": chunk.doc_id,
-                        "title": chunk.title,
-                        "agency": chunk.agency,
-                        "year": chunk.year,
-                        "url": chunk.url,
-                        "hazard_category": chunk.hazard_category,
-                        "provenance": chunk.provenance,
-                        "excerpt": chunk.text,
-                        "relevance_score": score,
-                    }
-                )
-
+            lexical_score = min(0.99, round(dot + min(overlap_bonus, 0.28), 4))
+            scored.append(
+                {
+                    "chunk_id": chunk.chunk_id,
+                    "doc_id": chunk.doc_id,
+                    "title": chunk.title,
+                    "agency": chunk.agency,
+                    "year": chunk.year,
+                    "url": chunk.url,
+                    "hazard_category": chunk.hazard_category,
+                    "provenance": chunk.provenance,
+                    "excerpt": chunk.text,
+                    "lexical_score": lexical_score,
+                    "relevance_score": lexical_score,
+                }
+            )
         scored.sort(key=lambda x: x["relevance_score"], reverse=True)
-        # Deduplicate by chunk_id and ensure diverse documents when possible
+        return scored
+
+    def retrieve(
+        self,
+        query: str,
+        hazard_filter: Optional[str] = None,
+        top_k: int = 4,
+    ) -> List[Dict[str, Any]]:
+        scored = [item for item in self.score_all_chunks(query, hazard_filter=hazard_filter) if item["relevance_score"] > 0.01]
         seen_chunks = set()
         results: List[Dict[str, Any]] = []
         for item in scored:
@@ -377,50 +396,54 @@ class LocalRAGEngine:
                 break
         return results
 
-    def answer_question(
-        self,
+    @staticmethod
+    def build_insufficient_evidence_response(
         question: str,
-        hazard_filter: Optional[str] = None,
-        astronaut_context: Optional[Dict[str, Any]] = None,
+        citations: List[Dict[str, Any]],
+        engine_mode: str = "LOCAL_RAG_DETERMINISTIC_SAFE",
     ) -> Dict[str, Any]:
-        retrieved = self.retrieve(question, hazard_filter=hazard_filter, top_k=4)
-        sufficient_evidence = len(retrieved) > 0 and retrieved[0]["relevance_score"] >= 0.12
+        return {
+            "query": question,
+            "engine_mode": engine_mode,
+            "sufficient_evidence": False,
+            "answer": (
+                "The onboard NASA/CSA scientific knowledge base does not contain sufficient direct "
+                "evidence matching this specific query. In accordance with mission medical safety "
+                "rules, TARSCARE AI does not speculate, diagnose conditions, or prescribe unverified "
+                "treatments. Please consult the onboard Crew Medical Officer (CMO) checklist or "
+                "queue a store-and-forward inquiry for Earth Flight Surgeons."
+            ),
+            "safety_notice": (
+                "Decision-support output only. Does not constitute a clinical diagnosis or medication prescription."
+            ),
+            "citations": citations,
+        }
 
-        if not sufficient_evidence:
-            return {
-                "query": question,
-                "engine_mode": "LOCAL_RAG_DETERMINISTIC_SAFE",
-                "sufficient_evidence": False,
-                "answer": (
-                    "The onboard NASA/CSA scientific knowledge base does not contain sufficient direct "
-                    "evidence matching this specific query. In accordance with mission medical safety "
-                    "rules, TARSCARE AI does not speculate, diagnose conditions, or prescribe unverified "
-                    "treatments. Please consult the onboard Crew Medical Officer (CMO) checklist or "
-                    "queue a store-and-forward inquiry for Earth Flight Surgeons."
-                ),
-                "safety_notice": (
-                    "Decision-support output only. Does not constitute a clinical diagnosis or medication prescription."
-                ),
-                "citations": retrieved,
-            }
-
-        top_citations = retrieved[:3]
+    @staticmethod
+    def build_deterministic_answer(
+        question: str,
+        citations: List[Dict[str, Any]],
+        astronaut_context: Optional[Dict[str, Any]] = None,
+        engine_mode: str = "LOCAL_RAG_VERIFIED_CORPUS",
+    ) -> Dict[str, Any]:
+        top_citations = citations[:3]
         hazards_mentioned = sorted({c["hazard_category"] for c in top_citations})
 
         context_line = ""
         if astronaut_context:
             phase = astronaut_context.get("mission_phase", "MARS_SURFACE")
             risk = astronaut_context.get("overall_status", "WARNING")
+            sol = astronaut_context.get("mission_day")
+            sol_txt = f" on Sol {sol}" if sol else ""
             context_line = (
-                f"Mission Context: Current environment is {phase} with overall status classified as {risk} "
+                f"Mission Context: Current environment is {phase}{sol_txt} with overall status classified as {risk} "
                 f"(prototype baseline-comparison rule). "
             )
 
-        synthesized_points = []
-        for idx, cit in enumerate(top_citations, start=1):
-            synthesized_points.append(
-                f"[{cit['doc_id']}] ({cit['agency']}, {cit['year']}): {cit['excerpt']}"
-            )
+        synthesized_points = [
+            f"[{cit['doc_id']}] ({cit['agency']}, {cit['year']}): {cit['excerpt']}"
+            for cit in top_citations
+        ]
 
         answer = (
             f"{context_line}Based on onboard {', '.join(hazards_mentioned)} research literature:\n\n"
@@ -434,7 +457,7 @@ class LocalRAGEngine:
 
         return {
             "query": question,
-            "engine_mode": "LOCAL_RAG_VERIFIED_CORPUS",
+            "engine_mode": engine_mode,
             "sufficient_evidence": True,
             "answer": answer,
             "safety_notice": (
@@ -443,6 +466,20 @@ class LocalRAGEngine:
             ),
             "citations": top_citations,
         }
+
+    def answer_question(
+        self,
+        question: str,
+        hazard_filter: Optional[str] = None,
+        astronaut_context: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        retrieved = self.retrieve(question, hazard_filter=hazard_filter, top_k=4)
+        sufficient_evidence = len(retrieved) > 0 and retrieved[0]["relevance_score"] >= 0.12
+
+        if not sufficient_evidence:
+            return self.build_insufficient_evidence_response(question, retrieved)
+
+        return self.build_deterministic_answer(question, retrieved, astronaut_context=astronaut_context)
 
 
 rag_engine = LocalRAGEngine()

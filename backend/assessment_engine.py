@@ -271,8 +271,8 @@ def evaluate_integrated_health(
             "citation": "NASA-HRP-ISO-01",
         })
     elif (
-        sleep_hrs < 6.2
-        or avg_recent_sleep < 6.4
+        (baseline.baseline_sleep_hrs - sleep_hrs) >= 1.2
+        or (baseline.baseline_sleep_hrs - avg_recent_sleep) >= 1.0
         or stress >= baseline.baseline_stress_score + 2.2
         or mood <= baseline.baseline_mood_score - 1.8
         or fatigue >= 6.5
@@ -519,8 +519,8 @@ def evaluate_integrated_health(
         or humidity > env_limits.humidity_max_pct
         or cabin_temp < env_limits.cabin_temp_min_c
         or cabin_temp > env_limits.cabin_temp_max_c
-        or body_temp >= 37.4
-        or spo2 < 96.0
+        or (body_temp - baseline.baseline_temp_c) >= 0.8
+        or (baseline.baseline_spo2_pct - spo2) >= 2.5
         or len(resp_sym) > 0
         or len(inf_sym) > 0
     ):
@@ -727,6 +727,7 @@ def evaluate_integrated_health(
         astronaut_context={
             "mission_phase": phase,
             "overall_status": overall_status.value,
+            "allow_llm": False,
         },
     )
 
@@ -741,8 +742,10 @@ def evaluate_integrated_health(
         "gravity_g": grav_g,
         "provenance": latest.get("provenance", "SYNTHETIC_DEMO"),
         "rule_disclaimer": (
-            "All threshold classifications represent research-informed, mission-configured prototype rules "
-            "comparing current telemetry against individual astronaut baselines. Not clinically validated for medical diagnosis."
+            "Assessments compare longitudinal telemetry against the astronaut's individual pre-flight and early-transit baseline "
+            "combined with mission-configured prototype guardrails. Avoid arbitrary thresholds or assuming that ordinary Earth-based "
+            "clinical reference ranges automatically represent safe operating limits for astronauts in microgravity or partial gravity. "
+            "Not clinically validated for medical diagnosis."
         ),
         "hazard_statuses": hazard_statuses,
         "baseline_comparisons": baseline_comparisons,

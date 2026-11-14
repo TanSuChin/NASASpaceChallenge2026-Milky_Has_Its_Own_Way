@@ -1,4 +1,4 @@
-import { DataProvenance, RiskLevel } from '../types';
+import { DataProvenance, FullSystemState, LocalAIStatus, RiskLevel } from '../types';
 
 export function statusMeta(status: RiskLevel | string | undefined): {
   label: string;
@@ -66,5 +66,43 @@ export async function apiRequest<T>(path: string, options?: RequestInit): Promis
     throw new Error(msg || `Request failed: ${res.status}`);
   }
   return res.json() as Promise<T>;
+}
+
+export interface AIWarmupResponse {
+  ok: boolean;
+  model: string | null;
+  latency_ms: number;
+  message: string;
+  status: LocalAIStatus;
+}
+
+export async function updateLocalAIConfig(
+  payload: { llm_enabled?: boolean; selected_model?: string | null },
+  onStateUpdated?: (state: FullSystemState) => void,
+): Promise<LocalAIStatus> {
+  const status = await apiRequest<LocalAIStatus>('/api/ai/config', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  if (onStateUpdated) {
+    const fresh = await apiRequest<FullSystemState>('/api/state');
+    onStateUpdated(fresh);
+  }
+  return status;
+}
+
+export async function warmupLocalAI(
+  model?: string | null,
+  onStateUpdated?: (state: FullSystemState) => void,
+): Promise<AIWarmupResponse> {
+  const res = await apiRequest<AIWarmupResponse>('/api/ai/warmup', {
+    method: 'POST',
+    body: JSON.stringify({ model: model || null }),
+  });
+  if (onStateUpdated) {
+    const fresh = await apiRequest<FullSystemState>('/api/state');
+    onStateUpdated(fresh);
+  }
+  return res;
 }
 

@@ -516,11 +516,25 @@ def trigger_emergency_escalation(payload: EmergencyEscalationInput) -> Dict[str,
 @app.post("/api/rag/query")
 def query_rag_knowledge_base(payload: RAGQueryInput) -> Dict[str, Any]:
     state = _build_full_state()
-    ctx = None
+    ctx: Optional[Dict[str, Any]] = None
     if payload.include_astronaut_context:
+        latest = state["latest_telemetry"]
+        findings = state["assessment"].get("findings") or []
         ctx = {
-            "mission_phase": state["latest_telemetry"]["mission_phase"],
+            "astronaut_name": state["astronaut"].get("name", "SuChai"),
+            "mission_day": latest["mission_day"],
+            "mission_phase": latest["mission_phase"],
+            "gravity_g": latest["gravity_g"],
             "overall_status": state["assessment"]["overall_status"],
+            "provenance": latest.get("provenance", "SYNTHETIC_DEMO"),
+            "latest_telemetry": latest,
+            "baseline": state["astronaut"],
+            "active_alerts": [
+                f"{f.get('title')} ({f.get('severity')}): {f.get('detail')}"
+                for f in findings[:5]
+            ],
+            "history": [{"role": m.role, "content": m.content} for m in payload.history[-6:]],
+            "allow_llm": True,
         }
     return rag_engine.answer_question(
         question=payload.question,

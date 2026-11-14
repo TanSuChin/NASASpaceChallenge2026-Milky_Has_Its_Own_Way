@@ -262,7 +262,11 @@ return (
       )}
 
       {activeTab === 'assistant' && (
-        <AIHealthAssistantView state={state} initialPrompt={assistantSeedPrompt} />
+        <AIHealthAssistantView
+          state={state}
+          initialPrompt={assistantSeedPrompt}
+          onStateUpdated={setState}
+        />
       )}
 
       {activeTab === 'history' && (

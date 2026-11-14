@@ -192,8 +192,14 @@ class EmergencyEscalationInput(BaseModel):
     mission_phase: MissionPhase = MissionPhase.MARS_SURFACE
 
 
+class RAGChatMessage(BaseModel):
+    role: str
+    content: str
+
+
 class RAGQueryInput(BaseModel):
     question: str
     hazard_filter: Optional[str] = None
     include_astronaut_context: bool = True
+    history: List[RAGChatMessage] = Field(default_factory=list)
 

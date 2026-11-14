@@ -99,7 +99,7 @@ export const InteractiveHumanBody: React.FC<InteractiveHumanBodyProps> = ({
         </div>
 
         <p className="text-xs text-[#E5E5E4]/70 leading-snug">
-          Measurements compare current state against your pre-flight personal baseline.
+          Measurements track drift against your personal baseline — avoiding arbitrary thresholds or assuming Earth-based clinical reference ranges automatically represent safe limits in microgravity.
         </p>
       </div>
 
@@ -242,8 +242,8 @@ export const InteractiveHumanBody: React.FC<InteractiveHumanBodyProps> = ({
                       boxShadow: isSel ? '0 0 14px rgba(165, 216, 255, 0.55)' : undefined,
                     }}
                     className={`relative w-5 h-5 rounded-full border text-[11px] font-bold tabular-data flex items-center justify-center transition-all duration-150 ${isSel
-                        ? 'bg-[#EEF0F6] text-[#040404] scale-110'
-                        : 'bg-[#0B0D1A]/90 text-[#FAF9FA] group-hover:scale-110 group-hover:border-[#A5D8FF]'
+                      ? 'bg-[#EEF0F6] text-[#040404] scale-110'
+                      : 'bg-[#0B0D1A]/90 text-[#FAF9FA] group-hover:scale-110 group-hover:border-[#A5D8FF]'
                       }`}
                   >
                     {pos.num}

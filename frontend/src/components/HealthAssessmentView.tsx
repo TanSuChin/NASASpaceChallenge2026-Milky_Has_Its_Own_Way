@@ -531,6 +531,13 @@ export const HealthAssessmentView: React.FC<HealthAssessmentViewProps> = ({
             </div>
           </div>
         )}
+
+        {assessment.rule_disclaimer && (
+          <div className="rounded-xl bg-[#0B0D1A] border border-[#A5D8FF]/15 px-4 py-3 text-xs text-[#E5E5E4]/80 leading-relaxed">
+            <span className="font-semibold text-[#A5D8FF]">Spaceflight Baseline Note: </span>
+            {assessment.rule_disclaimer}
+          </div>
+        )}
       </section>
 
       {/* Four-Tier Evidence-Based Health Guidance */}

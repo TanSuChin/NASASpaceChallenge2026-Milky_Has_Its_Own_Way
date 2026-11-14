@@ -19,9 +19,9 @@ flowchart TD
     end
 
     subgraph Backend["TARSCARE AI Autonomous Backend (Python + FastAPI + Pydantic)"]
-        API["REST API (/api/state, /api/assessment/evaluate, /api/rag/query, /api/comm/mode, /api/reports/generate)"]
+        API["REST API (/api/state, /api/assessment/evaluate, /api/rag/query, /api/ai/status, /api/ai/config, /api/ai/warmup, /api/comm/mode, /api/reports/generate)"]
         ENG["Integrated 5-Hazard Assessment Engine & Companion Enhancer"]
-        RAG["Offline RAG Engine (TF-IDF + BM25 + Optional Cached Sentence-Transformers / Local Ollama)"]
+        RAG["Full-Corpus Hybrid RAG Engine (BM25/TF-IDF + Cached Sentence-Transformers + Local Ollama /api/chat + Safety Verifier)"]
         SF["Simulated Store-and-Forward Earth Sync Queue"]
         EMG["Zero-Latency Onboard Emergency Escalation Checklist"]
     end
@@ -56,7 +56,10 @@ pip install -r requirements.txt
 python -m uvicorn main:app --host 127.0.0.1 --port 8000
 ```
 On startup, `backend/database.py` initializes `backend/tarscare_local.db` with 30 Sols of realistic synthetic Mars mission telemetry (`Sol 155–184`) and indexes 15 pre-bundled NASA/CSA research documents.
-- **Offline Semantic RAG & Optional Local Ollama:** `backend/local_ai_rag.py` auto-detects locally cached HuggingFace `all-MiniLM-L6-v2` weights (`HF_HUB_OFFLINE=1` — zero network requests, background warmup) and probes `127.0.0.1:11434` for Ollama, falling back seamlessly to deterministic TF-IDF + BM25 synthesis whenever either is unavailable.
+- **Offline Semantic RAG & Local Ollama LLM (`127.0.0.1:11434`):**
+  - Install [Ollama](https://ollama.com) locally and pull an offline chat model (for example `ollama pull qwen2.5:3b` or `ollama pull llama3.2:3b`), plus optional embedding model `ollama pull nomic-embed-text`.
+  - `backend/local_ai_rag.py` probes `http://127.0.0.1:11434/api/tags` (filtering out embedding-only models), runs full-corpus hybrid retrieval blending TF-IDF lexical relevance with locally cached `all-MiniLM-L6-v2` embeddings (`HF_HUB_OFFLINE=1` — zero cloud requests), injects live telemetry and personal baseline comparisons for `SuChai`, synthesizes grounded answers via `/api/chat` (`keep_alive: 15m`), and verifies `[DOC-ID]` citations and medication safety constraints before returning responses.
+  - If Ollama is stopped or toggled off (`POST /api/ai/config`), TARSCARE falls back automatically to deterministic offline RAG (`OFFLINE_SENTENCE_TRANSFORMERS` or `DETERMINISTIC_OFFLINE_RAG`).
 
 ### Step 2: Start the TARSCARE Frontend (`http://127.0.0.1:5173`)
 In a second terminal:
@@ -74,9 +77,9 @@ Open **http://localhost:5173** in your browser. Vite proxies `/api/*` requests t
 1. **Mission Overview** — Opens immediately with a **3-question crew wayfinding triage band** (*How am I doing?*, *What has changed?*, *Should I take any action?*), the centered **Interactive Human Body** (`Head and Brain`, `Eyes`, `Heart`, `Lungs`, `Muscles`, `Bones`, `Whole Body`) with 7-Sol sparklines and baseline comparisons, **Vital Signs vs. Personal Baseline** (`BPM`, `mmHg`, `SpO₂`, `°C`, sleep, mood/stress), **Five Spaceflight Hazard** cards, interactive **7 / 14 / 30-Sol Health Trends**, and **Important Alerts & Actions**.
 2. **Health Assessment** — Dual-method onboarding: **Method 1** manual metric inputs (`Heart Rate`, `BP`, `SpO₂`, `Resp. Rate`, `Temp`, `Sleep`, `Mood`, `Stress`, `Absorbed Dose mGy`, `Equivalent Rate mSv/d`, `Cabin CO₂`) across `1g`, `0g`, and `0.38g`, plus **Method 2** body-system symptom pills and an optional private **Behavioral & Sleep Check-In**. Produces a 5-part structured explanation (`What was detected`, `Contributing measurements`, `Associated factors`, `Relevant hazard`, `Recommended next steps`) and **4-tier Health Guidance** (`Immediate action`, `Preventive action`, `Further assessment`, `Medical escalation`).
 3. **Spaceflight Hazards** — Detailed modules for **Space Radiation**, **Isolation & Confinement**, **Distance from Earth**, **Gravity Fields** (with `1g` / `0g` / `0.38g` explorer), and **Hostile and Closed Environments**. Each follows four consistent steps (*1. What are we monitoring?*, *2. What has changed?*, *3. Why does it matter in space?*, *4. What should I do next?*) plus live configured warning threshold controls.
-4. **AI Health Assistant** — Offline-first companion chatbot backed by `/api/rag/query`, suggested astronaut prompts, real scientific source library drawer (`NASA-HRP-*`, `NASA-RDP-ARMAS-01`, `NASA-RADLAB-01`, `NASA-OSDR-01`, `NASA-LSP-01`, `NASA-EDA-01`, `CSA-TBONE-01`, `CSA-VASCULAR-01`), and automatic medication-prescribing refusal safeguards.
+4. **AI Health Assistant** — Offline-first companion chatbot backed by `/api/rag/query`, live Ollama model selector & `Local LLM` toggle (`/api/ai/config`), model warmup trigger (`/api/ai/warmup`), multi-turn conversation history, suggested astronaut prompts, real scientific source library drawer (`NASA-HRP-*`, `NASA-RDP-ARMAS-01`, `NASA-RADLAB-01`, `NASA-OSDR-01`, `NASA-LSP-01`, `NASA-EDA-01`, `CSA-TBONE-01`, `CSA-VASCULAR-01`), and pre/post-generation medication-prescribing refusal safeguards.
 5. **Health History** — Filter longitudinal logs (`7d` / `14d` / `30d`, `All Data` / `Simulated` / `User-Entered`), inspect historical alert flags, generate queued autonomous health summary reports (`POST /api/reports/generate`), and export Markdown reports locally.
-6. **Communication Status** — Switch between **Connected**, **Delayed (Mars Nominal)**, and **Offline (Blackout)** via `/api/comm/mode`, monitor the simulated Store-and-Forward deep-space telemetry queue, launch the zero-latency Emergency Escalation Checklist, and inspect live Offline Stack diagnostics (`/api/ai/status`).
+6. **Communication Status** — Switch between **Connected**, **Delayed (Mars Nominal)**, and **Offline (Blackout)** via `/api/comm/mode`, monitor the simulated Store-and-Forward deep-space telemetry queue, launch the zero-latency Emergency Escalation Checklist, and configure live Local Ollama + Offline RAG diagnostics (`/api/ai/status`, `/api/ai/config`, `/api/ai/warmup`).
 
 ---
 
