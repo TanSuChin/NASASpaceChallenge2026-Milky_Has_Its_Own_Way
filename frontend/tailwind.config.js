@@ -7,22 +7,27 @@ export default {
   theme: {
     extend: {
       colors: {
-          marscare: {
-            bg: '#0B0D1A',
-            card: '#121522',
-            elevated: '#181C2E',
-            ink: '#FAF9FA',
-            muted: '#E5E5E4',
-            glow: '#A5D8FF',
-            btn: '#EEF0F6',
-            btnInk: '#040404',
-          }
+        tc: {
+          bg: 'var(--tc-bg)',
+          surface: 'var(--tc-surface)',
+          elevated: 'var(--tc-elevated)',
+          border: 'var(--tc-border)',
+          borderStrong: 'var(--tc-border-strong)',
+          text: 'var(--tc-text)',
+          secondary: 'var(--tc-text-secondary)',
+          muted: 'var(--tc-text-muted)',
+          accent: 'var(--tc-accent)',
+          accentSoft: 'var(--tc-accent-soft)',
+          btnBg: 'var(--tc-btn-bg)',
+          btnFg: 'var(--tc-btn-fg)',
         },
-        fontFamily: {
-          sans: ['"Host Grotesk Variable"', '"Host Grotesk"', 'Segoe UI', 'system-ui', 'sans-serif'],
-          mono: ['ui-monospace', 'SFMono-Regular', 'Consolas', 'monospace'],
-        }
+      },
+      fontFamily: {
+        sans: ['"Inter"', '"Roboto"', 'system-ui', '-apple-system', 'sans-serif'],
+        numeric: ['"IBM Plex Sans"', '"Inter"', 'system-ui', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Consolas', 'monospace'],
       },
     },
-    plugins: [],
-  }
+},
+plugins: [],
+};

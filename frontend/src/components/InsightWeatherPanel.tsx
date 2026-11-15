@@ -51,7 +51,7 @@ function syncBadgeClass(status: string): string {
     return 'bg-amber-500/15 text-amber-300 border border-amber-500/30';
   }
   if (s === 'ERROR') return 'bg-red-500/15 text-red-300 border border-red-500/30';
-  return 'bg-[#181C2E] text-[#E5E5E4]/85 border border-white/15';
+  return 'bg-[var(--tc-elevated)] text-[var(--tc-text-secondary)] border border-[var(--tc-border)]';
 }
 
 const CARDINAL_LABELS = [
@@ -67,10 +67,10 @@ const WindRoseSvg: React.FC<{ sol: InsightWeatherSol | undefined }> = ({ sol }) 
 
   if (!sol || bins.length === 0) {
     return (
-      <div className="h-[220px] rounded-xl bg-[#0B0D1A] border border-white/[0.06] flex flex-col items-center justify-center text-center p-4 space-y-1">
-        <Compass className="w-6 h-6 text-[#E5E5E4]/40" />
-        <div className="text-xs font-medium text-[#FAF9FA]">Wind Direction Data Unavailable</div>
-        <p className="text-[11px] text-[#E5E5E4]/65 max-w-[230px]">
+      <div className="h-[220px] rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border)] flex flex-col items-center justify-center text-center p-4 space-y-1">
+        <Compass className="w-6 h-6 text-[var(--tc-text-secondary)]" />
+        <div className="text-xs font-medium text-[var(--tc-text)]">Wind Direction Data Unavailable</div>
+        <p className="text-[11px] text-[var(--tc-text-secondary)] max-w-[230px]">
           No directional WD distribution bins were downlinked for this Sol (InSight sensor/power gap).
         </p>
       </div>
@@ -84,7 +84,7 @@ const WindRoseSvg: React.FC<{ sol: InsightWeatherSol | undefined }> = ({ sol }) 
   const halfStepRad = (11.25 * Math.PI) / 180;
 
   return (
-    <div className="rounded-xl bg-[#0B0D1A] border border-white/[0.06] p-3 flex flex-col items-center">
+    <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-3 flex flex-col items-center">
       <svg
         viewBox="0 0 220 220"
         className="w-full max-w-[220px] h-[200px]"
@@ -153,9 +153,9 @@ const WindRoseSvg: React.FC<{ sol: InsightWeatherSol | undefined }> = ({ sol }) 
           {sol.wd?.most_common?.compass_point || 'WD'}
         </text>
       </svg>
-      <div className="text-[11px] text-[#E5E5E4]/80 mt-1 text-center">
+      <div className="text-[11px] text-[var(--tc-text-secondary)] mt-1 text-center">
         Dominant direction:{' '}
-        <strong className="text-[#A5D8FF]">
+        <strong className="text-[var(--tc-accent)]">
           {sol.wd?.most_common?.compass_point
             ? `${sol.wd.most_common.compass_point} (${sol.wd.most_common.compass_degrees}°)`
             : 'N/A'}
@@ -238,18 +238,18 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
       <section className="mc-card p-5 lg:p-6 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <Wind className="w-5 h-5 text-[#A5D8FF]" />
+            <Wind className="w-5 h-5 text-[var(--tc-accent)]" />
             <div>
-              <h2 className="text-lg font-semibold text-[#FAF9FA]">
+              <h2 className="text-lg font-semibold text-[var(--tc-text)]">
                 NASA InSight Surface Weather (Elysium Planitia)
               </h2>
-              <p className="text-xs text-[#E5E5E4]/75">
+              <p className="text-xs text-[var(--tc-text-secondary)]">
                 Archival Mars surface pressure, wind rose &amp; diurnal temperature cached offline in SQLite
               </p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <span className="px-2.5 py-1 rounded-full text-[11px] bg-[#0B0D1A] border border-white/10 text-[#E5E5E4]">
+            <span className="px-2.5 py-1 rounded-full text-[11px] bg-[var(--tc-bg)] border border-[var(--tc-border)] text-[var(--tc-text-secondary)]">
               {insight?.config?.key_status || 'Key Pending'}
             </span>
             <span
@@ -263,31 +263,31 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-          <div className="rounded-xl bg-[#0B0D1A] p-3">
-            <div className="text-[#E5E5E4]/65">Cached Sols</div>
-            <div className="text-lg font-bold text-[#FAF9FA] tabular-data mt-0.5">
+          <div className="rounded-xl bg-[var(--tc-bg)] p-3">
+            <div className="text-[var(--tc-text-secondary)]">Cached Sols</div>
+            <div className="text-lg font-bold text-[var(--tc-text)] tabular-data mt-0.5">
               {summary?.sol_count ?? 0}
             </div>
           </div>
-          <div className="rounded-xl bg-[#0B0D1A] p-3">
-            <div className="text-[#E5E5E4]/65">Surface Pressure</div>
-            <div className="text-lg font-bold text-[#FAF9FA] tabular-data mt-0.5">
+          <div className="rounded-xl bg-[var(--tc-bg)] p-3">
+            <div className="text-[var(--tc-text-secondary)]">Surface Pressure</div>
+            <div className="text-lg font-bold text-[var(--tc-text)] tabular-data mt-0.5">
               {summary?.latest_pressure_pa !== null && summary?.latest_pressure_pa !== undefined
                 ? `${summary.latest_pressure_pa.toFixed(0)} Pa`
                 : 'N/A'}
             </div>
           </div>
-          <div className="rounded-xl bg-[#0B0D1A] p-3">
-            <div className="text-[#E5E5E4]/65">Mean Surface Temp</div>
-            <div className="text-lg font-bold text-[#FAF9FA] tabular-data mt-0.5">
+          <div className="rounded-xl bg-[var(--tc-bg)] p-3">
+            <div className="text-[var(--tc-text-secondary)]">Mean Surface Temp</div>
+            <div className="text-lg font-bold text-[var(--tc-text)] tabular-data mt-0.5">
               {summary?.latest_temp_av_c !== null && summary?.latest_temp_av_c !== undefined
                 ? `${summary.latest_temp_av_c.toFixed(1)} °C`
                 : 'N/A'}
             </div>
           </div>
-          <div className="rounded-xl bg-[#0B0D1A] p-3">
-            <div className="text-[#E5E5E4]/65">Wind Vector</div>
-            <div className="text-sm font-semibold text-[#A5D8FF] mt-1">
+          <div className="rounded-xl bg-[var(--tc-bg)] p-3">
+            <div className="text-[var(--tc-text-secondary)]">Wind Vector</div>
+            <div className="text-sm font-semibold text-[var(--tc-accent)] mt-1">
               {summary?.latest_wind_av_ms !== null && summary?.latest_wind_av_ms !== undefined
                 ? `${summary.latest_wind_av_ms.toFixed(1)} m/s ${summary.latest_wind_compass || ''}`
                 : 'Paused / Gap'}
@@ -295,7 +295,7 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
           </div>
         </div>
 
-        <p className="text-xs text-[#E5E5E4]/80 leading-relaxed">
+        <p className="text-xs text-[var(--tc-text-secondary)] leading-relaxed">
           {syncMeta?.last_sync_message || 'Ready to synchronize NASA InSight archival telemetry.'}
         </p>
 
@@ -305,7 +305,7 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
           </div>
         )}
         {notice && (
-          <div className="rounded-xl bg-[#0B0D1A] px-3.5 py-2.5 text-xs text-[#A5D8FF] border border-[#A5D8FF]/30">
+          <div className="rounded-xl bg-[var(--tc-bg)] px-3.5 py-2.5 text-xs text-[var(--tc-accent)] border border-[var(--tc-border-strong)]">
             {notice}
           </div>
         )}
@@ -332,7 +332,7 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
               onClick={onOpenEnvironment}
               className="mc-btn-secondary px-4 py-2 text-xs inline-flex items-center gap-1.5"
             >
-              <Globe className="w-3.5 h-3.5 text-[#A5D8FF]" />
+              <Globe className="w-3.5 h-3.5 text-[var(--tc-accent)]" />
               <span>Open Hostile Environments &amp; InSight Console</span>
             </button>
           )}
@@ -350,20 +350,20 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <Wind className="w-5 h-5 text-[#A5D8FF]" />
-            <h2 className="text-lg font-semibold text-[#FAF9FA]">
+            <Wind className="w-5 h-5 text-[var(--tc-accent)]" />
+            <h2 className="text-lg font-semibold text-[var(--tc-text)]">
               NASA InSight: Elysium Planitia Surface Weather Benchmark
             </h2>
           </div>
-          <p className="text-xs text-[#E5E5E4]/80 leading-relaxed max-w-3xl">
+          <p className="text-xs text-[var(--tc-text-secondary)] leading-relaxed max-w-3xl">
             Per-Sol ambient Martian meteorology (AT temperature, PRE barometric pressure, HWS horizontal wind speed,
             and 16-point WD wind rose) cached locally in SQLite from NASA JPL &amp; Cornell InSight telemetry.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <span className="px-3 py-1 rounded-full text-xs bg-[#0B0D1A] border border-white/10 text-[#E5E5E4] inline-flex items-center gap-1.5">
-            <KeyRound className="w-3.5 h-3.5 text-[#A5D8FF]" />
+          <span className="px-3 py-1 rounded-full text-xs bg-[var(--tc-bg)] border border-[var(--tc-border)] text-[var(--tc-text-secondary)] inline-flex items-center gap-1.5">
+            <KeyRound className="w-3.5 h-3.5 text-[var(--tc-accent)]" />
             <span>{insight?.config?.key_status || 'Key Pending'}</span>
           </span>
           <span
@@ -404,20 +404,20 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
         </div>
       )}
       {notice && (
-        <div className="rounded-xl bg-[#0B0D1A] border border-[#A5D8FF]/30 px-4 py-3 text-xs text-[#A5D8FF]">
+        <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border-strong)] px-4 py-3 text-xs text-[var(--tc-accent)]">
           {notice}
         </div>
       )}
 
       {/* Archival Gap & Exterior vs Habitat Distinction Notice */}
-      <div className="rounded-xl bg-[#0B0D1A] border border-white/[0.06] px-4 py-3 text-xs text-[#E5E5E4]/85 leading-relaxed space-y-1">
+      <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border)] px-4 py-3 text-xs text-[var(--tc-text-secondary)] leading-relaxed space-y-1">
         <div>
-          <strong className="text-[#FAF9FA]">NASA JPL Power &amp; Data-Gap Advisory: </strong>
+          <strong className="text-[var(--tc-text)]">NASA JPL Power &amp; Data-Gap Advisory: </strong>
           {summary?.data_archive_notice ||
             'InSight surface telemetry reflects archived operational Sols with expected power-management & sensor gaps.'}
         </div>
         <div>
-          <strong className="text-[#A5D8FF]">Habitat Isolation Boundary: </strong>
+          <strong className="text-[var(--tc-accent)]">Habitat Isolation Boundary: </strong>
           Ambient Martian exterior conditions (~0.75 kPa / -62 °C) benchmark outside EVA thermal &amp; pressure suit deltas and{' '}
           <strong>never modify pressurized habitat ECLSS thresholds</strong> ({state.latest_telemetry.cabin_pressure_kpa} kPa cabin pressure,{' '}
           {state.latest_telemetry.cabin_temp_c} °C interior).
@@ -425,9 +425,9 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
       </div>
 
       {sols.length === 0 ? (
-        <div className="rounded-2xl bg-[#0B0D1A] border border-white/[0.06] p-6 text-center space-y-2">
-          <div className="text-sm font-medium text-[#FAF9FA]">No cached NASA InSight Sols stored locally</div>
-          <p className="text-xs text-[#E5E5E4]/70 max-w-xl mx-auto">
+        <div className="rounded-2xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-6 text-center space-y-2">
+          <div className="text-sm font-medium text-[var(--tc-text)]">No cached NASA InSight Sols stored locally</div>
+          <p className="text-xs text-[var(--tc-text-secondary)] max-w-xl mx-auto">
             Click &ldquo;Sync NASA InSight&rdquo; while Earth link is Connected or Delayed to pull Elysium Planitia per-Sol weather summaries into local SQLite storage.
           </p>
         </div>
@@ -446,8 +446,8 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
                     onClick={() => setSelectedSolId(sol.sol_id)}
                     className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
                       selected
-                        ? 'bg-[#EEF0F6] text-[#0B0D1A] border-[#EEF0F6]'
-                        : 'bg-[#0B0D1A] text-[#E5E5E4] border-white/10 hover:border-[#A5D8FF]/45'
+                        ? 'bg-[var(--tc-btn-bg)] text-[#0B0D1A] border-[#EEF0F6]'
+                        : 'bg-[var(--tc-bg)] text-[var(--tc-text-secondary)] border-[var(--tc-border)] hover:border-[var(--tc-border-strong)]'
                     }`}
                   >
                     <span>Sol {sol.sol_id}</span>
@@ -461,7 +461,7 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
               })}
             </div>
             {syncMeta?.last_sync_at && (
-              <span className="text-[11px] text-[#E5E5E4]/65">
+              <span className="text-[11px] text-[var(--tc-text-secondary)]">
                 Last Sync: {formatRecordedTime(syncMeta.last_sync_at)}
               </span>
             )}
@@ -470,17 +470,17 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
           {/* 4-Card Exterior vs Interior KPIs for Selected Sol */}
           {activeSol && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <div className="rounded-xl bg-[#0B0D1A] border border-white/[0.06] p-4 space-y-1">
-                <div className="text-xs text-[#E5E5E4]/70 flex items-center gap-1.5">
-                  <Thermometer className="w-3.5 h-3.5 text-[#A5D8FF]" />
+              <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-4 space-y-1">
+                <div className="text-xs text-[var(--tc-text-secondary)] flex items-center gap-1.5">
+                  <Thermometer className="w-3.5 h-3.5 text-[var(--tc-accent)]" />
                   <span>Exterior Temp (AT · Sol {activeSol.sol_id})</span>
                 </div>
                 {activeSol.at?.av !== undefined ? (
                   <>
-                    <div className="text-xl font-bold text-[#FAF9FA] tabular-data">
+                    <div className="text-xl font-bold text-[var(--tc-text)] tabular-data">
                       {activeSol.at.av.toFixed(1)} °C
                     </div>
-                    <div className="text-[11px] text-[#E5E5E4]/70 tabular-data">
+                    <div className="text-[11px] text-[var(--tc-text-secondary)] tabular-data">
                       Min {activeSol.at.mn?.toFixed(1) ?? '—'}° · Max {activeSol.at.mx?.toFixed(1) ?? '—'}° · Cabin{' '}
                       {state.latest_telemetry.cabin_temp_c.toFixed(1)} °C
                     </div>
@@ -490,14 +490,14 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
                 )}
               </div>
 
-              <div className="rounded-xl bg-[#0B0D1A] border border-white/[0.06] p-4 space-y-1">
-                <div className="text-xs text-[#E5E5E4]/70">Exterior Pressure (PRE)</div>
+              <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-4 space-y-1">
+                <div className="text-xs text-[var(--tc-text-secondary)]">Exterior Pressure (PRE)</div>
                 {activeSol.pre?.av !== undefined ? (
                   <>
-                    <div className="text-xl font-bold text-[#FAF9FA] tabular-data">
+                    <div className="text-xl font-bold text-[var(--tc-text)] tabular-data">
                       {activeSol.pre.av.toFixed(1)} Pa
                     </div>
-                    <div className="text-[11px] text-[#E5E5E4]/70 tabular-data">
+                    <div className="text-[11px] text-[var(--tc-text-secondary)] tabular-data">
                       {(activeSol.pre.av / 1000).toFixed(3)} kPa vs Cabin {state.latest_telemetry.cabin_pressure_kpa} kPa
                     </div>
                   </>
@@ -506,14 +506,14 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
                 )}
               </div>
 
-              <div className="rounded-xl bg-[#0B0D1A] border border-white/[0.06] p-4 space-y-1">
-                <div className="text-xs text-[#E5E5E4]/70">Horizontal Wind (HWS)</div>
+              <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-4 space-y-1">
+                <div className="text-xs text-[var(--tc-text-secondary)]">Horizontal Wind (HWS)</div>
                 {activeSol.hws?.av !== undefined ? (
                   <>
-                    <div className="text-xl font-bold text-[#FAF9FA] tabular-data">
+                    <div className="text-xl font-bold text-[var(--tc-text)] tabular-data">
                       {activeSol.hws.av.toFixed(2)} m/s
                     </div>
-                    <div className="text-[11px] text-[#E5E5E4]/70 tabular-data">
+                    <div className="text-[11px] text-[var(--tc-text-secondary)] tabular-data">
                       Min {activeSol.hws.mn?.toFixed(1) ?? '—'} · Max {activeSol.hws.mx?.toFixed(1) ?? '—'} m/s
                     </div>
                   </>
@@ -522,12 +522,12 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
                 )}
               </div>
 
-              <div className="rounded-xl bg-[#0B0D1A] border border-white/[0.06] p-4 space-y-1">
-                <div className="text-xs text-[#E5E5E4]/70">Season &amp; Recording Window</div>
-                <div className="text-base font-bold text-[#A5D8FF] capitalize">
+              <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-4 space-y-1">
+                <div className="text-xs text-[var(--tc-text-secondary)]">Season &amp; Recording Window</div>
+                <div className="text-base font-bold text-[var(--tc-accent)] capitalize">
                   {activeSol.season || 'Unspecified'} (M{activeSol.month_ordinal ?? '—'})
                 </div>
-                <div className="text-[11px] text-[#E5E5E4]/70 truncate" title={`${activeSol.first_utc} -> ${activeSol.last_utc}`}>
+                <div className="text-[11px] text-[var(--tc-text-secondary)] truncate" title={`${activeSol.first_utc} -> ${activeSol.last_utc}`}>
                   N: {activeSol.northern_season || '—'} · {activeSol.first_utc ? activeSol.first_utc.slice(0, 10) : '—'}
                 </div>
               </div>
@@ -536,12 +536,12 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
 
           {/* Chart + Wind Rose */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-            <div className="lg:col-span-7 rounded-2xl bg-[#0B0D1A] border border-white/[0.06] p-4 space-y-2">
+            <div className="lg:col-span-7 rounded-2xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-4 space-y-2">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-xs font-semibold text-[#A5D8FF]">
+                <span className="text-xs font-semibold text-[var(--tc-accent)]">
                   Diurnal Martian Temperature Envelope Across Cached Sols (°C)
                 </span>
-                <span className="text-[11px] text-[#E5E5E4]/65">Elysium Planitia</span>
+                <span className="text-[11px] text-[var(--tc-text-secondary)]">Elysium Planitia</span>
               </div>
               <div className="h-[220px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
@@ -599,7 +599,7 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
             </div>
 
             <div className="lg:col-span-5 space-y-2">
-              <div className="text-xs font-semibold text-[#A5D8FF]">
+              <div className="text-xs font-semibold text-[var(--tc-accent)]">
                 Wind Rose Distribution (WD · Sol {activeSol?.sol_id || '—'})
               </div>
               <WindRoseSvg sol={activeSol} />
@@ -608,9 +608,9 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
 
           {/* Per-Sol Validity Checks Row */}
           {activeSol && (
-            <div className="rounded-xl bg-[#0B0D1A] border border-white/[0.06] px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#E5E5E4]/80">
+            <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border)] px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-[var(--tc-text-secondary)]">
               <span>
-                <strong className="text-[#FAF9FA]">Sol {activeSol.sol_id} Sensor Validity:</strong>{' '}
+                <strong className="text-[var(--tc-text)]">Sol {activeSol.sol_id} Sensor Validity:</strong>{' '}
                 {activeSol.missing_sensors.length > 0
                   ? `Missing sensors flagged: ${activeSol.missing_sensors.join(', ')}`
                   : 'All 4 meteorology sensors (AT, HWS, PRE, WD) reported'}
@@ -629,7 +629,7 @@ export const InsightWeatherPanel: React.FC<InsightWeatherPanelProps> = ({
                             ? v.valid
                               ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
                               : 'bg-amber-500/15 text-amber-300 border-amber-500/30'
-                            : 'bg-[#121522] text-[#E5E5E4]/80 border-white/10'
+                            : 'bg-[var(--tc-surface)] text-[var(--tc-text-secondary)] border-[var(--tc-border)]'
                       }`}
                     >
                       {sensor}: {!present ? 'Gap' : v ? `${v.valid ? 'Valid' : 'Partial'} (${v.hours_count}h)` : 'Reported'}

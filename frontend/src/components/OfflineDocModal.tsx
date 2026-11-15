@@ -35,13 +35,13 @@ export const OfflineDocModal: React.FC<OfflineDocModalProps> = ({
       aria-modal="true"
       aria-labelledby="offline-doc-title"
     >
-      <div className="max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-[#E5E5E4]/15 bg-[#121522] shadow-2xl">
-        <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-[#E5E5E4]/10 bg-[#121522] px-6 py-4">
+      <div className="max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-[var(--tc-border)] bg-[var(--tc-surface)] shadow-2xl">
+        <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-[var(--tc-border)] bg-[var(--tc-surface)] px-6 py-4">
           <div className="flex items-start gap-3">
-            <BookOpen className="mt-1 h-5 w-5 shrink-0 text-[#A5D8FF]" />
+            <BookOpen className="mt-1 h-5 w-5 shrink-0 text-[var(--tc-accent)]" />
             <div>
               <div className="flex flex-wrap items-center gap-2 text-xs text-[#94A3B8]">
-                <span className="font-mono font-semibold text-[#A5D8FF]">{doc.doc_id}</span>
+                <span className="font-mono font-semibold text-[var(--tc-accent)]">{doc.doc_id}</span>
                 <span>·</span>
                 <span>{doc.agency} ({doc.year})</span>
                 <span
@@ -63,7 +63,7 @@ export const OfflineDocModal: React.FC<OfflineDocModalProps> = ({
             type="button"
             onClick={onClose}
             aria-label="Close document viewer"
-            className="rounded-lg border border-[#E5E5E4]/15 p-1.5 text-[#94A3B8] hover:text-[#EEF0F6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A5D8FF]"
+            className="rounded-lg border border-[var(--tc-border)] p-1.5 text-[#94A3B8] hover:text-[#EEF0F6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A5D8FF]"
           >
             <X className="h-4 w-4" />
           </button>
@@ -76,15 +76,15 @@ export const OfflineDocModal: React.FC<OfflineDocModalProps> = ({
           </div>
 
           {highlightedExcerpt && (
-            <div className="rounded-xl border border-[#A5D8FF]/30 bg-[#A5D8FF]/10 p-3.5 text-sm leading-relaxed text-[#EEF0F6]">
-              <div className="mb-1 text-xs font-semibold uppercase tracking-wider text-[#A5D8FF]">
+            <div className="rounded-xl border border-[var(--tc-border-strong)] bg-[var(--tc-accent-soft)] p-3.5 text-sm leading-relaxed text-[#EEF0F6]">
+              <div className="mb-1 text-xs font-semibold uppercase tracking-wider text-[var(--tc-accent)]">
                 Matched Passage Excerpt
               </div>
               {highlightedExcerpt}
             </div>
           )}
 
-          <div className="space-y-3 rounded-xl border border-[#E5E5E4]/10 bg-[#0B0D1A] p-4">
+          <div className="space-y-3 rounded-xl border border-[var(--tc-border)] bg-[var(--tc-bg)] p-4">
             <div className="text-xs font-medium uppercase tracking-wider text-[#94A3B8]">
               Full Locally Cached Content · Hazard: {doc.hazard_category}
             </div>
@@ -95,13 +95,13 @@ export const OfflineDocModal: React.FC<OfflineDocModalProps> = ({
             ))}
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#E5E5E4]/10 pt-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--tc-border)] pt-3">
             {isExternalHttp ? (
               <a
                 href={doc.url}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs text-[#94A3B8] hover:text-[#A5D8FF]"
+                className="inline-flex items-center gap-1.5 text-xs text-[#94A3B8] hover:text-[var(--tc-accent)]"
                 title="External URL requires Earth internet access and is unavailable during conjunction blackouts"
               >
                 <ExternalLink className="h-3.5 w-3.5" />

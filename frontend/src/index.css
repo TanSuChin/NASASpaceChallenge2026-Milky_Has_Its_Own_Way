@@ -2,84 +2,239 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --mc-bg: #0B0D1A;
-  --mc-card: #121522;
-  --mc-card-elevated: #181C2E;
-  --mc-ink: #FAF9FA;
-  --mc-secondary: #E5E5E4;
-  --mc-glow: #A5D8FF;
-  --mc-btn: #EEF0F6;
-  --mc-btn-ink: #040404;
-  color-scheme: dark;
-}
 
-html,
-body {
-  background-color: var(--mc-bg);
-  color: var(--mc-ink);
-  font-family: 'Host Grotesk Variable', 'Host Grotesk', 'Segoe UI', system-ui, sans-serif;
-  caret-color: var(--mc-glow);
-  text-underline-offset: 0.22em;
-}
+  /* NASA Orbital Calm Design Tokens — Dark Mode (Default Cabin Operational Environment) */
+  :root,
+  [data-theme='dark'] {
+    --tc-bg: #0B1120;
+    --tc-surface: #111827;
+    --tc-elevated: #172033;
+    --tc-border: #1E293B;
+    --tc-border-strong: #334155;
+    --tc-text: #F8FAFC;
+    --tc-text-secondary: #CBD5E1;
+    --tc-text-muted: #94A3B8;
+    --tc-accent: #38BDF8;
+    --tc-accent-soft: rgba(56, 189, 248, 0.12);
+    --tc-btn-bg: #F8FAFC;
+    --tc-btn-fg: #0B1120;
+    --tc-btn-hover: #E2E8F0;
 
-::selection {
-  background-color: rgba(165, 216, 255, 0.28);
-  color: #FAF9FA;
-}
+    --tc-ok-bg: rgba(34, 197, 94, 0.12);
+    --tc-ok-fg: #86EFAC;
+    --tc-ok-border: rgba(34, 197, 94, 0.28);
+    --tc-ok-solid: #22C55E;
 
-:focus-visible {
-  outline: 2px solid var(--mc-glow);
-  outline-offset: 2px;
-}
+    --tc-warn-bg: rgba(245, 158, 11, 0.13);
+    --tc-warn-fg: #FDE68A;
+    --tc-warn-border: rgba(245, 158, 11, 0.32);
+    --tc-warn-solid: #F59E0B;
 
-.tabular-data {
-  font-variant-numeric: tabular-nums;
-}
+    --tc-crit-bg: rgba(239, 68, 68, 0.14);
+    --tc-crit-fg: #FCA5A5;
+    --tc-crit-border: rgba(239, 68, 68, 0.36);
+    --tc-crit-solid: #EF4444;
 
+    --tc-info-bg: rgba(56, 189, 248, 0.12);
+    --tc-info-fg: #7DD3FC;
+    --tc-info-border: rgba(56, 189, 248, 0.28);
+    --tc-info-solid: #38BDF8;
 
-  .mc-card {
-    background-color: var(--mc-card);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+    --tc-chart-grid: rgba(148, 163, 184, 0.12);
+    --tc-chart-axis: #94A3B8;
+    --tc-chart-tooltip-bg: #172033;
+    --tc-chart-tooltip-border: #334155;
+    --tc-horizon-track: #172033;
+    --tc-horizon-band: rgba(100, 116, 139, 0.42);
+    color-scheme: dark;
   }
 
 
-    .mc-card-glow {
-      background-color: var(--mc-card);
-      border: 1px solid rgba(165, 216, 255, 0.22);
-      border-radius: 16px;
-      box-shadow: 0 12px 36px -14px rgba(165, 216, 255, 0.2);
+  /* NASA Orbital Calm Design Tokens — Light Mode (Daylight / Lab Lighting) */
+  [data-theme='light'] {
+    --tc-bg: #F8FAFC;
+    --tc-surface: #FFFFFF;
+    --tc-elevated: #F1F5F9;
+    --tc-border: #E2E8F0;
+    --tc-border-strong: #CBD5E1;
+    --tc-text: #0F172A;
+    --tc-text-secondary: #334155;
+    --tc-text-muted: #64748B;
+    --tc-accent: #0284C7;
+    --tc-accent-soft: rgba(2, 132, 199, 0.10);
+    --tc-btn-bg: #0F172A;
+    --tc-btn-fg: #F8FAFC;
+    --tc-btn-hover: #1E293B;
+
+      --tc-ok-bg: #ECFDF5;
+      --tc-ok-fg: #065F46;
+      --tc-ok-border: #A7F3D0;
+      --tc-ok-solid: #16A34A;
+
+      --tc-warn-bg: #FFFBEB;
+      --tc-warn-fg: #92400E;
+      --tc-warn-border: #FDE68A;
+      --tc-warn-solid: #D97706;
+
+      --tc-crit-bg: #FEF2F2;
+      --tc-crit-fg: #991B1B;
+      --tc-crit-border: #FECACA;
+      --tc-crit-solid: #DC2626;
+
+      --tc-info-bg: #F0F9FF;
+      --tc-info-fg: #075985;
+      --tc-info-border: #BAE6FD;
+      --tc-info-solid: #0284C7;
+
+      --tc-chart-grid: rgba(100, 116, 139, 0.14);
+      --tc-chart-axis: #64748B;
+      --tc-chart-tooltip-bg: #FFFFFF;
+      --tc-chart-tooltip-border: #CBD5E1;
+      --tc-horizon-track: #E2E8F0;
+      --tc-horizon-band: rgba(100, 116, 139, 0.28);
+      color-scheme: light;
     }
 
 
-      .mc-btn-primary {
-        background-color: var(--mc-btn);
-        color: var(--mc-btn-ink);
-        border-radius: 9999px;
+      @layer base {
+
+        html,
+        body {
+          background-color: var(--tc-bg);
+          color: var(--tc-text);
+          font-family: 'IBM Plex Sans', 'Inter', 'Roboto', system-ui, -apple-system, sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          transition: background-color 180ms ease, color 180ms ease;
+        }
+
+        p {
+          text-wrap: pretty;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+          outline: 2px solid var(--tc-accent);
+          outline-offset: 2px;
+        }
+      }
+
+      .tabular-data {
+        font-family: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* Calm surface containers without heavy shadows or chrome */
+      .tc-panel {
+        background-color: var(--tc-surface);
+        border: 1px solid var(--tc-border);
+        border-radius: 12px;
+        transition: background-color 180ms ease, border-color 180ms ease;
+      }
+
+
+      .tc-panel-elevated {
+        background-color: var(--tc-elevated);
+        border: 1px solid var(--tc-border);
+        border-radius: 10px;
+      }
+
+      .tc-btn-primary {
+        background-color: var(--tc-btn-bg);
+        color: var(--tc-btn-fg);
+        border-radius: 10px;
         font-weight: 600;
-        transition: transform 160ms ease, opacity 160ms ease, box-shadow 160ms ease;
+        transition: background-color 160ms ease, opacity 160ms ease;
       }
 
-      .mc-btn-primary:hover {
-        opacity: 0.94;
-        box-shadow: 0 0 22px rgba(165, 216, 255, 0.22);
+      .tc-btn-primary:hover:not(:disabled) {
+        background-color: var(--tc-btn-hover);
       }
 
-      .mc-btn-primary:active {
-        transform: scale(0.985);
+      .tc-btn-primary:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      .tc-btn-secondary {
+        background-color: var(--tc-elevated);
+        color: var(--tc-text);
+        border: 1px solid var(--tc-border-strong);
+        border-radius: 10px;
+        font-weight: 500;
+        transition: background-color 160ms ease, border-color 160ms ease;
+      }
+
+      .tc-btn-secondary:hover:not(:disabled) {
+        border-color: var(--tc-accent);
+      }
+
+      .tc-btn-secondary:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      .tc-input {
+        background-color: var(--tc-bg);
+        color: var(--tc-text);
+        border: 1px solid var(--tc-border-strong);
+        border-radius: 8px;
+        transition: border-color 150ms ease, background-color 150ms ease;
+      }
+
+      .tc-input:focus {
+        border-color: var(--tc-accent);
+      }
+
+      /* EVA High-Contrast Accessibility Override */
+      .eva-high-contrast {
+        filter: contrast(1.12);
+      }
+
+      /* Compatibility classes for embedded diagnostic & calibration subpanels */
+      .mc-card {
+        background-color: var(--tc-surface);
+        border: 1px solid var(--tc-border);
+        border-radius: 12px;
+      }
+
+      .mc-btn-primary {
+        background-color: var(--tc-btn-bg);
+        color: var(--tc-btn-fg);
+        border-radius: 10px;
+        font-weight: 600;
       }
 
       .mc-btn-secondary {
-        background-color: #181C2E;
-        color: #FAF9FA;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 9999px;
+        background-color: var(--tc-elevated);
+        color: var(--tc-text);
+        border: 1px solid var(--tc-border-strong);
+        border-radius: 10px;
         font-weight: 500;
-        transition: border-color 160ms ease, background-color 160ms ease;
       }
 
-      .mc-btn-secondary:hover {
-        border-color: rgba(165, 216, 255, 0.45);
-        background-color: #1E243B;
+      .mc-pill {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 9999px;
+        padding: 2px 10px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      ::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--tc-bg);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--tc-border-strong);
+        border-radius: 999px;
       }

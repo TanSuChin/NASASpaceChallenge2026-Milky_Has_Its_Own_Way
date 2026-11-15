@@ -46,7 +46,7 @@ function severityBadgeClass(sev: string): string {
   if (s === 'WARNING') {
     return 'bg-amber-500/15 text-amber-300 border border-amber-500/35';
   }
-  return 'bg-[#181C2E] text-[#A5D8FF] border border-[#A5D8FF]/30';
+  return 'bg-[var(--tc-elevated)] text-[var(--tc-accent)] border border-[var(--tc-border-strong)]';
 }
 
 function syncStatusBadgeClass(status: string): string {
@@ -54,7 +54,7 @@ function syncStatusBadgeClass(status: string): string {
   if (s === 'SYNCED') return 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30';
   if (s === 'PARTIAL' || s === 'BLOCKED_OFFLINE') return 'bg-amber-500/15 text-amber-300 border border-amber-500/30';
   if (s === 'ERROR') return 'bg-red-500/15 text-red-300 border border-red-500/30';
-  return 'bg-[#181C2E] text-[#E5E5E4]/85 border border-white/15';
+  return 'bg-[var(--tc-elevated)] text-[var(--tc-text-secondary)] border border-[var(--tc-border)]';
 }
 
 export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
@@ -198,16 +198,16 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
       <section className="mc-card p-5 lg:p-6 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <Satellite className="w-5 h-5 text-[#A5D8FF]" />
+            <Satellite className="w-5 h-5 text-[var(--tc-accent)]" />
             <div>
-              <h2 className="text-lg font-semibold text-[#FAF9FA]">NASA DONKI Space Weather Sync</h2>
-              <p className="text-xs text-[#E5E5E4]/75">
+              <h2 className="text-lg font-semibold text-[var(--tc-text)]">NASA DONKI Space Weather Sync</h2>
+              <p className="text-xs text-[var(--tc-text-secondary)]">
                 11-feed heliospheric &amp; solar storm telemetry with autonomous SQLite offline cache
               </p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <span className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-[#0B0D1A] border border-white/10 text-[#E5E5E4]">
+            <span className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-[var(--tc-bg)] border border-[var(--tc-border)] text-[var(--tc-text-secondary)]">
               {donki?.config?.key_status || 'Key Pending'}
             </span>
             <span
@@ -221,33 +221,33 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-          <div className="rounded-xl bg-[#0B0D1A] p-3">
-            <div className="text-[#E5E5E4]/65">Cached Events</div>
-            <div className="text-lg font-bold text-[#FAF9FA] tabular-data mt-0.5">
+          <div className="rounded-xl bg-[var(--tc-bg)] p-3">
+            <div className="text-[var(--tc-text-secondary)]">Cached Events</div>
+            <div className="text-lg font-bold text-[var(--tc-text)] tabular-data mt-0.5">
               {advisory?.total_cached_events ?? 0}
             </div>
           </div>
-          <div className="rounded-xl bg-[#0B0D1A] p-3">
-            <div className="text-[#E5E5E4]/65">SEP Proton Alerts</div>
-            <div className="text-lg font-bold text-[#FAF9FA] tabular-data mt-0.5">
+          <div className="rounded-xl bg-[var(--tc-bg)] p-3">
+            <div className="text-[var(--tc-text-secondary)]">SEP Proton Alerts</div>
+            <div className="text-lg font-bold text-[var(--tc-text)] tabular-data mt-0.5">
               {advisory?.sep_count ?? 0}
             </div>
           </div>
-          <div className="rounded-xl bg-[#0B0D1A] p-3">
-            <div className="text-[#E5E5E4]/65">Major Flares / Enlil</div>
-            <div className="text-lg font-bold text-[#FAF9FA] tabular-data mt-0.5">
+          <div className="rounded-xl bg-[var(--tc-bg)] p-3">
+            <div className="text-[var(--tc-text-secondary)]">Major Flares / Enlil</div>
+            <div className="text-lg font-bold text-[var(--tc-text)] tabular-data mt-0.5">
               {(advisory?.critical_flare_count ?? 0) + (advisory?.enlil_alert_count ?? 0)}
             </div>
           </div>
-          <div className="rounded-xl bg-[#0B0D1A] p-3">
-            <div className="text-[#E5E5E4]/65">DONKI Polling Mode</div>
-            <div className="text-sm font-semibold text-[#A5D8FF] mt-1">
+          <div className="rounded-xl bg-[var(--tc-bg)] p-3">
+            <div className="text-[var(--tc-text-secondary)]">DONKI Polling Mode</div>
+            <div className="text-sm font-semibold text-[var(--tc-accent)] mt-1">
               {isOffline ? 'Paused (Offline)' : 'Active via Earth Link'}
             </div>
           </div>
         </div>
 
-        <p className="text-xs text-[#E5E5E4]/80 leading-relaxed">
+        <p className="text-xs text-[var(--tc-text-secondary)] leading-relaxed">
           {syncMeta?.last_sync_message || 'Ready to synchronize NASA DONKI feeds.'}
         </p>
 
@@ -257,7 +257,7 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
           </div>
         )}
         {notice && (
-          <div className="rounded-xl bg-[#0B0D1A] px-3.5 py-2.5 text-xs text-[#A5D8FF] border border-[#A5D8FF]/30">
+          <div className="rounded-xl bg-[var(--tc-bg)] px-3.5 py-2.5 text-xs text-[var(--tc-accent)] border border-[var(--tc-border-strong)]">
             {notice}
           </div>
         )}
@@ -284,7 +284,7 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
               onClick={onOpenSpaceRadiation}
               className="mc-btn-secondary px-4 py-2 text-xs inline-flex items-center gap-1.5"
             >
-              <Globe className="w-3.5 h-3.5 text-[#A5D8FF]" />
+              <Globe className="w-3.5 h-3.5 text-[var(--tc-accent)]" />
               <span>Open DONKI Space Radiation Console</span>
             </button>
           )}
@@ -299,20 +299,20 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <Satellite className="w-5 h-5 text-[#A5D8FF]" />
-            <h2 className="text-lg font-semibold text-[#FAF9FA]">
+            <Satellite className="w-5 h-5 text-[var(--tc-accent)]" />
+            <h2 className="text-lg font-semibold text-[var(--tc-text)]">
               NASA DONKI Space Weather Feeds (11 SWRC Services)
             </h2>
           </div>
-          <p className="text-xs text-[#E5E5E4]/80 leading-relaxed max-w-3xl">
+          <p className="text-xs text-[var(--tc-text-secondary)] leading-relaxed max-w-3xl">
             Live Space Weather Database Of Notifications, Knowledge, Information (GSFC SWRC) cached locally in SQLite so
             solar storms, SEP proton events, CMEs, and WSA+Enlil arrival windows stay inspectable during Earth blackouts.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <span className="px-3 py-1 rounded-full text-xs bg-[#0B0D1A] border border-white/10 text-[#E5E5E4] inline-flex items-center gap-1.5">
-            <KeyRound className="w-3.5 h-3.5 text-[#A5D8FF]" />
+          <span className="px-3 py-1 rounded-full text-xs bg-[var(--tc-bg)] border border-[var(--tc-border)] text-[var(--tc-text-secondary)] inline-flex items-center gap-1.5">
+            <KeyRound className="w-3.5 h-3.5 text-[var(--tc-accent)]" />
             <span>{donki?.config?.key_status || 'Key Status Pending'}</span>
           </span>
           <span
@@ -334,17 +334,17 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
 
       {/* Backend Key & EVA Watch Config */}
       {showConfigDrawer && (
-        <div className="rounded-2xl bg-[#0B0D1A] border border-white/[0.08] p-4 space-y-3">
-          <div className="text-xs font-semibold text-[#A5D8FF]">
+        <div className="rounded-2xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-4 space-y-3">
+          <div className="text-xs font-semibold text-[var(--tc-accent)]">
             Backend NASA_API_KEY &amp; EVA Advisory Settings
           </div>
-          <p className="text-xs text-[#E5E5E4]/75">
-            Active key source: <strong className="text-[#FAF9FA]">{donki?.config?.key_source || 'ENV'}</strong>.
+          <p className="text-xs text-[var(--tc-text-secondary)]">
+            Active key source: <strong className="text-[var(--tc-text)]">{donki?.config?.key_source || 'ENV'}</strong>.
             Keys are stored strictly on the TARS Care backend and never serialized to frontend API payloads.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-end">
             <div>
-              <label htmlFor="donki-api-key-input" className="block text-xs text-[#E5E5E4]/80 mb-1">
+              <label htmlFor="donki-api-key-input" className="block text-xs text-[var(--tc-text-secondary)] mb-1">
                 Override NASA API Key (Backend Only)
               </label>
               <input
@@ -355,12 +355,12 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
                 placeholder="Paste NASA API key to store securely on backend"
                 value={apiKeyInput}
                 onChange={(e) => setApiKeyInput(e.target.value)}
-                className="w-full rounded-xl bg-[#121522] border border-white/15 px-3 py-2 text-xs text-[#FAF9FA] focus:border-[#A5D8FF] focus:outline-none"
+                className="w-full rounded-xl bg-[var(--tc-surface)] border border-[var(--tc-border)] px-3 py-2 text-xs text-[var(--tc-text)] focus:border-[#A5D8FF] focus:outline-none"
               />
             </div>
             <label
               htmlFor="donki-eva-watch-toggle"
-              className="flex items-center gap-2.5 text-xs text-[#FAF9FA] rounded-xl bg-[#121522] border border-white/10 px-3 py-2.5 cursor-pointer"
+              className="flex items-center gap-2.5 text-xs text-[var(--tc-text)] rounded-xl bg-[var(--tc-surface)] border border-[var(--tc-border)] px-3 py-2.5 cursor-pointer"
             >
               <input
                 id="donki-eva-watch-toggle"
@@ -368,7 +368,7 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
                 type="checkbox"
                 checked={autoEvaWatch}
                 onChange={(e) => setAutoEvaWatch(e.target.checked)}
-                className="rounded border-white/25 bg-[#0B0D1A] text-[#A5D8FF]"
+                className="rounded border-[var(--tc-border)] bg-[var(--tc-bg)] text-[var(--tc-accent)]"
               />
               <span>Surface cached SEP / Intense Flare / Enlil alerts in EVA Readiness</span>
             </label>
@@ -412,7 +412,7 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
             <ShieldAlert className="w-4 h-4 shrink-0" />
             <span>Cached DONKI Heliospheric Solar Weather Watch ({advisory.advisories.length})</span>
           </div>
-          <ul className="space-y-1 text-xs text-[#FAF9FA]/90 list-disc pl-5">
+          <ul className="space-y-1 text-xs text-[var(--tc-text)] list-disc pl-5">
             {advisory.advisories.map((line) => (
               <li key={line}>{line}</li>
             ))}
@@ -421,9 +421,9 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
       )}
 
       {/* Query Window & Sync Controls */}
-      <div className="rounded-2xl bg-[#0B0D1A] border border-white/[0.08] p-4 space-y-3">
+      <div className="rounded-2xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-4 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="text-xs font-semibold text-[#A5D8FF]">Query Window &amp; Live Synchronization</span>
+          <span className="text-xs font-semibold text-[var(--tc-accent)]">Query Window &amp; Live Synchronization</span>
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
@@ -437,7 +437,7 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
                   void runSync(s, e, 'ALL');
                 }
               }}
-              className="px-2.5 py-1 rounded-full text-[11px] bg-[#181C2E] text-[#E5E5E4] border border-white/10 hover:border-[#A5D8FF]/50 disabled:opacity-50"
+              className="px-2.5 py-1 rounded-full text-[11px] bg-[var(--tc-elevated)] text-[var(--tc-text-secondary)] border border-[var(--tc-border)] hover:border-[var(--tc-border-strong)] disabled:opacity-50"
             >
               Sync Last 30 Days
             </button>
@@ -451,7 +451,7 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
                   void runSync('2024-05-08', '2024-05-12', 'ALL');
                 }
               }}
-              className="px-2.5 py-1 rounded-full text-[11px] bg-[#181C2E] text-[#A5D8FF] border border-[#A5D8FF]/30 hover:border-[#A5D8FF] inline-flex items-center gap-1 disabled:opacity-50"
+              className="px-2.5 py-1 rounded-full text-[11px] bg-[var(--tc-elevated)] text-[var(--tc-accent)] border border-[var(--tc-border-strong)] hover:border-[#A5D8FF] inline-flex items-center gap-1 disabled:opacity-50"
             >
               <Sparkles className="w-3 h-3" />
               <span>Sync May 2024 Solar Storm Window (2024-05-08..12)</span>
@@ -461,7 +461,7 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
           <div>
-            <label htmlFor="donki-start-date" className="block text-xs text-[#E5E5E4]/80 mb-1">
+            <label htmlFor="donki-start-date" className="block text-xs text-[var(--tc-text-secondary)] mb-1">
               Start Date (UTC)
             </label>
             <input
@@ -470,11 +470,11 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full rounded-xl bg-[#121522] border border-white/15 px-3 py-2 text-xs text-[#FAF9FA] focus:border-[#A5D8FF] focus:outline-none"
+              className="w-full rounded-xl bg-[var(--tc-surface)] border border-[var(--tc-border)] px-3 py-2 text-xs text-[var(--tc-text)] focus:border-[#A5D8FF] focus:outline-none"
             />
           </div>
           <div>
-            <label htmlFor="donki-end-date" className="block text-xs text-[#E5E5E4]/80 mb-1">
+            <label htmlFor="donki-end-date" className="block text-xs text-[var(--tc-text-secondary)] mb-1">
               End Date (UTC)
             </label>
             <input
@@ -483,11 +483,11 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="w-full rounded-xl bg-[#121522] border border-white/15 px-3 py-2 text-xs text-[#FAF9FA] focus:border-[#A5D8FF] focus:outline-none"
+              className="w-full rounded-xl bg-[var(--tc-surface)] border border-[var(--tc-border)] px-3 py-2 text-xs text-[var(--tc-text)] focus:border-[#A5D8FF] focus:outline-none"
             />
           </div>
           <div>
-            <label htmlFor="donki-service-scope" className="block text-xs text-[#E5E5E4]/80 mb-1">
+            <label htmlFor="donki-service-scope" className="block text-xs text-[var(--tc-text-secondary)] mb-1">
               Component Feed Scope
             </label>
             <select
@@ -495,7 +495,7 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
               name="donki_service_scope"
               value={syncScope}
               onChange={(e) => setSyncScope(e.target.value)}
-              className="w-full rounded-xl bg-[#121522] border border-white/15 px-3 py-2 text-xs text-[#FAF9FA] focus:border-[#A5D8FF] focus:outline-none"
+              className="w-full rounded-xl bg-[var(--tc-surface)] border border-[var(--tc-border)] px-3 py-2 text-xs text-[var(--tc-text)] focus:border-[#A5D8FF] focus:outline-none"
             >
               <option value="ALL">All 11 NASA DONKI Feeds</option>
               {services.map((svc) => (
@@ -528,23 +528,23 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
           <button
             type="button"
             onClick={() => setShowAdvancedParams((v) => !v)}
-            className="text-[11px] text-[#A5D8FF] hover:underline"
+            className="text-[11px] text-[var(--tc-accent)] hover:underline"
           >
             {showAdvancedParams
               ? 'Hide CMEAnalysis / IPS / Notification Parameters'
               : 'Configure CMEAnalysis / IPS / Notification Parameters'}
           </button>
           {syncMeta?.last_sync_at && (
-            <span className="text-[11px] text-[#E5E5E4]/65">
+            <span className="text-[11px] text-[var(--tc-text-secondary)]">
               Last Sync: {formatRecordedTime(syncMeta.last_sync_at)}
             </span>
           )}
         </div>
 
         {showAdvancedParams && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 pt-2 border-t border-white/[0.06]">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 pt-2 border-t border-[var(--tc-border)]">
             <div>
-              <label htmlFor="donki-cme-speed" className="block text-[11px] text-[#E5E5E4]/75 mb-1">
+              <label htmlFor="donki-cme-speed" className="block text-[11px] text-[var(--tc-text-secondary)] mb-1">
                 CME Min Speed (km/s)
               </label>
               <input
@@ -553,11 +553,11 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
                 type="number"
                 value={cmeSpeed}
                 onChange={(e) => setCmeSpeed(e.target.value)}
-                className="w-full rounded-lg bg-[#121522] border border-white/15 px-2.5 py-1.5 text-xs text-[#FAF9FA]"
+                className="w-full rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] px-2.5 py-1.5 text-xs text-[var(--tc-text)]"
               />
             </div>
             <div>
-              <label htmlFor="donki-cme-angle" className="block text-[11px] text-[#E5E5E4]/75 mb-1">
+              <label htmlFor="donki-cme-angle" className="block text-[11px] text-[var(--tc-text-secondary)] mb-1">
                 CME Half Angle (°)
               </label>
               <input
@@ -566,11 +566,11 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
                 type="number"
                 value={cmeHalfAngle}
                 onChange={(e) => setCmeHalfAngle(e.target.value)}
-                className="w-full rounded-lg bg-[#121522] border border-white/15 px-2.5 py-1.5 text-xs text-[#FAF9FA]"
+                className="w-full rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] px-2.5 py-1.5 text-xs text-[var(--tc-text)]"
               />
             </div>
             <div>
-              <label htmlFor="donki-catalog" className="block text-[11px] text-[#E5E5E4]/75 mb-1">
+              <label htmlFor="donki-catalog" className="block text-[11px] text-[var(--tc-text-secondary)] mb-1">
                 Catalog
               </label>
               <input
@@ -579,11 +579,11 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
                 type="text"
                 value={catalog}
                 onChange={(e) => setCatalog(e.target.value)}
-                className="w-full rounded-lg bg-[#121522] border border-white/15 px-2.5 py-1.5 text-xs text-[#FAF9FA]"
+                className="w-full rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] px-2.5 py-1.5 text-xs text-[var(--tc-text)]"
               />
             </div>
             <div>
-              <label htmlFor="donki-ips-loc" className="block text-[11px] text-[#E5E5E4]/75 mb-1">
+              <label htmlFor="donki-ips-loc" className="block text-[11px] text-[var(--tc-text-secondary)] mb-1">
                 IPS Location
               </label>
               <input
@@ -592,11 +592,11 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
                 type="text"
                 value={ipsLocation}
                 onChange={(e) => setIpsLocation(e.target.value)}
-                className="w-full rounded-lg bg-[#121522] border border-white/15 px-2.5 py-1.5 text-xs text-[#FAF9FA]"
+                className="w-full rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] px-2.5 py-1.5 text-xs text-[var(--tc-text)]"
               />
             </div>
             <div>
-              <label htmlFor="donki-notif-type" className="block text-[11px] text-[#E5E5E4]/75 mb-1">
+              <label htmlFor="donki-notif-type" className="block text-[11px] text-[var(--tc-text-secondary)] mb-1">
                 Notification Type
               </label>
               <select
@@ -604,7 +604,7 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
                 name="notification_type"
                 value={notificationType}
                 onChange={(e) => setNotificationType(e.target.value)}
-                className="w-full rounded-lg bg-[#121522] border border-white/15 px-2.5 py-1.5 text-xs text-[#FAF9FA]"
+                className="w-full rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] px-2.5 py-1.5 text-xs text-[var(--tc-text)]"
               >
                 <option value="all">all</option>
                 <option value="FLR">FLR</option>
@@ -619,7 +619,7 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
             </div>
             <label
               htmlFor="donki-most-accurate"
-              className="flex items-center gap-2 text-[11px] text-[#FAF9FA] pt-4 cursor-pointer"
+              className="flex items-center gap-2 text-[11px] text-[var(--tc-text)] pt-4 cursor-pointer"
             >
               <input
                 id="donki-most-accurate"
@@ -642,16 +642,16 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
         </div>
       )}
       {notice && (
-        <div className="rounded-xl bg-[#0B0D1A] border border-[#A5D8FF]/30 px-4 py-3 text-xs text-[#A5D8FF]">
+        <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border-strong)] px-4 py-3 text-xs text-[var(--tc-accent)]">
           {notice}
         </div>
       )}
 
       {/* Scientific Boundary Note */}
-      <div className="rounded-xl bg-[#0B0D1A] border border-white/[0.06] px-4 py-3 text-xs text-[#E5E5E4]/80 leading-relaxed">
-        <strong className="text-[#FAF9FA]">Dosimetry &amp; Regime Distinction: </strong>
+      <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border)] px-4 py-3 text-xs text-[var(--tc-text-secondary)] leading-relaxed">
+        <strong className="text-[var(--tc-text)]">Dosimetry &amp; Regime Distinction: </strong>
         NASA DONKI provides external heliospheric solar-weather events and WSA+Enlil arrival forecasts — personal absorbed dose (mGy) and effective dose (mSv) still originate exclusively from onboard dosimeters (EVARM, Radi-N2, CANS). Services tagged{' '}
-        <span className="text-[#A5D8FF]">Earth Magnetosphere</span> (GST, MPC, RBE) apply to Earth orbit/cislunar regimes &amp; ground-link context rather than Mars surface fields.
+        <span className="text-[var(--tc-accent)]">Earth Magnetosphere</span> (GST, MPC, RBE) apply to Earth orbit/cislunar regimes &amp; ground-link context rather than Mars surface fields.
       </div>
 
       {/* All 11 Component Service Pills */}
@@ -661,8 +661,8 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
           onClick={() => setActiveFilter('ALL')}
           className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors border ${
             activeFilter === 'ALL'
-              ? 'bg-[#EEF0F6] text-[#0B0D1A] border-[#EEF0F6]'
-              : 'bg-[#0B0D1A] text-[#E5E5E4] border-white/10 hover:border-[#A5D8FF]/45'
+              ? 'bg-[var(--tc-btn-bg)] text-[#0B0D1A] border-[#EEF0F6]'
+              : 'bg-[var(--tc-bg)] text-[var(--tc-text-secondary)] border-[var(--tc-border)] hover:border-[var(--tc-border-strong)]'
           }`}
         >
           All Cached ({advisory?.total_cached_events ?? allEvents.length})
@@ -680,8 +680,8 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
               onClick={() => setActiveFilter(svc.id)}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors border inline-flex items-center gap-1.5 ${
                 selected
-                  ? 'bg-[#EEF0F6] text-[#0B0D1A] border-[#EEF0F6]'
-                  : 'bg-[#0B0D1A] text-[#E5E5E4] border-white/10 hover:border-[#A5D8FF]/45'
+                  ? 'bg-[var(--tc-btn-bg)] text-[#0B0D1A] border-[#EEF0F6]'
+                  : 'bg-[var(--tc-bg)] text-[var(--tc-text-secondary)] border-[var(--tc-border)] hover:border-[var(--tc-border-strong)]'
               }`}
             >
               {st && (
@@ -692,9 +692,9 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
                 />
               )}
               <span>{svc.id}</span>
-              <span className={selected ? 'text-[#0B0D1A]/75' : 'text-[#A5D8FF]'}>({count})</span>
+              <span className={selected ? 'text-[#0B0D1A]/75' : 'text-[var(--tc-accent)]'}>({count})</span>
               {isEarthOnly && (
-                <span className={`text-[10px] ${selected ? 'text-[#0B0D1A]/70' : 'text-[#E5E5E4]/60'}`}>
+                <span className={`text-[10px] ${selected ? 'text-[#0B0D1A]/70' : 'text-[var(--tc-text-secondary)]'}`}>
                   · Earth
                 </span>
               )}
@@ -705,11 +705,11 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
 
       {/* Cached Events List */}
       {filteredEvents.length === 0 ? (
-        <div className="rounded-2xl bg-[#0B0D1A] border border-white/[0.06] p-6 text-center space-y-2">
-          <div className="text-sm font-medium text-[#FAF9FA]">
+        <div className="rounded-2xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-6 text-center space-y-2">
+          <div className="text-sm font-medium text-[var(--tc-text)]">
             No cached NASA DONKI events for filter “{activeFilter}”
           </div>
-          <p className="text-xs text-[#E5E5E4]/70 max-w-xl mx-auto">
+          <p className="text-xs text-[var(--tc-text-secondary)] max-w-xl mx-auto">
             {syncMeta?.last_sync_status === 'NEVER_SYNCED'
               ? 'Click "Sync All 11 Feeds" or load the May 2024 Solar Storm window while Earth Link is Connected or Delayed to cache official NASA SWRC records offline.'
               : 'The selected date window or component service returned 0 matching records or had an upstream error.'}
@@ -723,54 +723,54 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
             return (
               <article
                 key={ev.event_uid}
-                className="rounded-2xl bg-[#0B0D1A] border border-white/[0.08] p-4 space-y-2"
+                className="rounded-2xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-4 space-y-2"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className={`px-2 py-0.5 rounded-full text-[11px] font-semibold ${severityBadgeClass(ev.severity)}`}>
                       {ev.severity}
                     </span>
-                    <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#181C2E] text-[#FAF9FA] border border-white/10">
+                    <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[var(--tc-elevated)] text-[var(--tc-text)] border border-[var(--tc-border)]">
                       {ev.service_type}
                     </span>
-                    <span className="px-2 py-0.5 rounded-full text-[11px] bg-[#121522] text-[#E5E5E4]/75 border border-white/10">
+                    <span className="px-2 py-0.5 rounded-full text-[11px] bg-[var(--tc-surface)] text-[var(--tc-text-secondary)] border border-[var(--tc-border)]">
                       {isEarthRegime ? 'Earth Magnetosphere' : 'Heliospheric / Deep Space'}
                     </span>
                   </div>
-                  <span className="text-[11px] text-[#E5E5E4]/70 tabular-data">
+                  <span className="text-[11px] text-[var(--tc-text-secondary)] tabular-data">
                     {formatRecordedTime(ev.start_time)}
                   </span>
                 </div>
 
-                <h3 className="text-sm font-semibold text-[#FAF9FA]">{ev.title}</h3>
-                <p className="text-xs text-[#E5E5E4]/85 leading-relaxed">{ev.summary}</p>
+                <h3 className="text-sm font-semibold text-[var(--tc-text)]">{ev.title}</h3>
+                <p className="text-xs text-[var(--tc-text-secondary)] leading-relaxed">{ev.summary}</p>
 
                 <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
                   <div className="flex flex-wrap gap-1.5 text-[11px]">
                     {m.speed_km_s !== undefined && (
-                      <span className="px-2 py-0.5 rounded-full bg-[#121522] text-[#A5D8FF] border border-white/10">
+                      <span className="px-2 py-0.5 rounded-full bg-[var(--tc-surface)] text-[var(--tc-accent)] border border-[var(--tc-border)]">
                         Speed: {String(m.speed_km_s)} km/s
                       </span>
                     )}
                     {m.class_type !== undefined && (
-                      <span className="px-2 py-0.5 rounded-full bg-[#121522] text-amber-300 border border-white/10">
+                      <span className="px-2 py-0.5 rounded-full bg-[var(--tc-surface)] text-amber-300 border border-[var(--tc-border)]">
                         Class: {String(m.class_type)}
                       </span>
                     )}
                     {m.kp_max !== undefined && (
-                      <span className="px-2 py-0.5 rounded-full bg-[#121522] text-amber-300 border border-white/10">
+                      <span className="px-2 py-0.5 rounded-full bg-[var(--tc-surface)] text-amber-300 border border-[var(--tc-border)]">
                         Max Kp: {String(m.kp_max)}
                       </span>
                     )}
                     {m.estimated_shock_arrival_time !== undefined && (
-                      <span className="px-2 py-0.5 rounded-full bg-[#121522] text-[#A5D8FF] border border-white/10">
+                      <span className="px-2 py-0.5 rounded-full bg-[var(--tc-surface)] text-[var(--tc-accent)] border border-[var(--tc-border)]">
                         Shock ETA: {String(m.estimated_shock_arrival_time)}
                       </span>
                     )}
                     {ev.linked_ids.slice(0, 3).map((lid) => (
                       <span
                         key={lid}
-                        className="px-2 py-0.5 rounded-full bg-[#121522] text-[#E5E5E4]/75 border border-white/10"
+                        className="px-2 py-0.5 rounded-full bg-[var(--tc-surface)] text-[var(--tc-text-secondary)] border border-[var(--tc-border)]"
                       >
                         Linked: {lid}
                       </span>
@@ -782,7 +782,7 @@ export const DonkiSpaceWeatherPanel: React.FC<DonkiSpaceWeatherPanelProps> = ({
                       href={ev.source_url}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-[11px] text-[#A5D8FF] hover:underline inline-flex items-center gap-1"
+                      className="text-[11px] text-[var(--tc-accent)] hover:underline inline-flex items-center gap-1"
                     >
                       <span>NASA SWRC Record</span>
                       <ExternalLink className="w-3 h-3" />

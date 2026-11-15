@@ -71,16 +71,16 @@ export const SansAmslerModal: React.FC<SansAmslerModalProps> = ({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm"
     >
       <div className="mc-card-glow w-full max-w-2xl max-h-[92vh] overflow-y-auto p-6 space-y-5">
-        <div className="flex items-start justify-between gap-3 border-b border-white/[0.08] pb-3.5">
+        <div className="flex items-start justify-between gap-3 border-b border-[var(--tc-border)] pb-3.5">
           <div>
-            <div className="flex items-center gap-2 text-xs font-semibold text-[#A5D8FF]">
+            <div className="flex items-center gap-2 text-xs font-semibold text-[var(--tc-accent)]">
               <Eye className="w-4 h-4" />
               <span>SPACEFLIGHT-ASSOCIATED NEURO-OCULAR SYNDROME (SANS)</span>
             </div>
-            <h2 id="sans-modal-title" className="text-lg font-bold text-[#FAF9FA] mt-1">
+            <h2 id="sans-modal-title" className="text-lg font-bold text-[var(--tc-text)] mt-1">
               Interactive Amsler Grid Self-Check · {astronautName} (Sol {missionDay})
             </h2>
-            <p className="text-xs text-[#E5E5E4]/80 mt-0.5">
+            <p className="text-xs text-[var(--tc-text-secondary)] mt-0.5">
               Fixate on the white center dot (~30 cm away, wearing reading lenses if prescribed). Tap any grid squares that look wavy, blurred, dark, or missing.
             </p>
           </div>
@@ -88,7 +88,7 @@ export const SansAmslerModal: React.FC<SansAmslerModalProps> = ({
             type="button"
             onClick={onClose}
             aria-label="Close SANS Amsler Grid modal"
-            className="p-2 rounded-full bg-[#0B0D1A] text-[#E5E5E4] hover:text-[#FAF9FA]"
+            className="p-2 rounded-full bg-[var(--tc-bg)] text-[var(--tc-text-secondary)] hover:text-[var(--tc-text)]"
           >
             <X className="w-4 h-4" />
           </button>
@@ -97,9 +97,9 @@ export const SansAmslerModal: React.FC<SansAmslerModalProps> = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
             {/* Interactive 10x10 Amsler Grid */}
-            <div className="flex flex-col items-center gap-2.5 bg-[#070912] p-4 rounded-xl border border-white/10">
+            <div className="flex flex-col items-center gap-2.5 bg-[#070912] p-4 rounded-xl border border-[var(--tc-border)]">
               <div
-                className="relative grid grid-cols-10 w-60 h-60 border border-[#A5D8FF]/50 bg-[#0B0D1A]"
+                className="relative grid grid-cols-10 w-60 h-60 border border-[var(--tc-border-strong)] bg-[var(--tc-bg)]"
                 role="group"
                 aria-label="Amsler 10 by 10 ocular grid"
               >
@@ -114,8 +114,8 @@ export const SansAmslerModal: React.FC<SansAmslerModalProps> = ({
                         onClick={() => toggleCell(cellId)}
                         title={`Toggle grid square ${cellId}`}
                         aria-pressed={active}
-                        className={`border border-[#A5D8FF]/20 transition-colors ${
-                          active ? 'bg-amber-400/55 border-amber-300' : 'hover:bg-[#A5D8FF]/15'
+                        className={`border border-[var(--tc-border-strong)] transition-colors ${
+                          active ? 'bg-amber-400/55 border-amber-300' : 'hover:bg-[var(--tc-accent-soft)]'
                         }`}
                       />
                     );
@@ -127,12 +127,12 @@ export const SansAmslerModal: React.FC<SansAmslerModalProps> = ({
                   className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-[#FAF9FA] ring-2 ring-[#0B0D1A]"
                 />
               </div>
-              <div className="flex items-center justify-between w-60 text-[11px] text-[#E5E5E4]/80">
-                <span>Marked cells: <strong className="text-[#A5D8FF]">{selectedCells.length}</strong></span>
+              <div className="flex items-center justify-between w-60 text-[11px] text-[var(--tc-text-secondary)]">
+                <span>Marked cells: <strong className="text-[var(--tc-accent)]">{selectedCells.length}</strong></span>
                 <button
                   type="button"
                   onClick={() => setSelectedCells([])}
-                  className="text-[#A5D8FF] hover:underline"
+                  className="text-[var(--tc-accent)] hover:underline"
                 >
                   Clear Grid
                 </button>
@@ -142,7 +142,7 @@ export const SansAmslerModal: React.FC<SansAmslerModalProps> = ({
             {/* Eye Selection & Symptom Checkboxes */}
             <div className="space-y-3.5">
               <div>
-                <div className="text-xs font-semibold text-[#E5E5E4] mb-1.5">Eye Tested</div>
+                <div className="text-xs font-semibold text-[var(--tc-text-secondary)] mb-1.5">Eye Tested</div>
                 <div className="flex gap-2">
                   {(['BOTH', 'LEFT', 'RIGHT'] as const).map((eye) => (
                     <button
@@ -151,8 +151,8 @@ export const SansAmslerModal: React.FC<SansAmslerModalProps> = ({
                       onClick={() => setEyeTested(eye)}
                       className={`px-3 py-1.5 rounded-full text-xs font-medium ${
                         eyeTested === eye
-                          ? 'bg-[#EEF0F6] text-[#040404] font-semibold'
-                          : 'bg-[#0B0D1A] text-[#E5E5E4] border border-white/10'
+                          ? 'bg-[var(--tc-btn-bg)] text-[var(--tc-btn-fg)] font-semibold'
+                          : 'bg-[var(--tc-bg)] text-[var(--tc-text-secondary)] border border-[var(--tc-border)]'
                       }`}
                     >
                       {eye === 'BOTH' ? 'Both Eyes' : `${eye[0] + eye.slice(1).toLowerCase()} Eye`}
@@ -161,7 +161,7 @@ export const SansAmslerModal: React.FC<SansAmslerModalProps> = ({
                 </div>
               </div>
 
-              <label htmlFor="sans-wavy-lines" className="flex items-start gap-2.5 rounded-xl bg-[#0B0D1A] p-3 text-xs text-[#FAF9FA] cursor-pointer border border-white/[0.06]">
+              <label htmlFor="sans-wavy-lines" className="flex items-start gap-2.5 rounded-xl bg-[var(--tc-bg)] p-3 text-xs text-[var(--tc-text)] cursor-pointer border border-[var(--tc-border)]">
                 <input
                   id="sans-wavy-lines"
                   name="wavy_lines_detected"
@@ -173,7 +173,7 @@ export const SansAmslerModal: React.FC<SansAmslerModalProps> = ({
                 <span>Wavy, curved, or pinched grid lines (metamorphopsia)</span>
               </label>
 
-              <label htmlFor="sans-near-shift" className="flex items-start gap-2.5 rounded-xl bg-[#0B0D1A] p-3 text-xs text-[#FAF9FA] cursor-pointer border border-white/[0.06]">
+              <label htmlFor="sans-near-shift" className="flex items-start gap-2.5 rounded-xl bg-[var(--tc-bg)] p-3 text-xs text-[var(--tc-text)] cursor-pointer border border-[var(--tc-border)]">
                 <input
                   id="sans-near-shift"
                   name="near_acuity_shift"
@@ -196,11 +196,11 @@ export const SansAmslerModal: React.FC<SansAmslerModalProps> = ({
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Optional lighting, reading distance, or handheld OCT note..."
-                  className="w-full rounded-lg bg-[#0B0D1A] border border-white/15 px-3 py-2 text-xs text-[#FAF9FA] focus:border-[#A5D8FF] focus:outline-none"
+                  className="w-full rounded-lg bg-[var(--tc-bg)] border border-[var(--tc-border)] px-3 py-2 text-xs text-[var(--tc-text)] focus:border-[#A5D8FF] focus:outline-none"
                 />
               </div>
 
-              <div className="rounded-xl border border-[#A5D8FF]/20 bg-[#A5D8FF]/5 p-3 text-[11px] text-[#E5E5E4]/85">
+              <div className="rounded-xl border border-[var(--tc-border-strong)] bg-[var(--tc-accent-soft)] p-3 text-[11px] text-[var(--tc-text-secondary)]">
                 Screening aid only: logs fluid-shift visual symptoms for Crew Medical Officer &amp; handheld OCT follow-up; does not diagnose retinal or optic nerve disease.
               </div>
             </div>
@@ -213,12 +213,12 @@ export const SansAmslerModal: React.FC<SansAmslerModalProps> = ({
           )}
 
           {history.length > 0 && (
-            <div className="rounded-xl bg-[#0B0D1A] p-3 space-y-1.5 border border-white/[0.06]">
+            <div className="rounded-xl bg-[var(--tc-bg)] p-3 space-y-1.5 border border-[var(--tc-border)]">
               <div className="text-[11px] uppercase tracking-wider text-[#94A3B8]">
                 Recent Local SANS Screenings ({history.length})
               </div>
               {history.slice(0, 3).map((rec, idx) => (
-                <div key={`${rec.timestamp}-${idx}`} className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#E5E5E4]/90">
+                <div key={`${rec.timestamp}-${idx}`} className="flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--tc-text-secondary)]">
                   <span>
                     Sol {rec.mission_day} · {rec.eye_tested} · {rec.scotoma_cells.length} cell(s) ·{' '}
                     {rec.wavy_lines_detected || rec.near_acuity_shift ? 'Flagged for CMO OCT review' : 'Clear'}

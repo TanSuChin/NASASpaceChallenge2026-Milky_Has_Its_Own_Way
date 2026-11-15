@@ -627,17 +627,17 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
       <section className="mc-card p-6 space-y-4">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="max-w-3xl">
-            <h1 className="text-2xl font-bold text-[#FAF9FA]">
+            <h1 className="text-2xl font-bold text-[var(--tc-text)]">
               Medical Tools &amp; Connected Devices
             </h1>
-            <p className="text-sm text-[#E5E5E4]/80 mt-1.5 leading-relaxed">
+            <p className="text-sm text-[var(--tc-text-secondary)] mt-1.5 leading-relaxed">
               NASA and Canadian Space Agency (CSA) flight medical instruments organized by physiological category.
               Real vendor streams activate ONLY when documented local hardware bridges exist; otherwise use File Import (CSV/JSON),
               Guided Examinations, or clearly labeled Simulation Mode.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2 text-xs">
-            <span className="px-3 py-1.5 rounded-lg bg-[#181C2E] border border-white/15 text-[#FAF9FA]">
+            <span className="px-3 py-1.5 rounded-lg bg-[var(--tc-elevated)] border border-[var(--tc-border)] text-[var(--tc-text)]">
               {catalog.length} Documented Instruments
             </span>
             <span className="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300">
@@ -650,7 +650,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
         </div>
 
         {/* Category Filter Tabs */}
-        <div className="flex flex-wrap gap-2 pt-2 border-t border-white/10" role="tablist" aria-label="Device medical categories">
+        <div className="flex flex-wrap gap-2 pt-2 border-t border-[var(--tc-border)]" role="tablist" aria-label="Device medical categories">
           {CATEGORY_OPTIONS.map((cat) => {
             const active = categoryFilter === cat.id;
             return (
@@ -662,8 +662,8 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                 onClick={() => setCategoryFilter(cat.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${
                   active
-                    ? 'bg-[#EEF0F6] text-[#040404]'
-                    : 'bg-[#181C2E] text-[#E5E5E4]/85 hover:text-[#FAF9FA] border border-white/10'
+                    ? 'bg-[var(--tc-btn-bg)] text-[var(--tc-btn-fg)]'
+                    : 'bg-[var(--tc-elevated)] text-[var(--tc-text-secondary)] hover:text-[var(--tc-text)] border border-[var(--tc-border)]'
                 }`}
               >
                 {cat.label}
@@ -675,11 +675,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
         {/* Search & Classification Filter */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div className="md:col-span-2">
-            <label htmlFor="device-search-input" className="block text-xs text-[#E5E5E4]/75 mb-1">
+            <label htmlFor="device-search-input" className="block text-xs text-[var(--tc-text-secondary)] mb-1">
               Search Instruments, Measurements, or Body System
             </label>
             <div className="relative">
-              <Search className="w-4 h-4 text-[#E5E5E4]/50 absolute left-3 top-1/2 -translate-y-1/2" aria-hidden="true" />
+              <Search className="w-4 h-4 text-[var(--tc-text-secondary)] absolute left-3 top-1/2 -translate-y-1/2" aria-hidden="true" />
               <input
                 id="device-search-input"
                 name="device_search"
@@ -687,13 +687,13 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="e.g., Bio-Monitor, EVARM, Eye-Pressure, mSv, Cortisol..."
-                className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#0B0D1A] border border-white/15 text-sm text-[#FAF9FA] placeholder-[#E5E5E4]/40 focus:outline-none focus:border-[#A5D8FF]"
+                className="w-full pl-9 pr-3 py-2 rounded-lg bg-[var(--tc-bg)] border border-[var(--tc-border)] text-sm text-[var(--tc-text)] placeholder-[#E5E5E4]/40 focus:outline-none focus:border-[#A5D8FF]"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="device-class-filter" className="block text-xs text-[#E5E5E4]/75 mb-1">
+            <label htmlFor="device-class-filter" className="block text-xs text-[var(--tc-text-secondary)] mb-1">
               Integration Availability Filter
             </label>
             <select
@@ -701,7 +701,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
               name="device_classification"
               value={classFilter}
               onChange={(e) => setClassFilter(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg bg-[#0B0D1A] border border-white/15 text-sm text-[#FAF9FA] focus:outline-none focus:border-[#A5D8FF]"
+              className="w-full px-3 py-2 rounded-lg bg-[var(--tc-bg)] border border-[var(--tc-border)] text-sm text-[var(--tc-text)] focus:outline-none focus:border-[#A5D8FF]"
             >
               <option value="ALL">All Classifications</option>
               <option value="SIMULATION_AVAILABLE">Simulation Available</option>
@@ -734,7 +734,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
             <article
               key={dev.device_id}
               data-device-id={dev.device_id}
-              className="mc-card p-5 flex flex-col justify-between gap-4 border border-white/10 hover:border-white/20 transition"
+              className="mc-card p-5 flex flex-col justify-between gap-4 border border-[var(--tc-border)] hover:border-[var(--tc-border)] transition"
             >
               <div className="space-y-3">
                 {/* Header row */}
@@ -742,7 +742,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                   <DeviceIllustration type={dev.illustration_type} />
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="text-xs font-mono text-[#A5D8FF]">
+                      <span className="text-xs font-mono text-[var(--tc-accent)]">
                         {dev.code} · {dev.category_label.replace(/^Category [A-F] · /, '')}
                       </span>
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${sMeta.badgeClass}`}>
@@ -750,7 +750,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         {sMeta.label}
                       </span>
                     </div>
-                    <h2 className="text-lg font-bold text-[#FAF9FA] mt-1">{dev.name}</h2>
+                    <h2 className="text-lg font-bold text-[var(--tc-text)] mt-1">{dev.name}</h2>
                     <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
                       <span className={`px-2 py-0.5 rounded text-xs font-medium ${cMeta.badgeClass}`}>
                         {cMeta.label}
@@ -758,7 +758,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                       {dev.body_systems.map((sys) => (
                         <span
                           key={sys}
-                          className="px-2 py-0.5 rounded text-xs bg-[#0B0D1A] border border-white/10 text-[#E5E5E4]/80"
+                          className="px-2 py-0.5 rounded text-xs bg-[var(--tc-bg)] border border-[var(--tc-border)] text-[var(--tc-text-secondary)]"
                         >
                           {sys}
                         </span>
@@ -768,13 +768,13 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                 </div>
 
                 {/* How it works */}
-                <p className="text-xs text-[#E5E5E4]/85 leading-relaxed">{dev.how_it_works}</p>
+                <p className="text-xs text-[var(--tc-text-secondary)] leading-relaxed">{dev.how_it_works}</p>
 
                 {/* Measures & Output Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[#0B0D1A]/70 rounded-lg p-3 border border-white/10 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[var(--tc-bg)] rounded-lg p-3 border border-[var(--tc-border)] text-xs">
                   <div>
-                    <div className="font-semibold text-[#FAF9FA] mb-1">Measures &amp; Purpose</div>
-                    <ul className="space-y-0.5 text-[#E5E5E4]/80 list-disc pl-4">
+                    <div className="font-semibold text-[var(--tc-text)] mb-1">Measures &amp; Purpose</div>
+                    <ul className="space-y-0.5 text-[var(--tc-text-secondary)] list-disc pl-4">
                       {dev.measures.map((m) => (
                         <li key={m}>{m}</li>
                       ))}
@@ -782,31 +782,31 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                   </div>
                   <div className="space-y-2">
                     <div>
-                      <div className="font-semibold text-[#FAF9FA] mb-0.5">Supported Data Output</div>
-                      <div className="text-[#E5E5E4]/80">{dev.supported_outputs.join(' · ')}</div>
+                      <div className="font-semibold text-[var(--tc-text)] mb-0.5">Supported Data Output</div>
+                      <div className="text-[var(--tc-text-secondary)]">{dev.supported_outputs.join(' · ')}</div>
                     </div>
                     <div>
-                      <div className="font-semibold text-[#FAF9FA] mb-0.5">Integration Method</div>
-                      <div className="text-[#E5E5E4]/80">{dev.connection_methods.join(' · ')}</div>
+                      <div className="font-semibold text-[var(--tc-text)] mb-0.5">Integration Method</div>
+                      <div className="text-[var(--tc-text-secondary)]">{dev.connection_methods.join(' · ')}</div>
                     </div>
                   </div>
                 </div>
 
                 {/* Limitations notice (truthful engineering) */}
-                <div className="text-xs text-[#E5E5E4]/75 bg-[#181C2E]/70 border border-white/10 rounded-lg px-3 py-2">
-                  <strong className="text-[#FAF9FA]">Truthful Scope:</strong> {dev.limitations_notice}
+                <div className="text-xs text-[var(--tc-text-secondary)] bg-[var(--tc-elevated)] border border-[var(--tc-border)] rounded-lg px-3 py-2">
+                  <strong className="text-[var(--tc-text)]">Truthful Scope:</strong> {dev.limitations_notice}
                 </div>
 
                 {/* Verified NASA / CSA References */}
                 <div className="flex flex-wrap items-center gap-2 text-xs">
-                  <span className="text-[#E5E5E4]/65">Official References:</span>
+                  <span className="text-[var(--tc-text-secondary)]">Official References:</span>
                   {dev.research_references.map((ref) => (
                     <a
                       key={ref.url + ref.label}
                       href={ref.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[#A5D8FF] hover:underline"
+                      className="inline-flex items-center gap-1 text-[var(--tc-accent)] hover:underline"
                     >
                       [{ref.agency}] {ref.label}
                       <ExternalLink className="w-3 h-3" aria-hidden="true" />
@@ -816,17 +816,17 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
               </div>
 
               {/* Footer Status + Actions */}
-              <div className="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2">
-                <div className="text-xs text-[#E5E5E4]/75">
-                  <span className="text-[#E5E5E4]/55">Last activity: </span>
-                  <span className="text-[#FAF9FA]">{getLastActivityForDevice(dev.device_id)}</span>
+              <div className="pt-3 border-t border-[var(--tc-border)] flex flex-wrap items-center justify-between gap-2">
+                <div className="text-xs text-[var(--tc-text-secondary)]">
+                  <span className="text-[var(--tc-text-secondary)]">Last activity: </span>
+                  <span className="text-[var(--tc-text)]">{getLastActivityForDevice(dev.device_id)}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   {(status === 'simulation' || status === 'connected' || status === 'unavailable' || status === 'error') && (
                     <button
                       type="button"
                       onClick={() => handleDisconnect(dev)}
-                      className="px-2.5 py-1.5 rounded-lg text-xs border border-white/15 text-[#E5E5E4] hover:text-[#FAF9FA] bg-[#181C2E] inline-flex items-center gap-1"
+                      className="px-2.5 py-1.5 rounded-lg text-xs border border-[var(--tc-border)] text-[var(--tc-text-secondary)] hover:text-[var(--tc-text)] bg-[var(--tc-elevated)] inline-flex items-center gap-1"
                     >
                       <Link2Off className="w-3.5 h-3.5" aria-hidden="true" />
                       Disconnect
@@ -835,7 +835,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                   <button
                     type="button"
                     onClick={() => openDeviceConsole(dev)}
-                    className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[#EEF0F6] text-[#040404] hover:bg-white transition inline-flex items-center gap-1.5"
+                    className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--tc-btn-bg)] text-[var(--tc-btn-fg)] hover:bg-white transition inline-flex items-center gap-1.5"
                   >
                     <Stethoscope className="w-3.5 h-3.5" aria-hidden="true" />
                     {primaryActionLabel}
@@ -855,14 +855,14 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
           aria-labelledby="device-console-title"
           className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
         >
-          <div className="mc-card max-w-4xl w-full max-h-[92vh] overflow-y-auto p-6 space-y-5 border border-white/20">
+          <div className="mc-card max-w-4xl w-full max-h-[92vh] overflow-y-auto p-6 space-y-5 border border-[var(--tc-border)]">
             {/* Modal Header */}
-            <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-4">
+            <div className="flex items-start justify-between gap-4 border-b border-[var(--tc-border)] pb-4">
               <div className="flex items-start gap-3">
                 <DeviceIllustration type={selectedDevice.illustration_type} />
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-mono text-[#A5D8FF]">{selectedDevice.code}</span>
+                    <span className="text-xs font-mono text-[var(--tc-accent)]">{selectedDevice.code}</span>
                     <span
                       className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         deviceStatusMeta(deviceStates[selectedDevice.device_id]?.connection_status).badgeClass
@@ -874,17 +874,17 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                       {classificationMeta(selectedDevice.integration_classification).label}
                     </span>
                   </div>
-                  <h2 id="device-console-title" className="text-xl font-bold text-[#FAF9FA] mt-1">
+                  <h2 id="device-console-title" className="text-xl font-bold text-[var(--tc-text)] mt-1">
                     {selectedDevice.name}
                   </h2>
-                  <p className="text-xs text-[#E5E5E4]/80 mt-0.5">{selectedDevice.limitations_notice}</p>
+                  <p className="text-xs text-[var(--tc-text-secondary)] mt-0.5">{selectedDevice.limitations_notice}</p>
                 </div>
               </div>
               <button
                 type="button"
                 aria-label="Close instrument workflow dialog"
                 onClick={() => setSelectedDeviceId(null)}
-                className="p-2 rounded-lg bg-[#181C2E] border border-white/15 text-[#E5E5E4] hover:text-white"
+                className="p-2 rounded-lg bg-[var(--tc-elevated)] border border-[var(--tc-border)] text-[var(--tc-text-secondary)] hover:text-white"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -897,8 +897,8 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                 onClick={() => setConsoleTab('connect')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
                   consoleTab === 'connect'
-                    ? 'bg-[#EEF0F6] text-[#040404]'
-                    : 'bg-[#181C2E] text-[#E5E5E4] border border-white/10'
+                    ? 'bg-[var(--tc-btn-bg)] text-[var(--tc-btn-fg)]'
+                    : 'bg-[var(--tc-elevated)] text-[var(--tc-text-secondary)] border border-[var(--tc-border)]'
                 }`}
               >
                 Connection &amp; Simulation
@@ -909,8 +909,8 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                   onClick={() => setConsoleTab('import')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
                     consoleTab === 'import'
-                      ? 'bg-[#EEF0F6] text-[#040404]'
-                      : 'bg-[#181C2E] text-[#E5E5E4] border border-white/10'
+                      ? 'bg-[var(--tc-btn-bg)] text-[var(--tc-btn-fg)]'
+                      : 'bg-[var(--tc-elevated)] text-[var(--tc-text-secondary)] border border-[var(--tc-border)]'
                   }`}
                 >
                   Import CSV / JSON
@@ -922,8 +922,8 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                   onClick={() => setConsoleTab('exam')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
                     consoleTab === 'exam'
-                      ? 'bg-[#EEF0F6] text-[#040404]'
-                      : 'bg-[#181C2E] text-[#E5E5E4] border border-white/10'
+                      ? 'bg-[var(--tc-btn-bg)] text-[var(--tc-btn-fg)]'
+                      : 'bg-[var(--tc-elevated)] text-[var(--tc-text-secondary)] border border-[var(--tc-border)]'
                   }`}
                 >
                   {selectedDevice.capabilities.is_countermeasure_only || selectedDevice.capabilities.is_wellbeing_activity
@@ -937,8 +937,8 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                   onClick={() => setConsoleTab('biosample')}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium ${
                     consoleTab === 'biosample'
-                      ? 'bg-[#EEF0F6] text-[#040404]'
-                      : 'bg-[#181C2E] text-[#E5E5E4] border border-white/10'
+                      ? 'bg-[var(--tc-btn-bg)] text-[var(--tc-btn-fg)]'
+                      : 'bg-[var(--tc-elevated)] text-[var(--tc-text-secondary)] border border-[var(--tc-border)]'
                   }`}
                 >
                   Specimen &amp; Lab Assay Import
@@ -948,7 +948,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
 
             {/* Status / Error Feedback */}
             {busyMsg && (
-              <div className="rounded-lg bg-[#181C2E] border border-[#A5D8FF]/30 px-4 py-2.5 text-xs text-[#A5D8FF]">
+              <div className="rounded-lg bg-[var(--tc-elevated)] border border-[var(--tc-border-strong)] px-4 py-2.5 text-xs text-[var(--tc-accent)]">
                 {busyMsg}
               </div>
             )}
@@ -961,7 +961,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                       ? 'bg-amber-500/15 border-amber-500/35 text-amber-200'
                       : feedbackBanner.tone === 'success'
                         ? 'bg-emerald-500/15 border-emerald-500/35 text-emerald-200'
-                        : 'bg-[#181C2E] border-white/15 text-[#FAF9FA]'
+                        : 'bg-[var(--tc-elevated)] border-[var(--tc-border)] text-[var(--tc-text)]'
                 }`}
               >
                 <div className="space-y-1">
@@ -979,7 +979,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                             setSelectedDeviceId(null);
                             onNavigateTab('assessment');
                           }}
-                          className="underline text-[#A5D8FF] hover:text-white"
+                          className="underline text-[var(--tc-accent)] hover:text-white"
                         >
                           Open Health Assessment &amp; Recommendations →
                         </button>
@@ -993,11 +993,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
             {/* TAB 1: CONNECT & SIMULATION */}
             {consoleTab === 'connect' && (
               <div className="space-y-4">
-                <div className="rounded-xl bg-[#0B0D1A] border border-white/10 p-4 space-y-3">
-                  <div className="text-sm font-semibold text-[#FAF9FA]">
+                <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-4 space-y-3">
+                  <div className="text-sm font-semibold text-[var(--tc-text)]">
                     Hardware Connection Probe vs. Labeled Simulation Mode
                   </div>
-                  <p className="text-xs text-[#E5E5E4]/80">
+                  <p className="text-xs text-[var(--tc-text-secondary)]">
                     Clicking <strong>Connect Physical Hardware</strong> queries local USB, serial, or documented adapters honestly.
                     If no physical flight hardware is present on this computer, TARS Care marks it <strong>Hardware Unavailable</strong> instead of faking a live sensor stream.
                   </p>
@@ -1005,7 +1005,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                     <button
                       type="button"
                       onClick={() => handleConnectHardware(selectedDevice, 'hardware')}
-                      className="px-3.5 py-2 rounded-lg text-xs font-medium bg-[#181C2E] border border-white/20 text-[#FAF9FA] hover:border-white/40 inline-flex items-center gap-1.5"
+                      className="px-3.5 py-2 rounded-lg text-xs font-medium bg-[var(--tc-elevated)] border border-[var(--tc-border)] text-[var(--tc-text)] hover:border-[var(--tc-border)] inline-flex items-center gap-1.5"
                     >
                       <Link2 className="w-3.5 h-3.5" aria-hidden="true" />
                       Connect Physical Hardware
@@ -1024,7 +1024,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         <button
                           type="button"
                           onClick={() => handleCollectSimulated(selectedDevice)}
-                          className="px-3.5 py-2 rounded-lg text-xs font-semibold bg-[#EEF0F6] text-[#040404] hover:bg-white inline-flex items-center gap-1.5"
+                          className="px-3.5 py-2 rounded-lg text-xs font-semibold bg-[var(--tc-btn-bg)] text-[var(--tc-btn-fg)] hover:bg-white inline-flex items-center gap-1.5"
                         >
                           <Activity className="w-3.5 h-3.5" aria-hidden="true" />
                           Collect Simulated Readings
@@ -1035,7 +1035,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                     <button
                       type="button"
                       onClick={() => handleDisconnect(selectedDevice)}
-                      className="px-3 py-2 rounded-lg text-xs bg-[#181C2E] border border-white/15 text-[#E5E5E4] hover:text-white inline-flex items-center gap-1.5"
+                      className="px-3 py-2 rounded-lg text-xs bg-[var(--tc-elevated)] border border-[var(--tc-border)] text-[var(--tc-text-secondary)] hover:text-white inline-flex items-center gap-1.5"
                     >
                       <Link2Off className="w-3.5 h-3.5" aria-hidden="true" />
                       Disconnect
@@ -1056,7 +1056,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           setSelectedDeviceId(null);
                           onNavigateTab('assessment');
                         }}
-                        className="px-4 py-2 rounded-lg text-xs font-semibold bg-[#EEF0F6] text-[#040404]"
+                        className="px-4 py-2 rounded-lg text-xs font-semibold bg-[var(--tc-btn-bg)] text-[var(--tc-btn-fg)]"
                       >
                         Go to TARS Care Local Health Assessment Engine →
                       </button>
@@ -1068,9 +1068,9 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
 
             {/* TAB 2: FILE IMPORT */}
             {consoleTab === 'import' && selectedDevice.capabilities.supports_import && (
-              <div className="rounded-xl bg-[#0B0D1A] border border-white/10 p-4 space-y-4">
+              <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-4 space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="text-sm font-semibold text-[#FAF9FA]">
+                  <div className="text-sm font-semibold text-[var(--tc-text)]">
                     Import Device Telemetry Export (CSV or JSON)
                   </div>
                   <button
@@ -1080,7 +1080,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                       setImportFilename(`${selectedDevice.device_id.toLowerCase()}_sample.csv`);
                       setImportRawText(deviceImportTemplate(selectedDevice.device_id));
                     }}
-                    className="px-2.5 py-1 rounded text-xs bg-[#181C2E] border border-white/15 text-[#A5D8FF] hover:border-[#A5D8FF]/40"
+                    className="px-2.5 py-1 rounded text-xs bg-[var(--tc-elevated)] border border-[var(--tc-border)] text-[var(--tc-accent)] hover:border-[var(--tc-border-strong)]"
                   >
                     Load Device CSV Template
                   </button>
@@ -1088,7 +1088,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label htmlFor="device-import-file" className="block text-xs text-[#E5E5E4]/80 mb-1">
+                    <label htmlFor="device-import-file" className="block text-xs text-[var(--tc-text-secondary)] mb-1">
                       Upload Local Telemetry File (.csv, .json)
                     </label>
                     <input
@@ -1097,12 +1097,12 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                       type="file"
                       accept=".csv,.json,.txt"
                       onChange={handleFileUpload}
-                      className="block w-full text-xs text-[#E5E5E4] file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-[#181C2E] file:text-[#FAF9FA]"
+                      className="block w-full text-xs text-[var(--tc-text-secondary)] file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-[var(--tc-elevated)] file:text-[var(--tc-text)]"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="device-import-format" className="block text-xs text-[#E5E5E4]/80 mb-1">
+                    <label htmlFor="device-import-format" className="block text-xs text-[var(--tc-text-secondary)] mb-1">
                       Parser Format
                     </label>
                     <select
@@ -1110,7 +1110,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                       name="device_import_format"
                       value={importFormat}
                       onChange={(e) => setImportFormat(e.target.value as 'csv' | 'json')}
-                      className="w-full px-3 py-1.5 rounded-lg bg-[#121522] border border-white/15 text-xs text-[#FAF9FA]"
+                      className="w-full px-3 py-1.5 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-xs text-[var(--tc-text)]"
                     >
                       <option value="csv">CSV (measurement_type,value,unit,recorded_at)</option>
                       <option value="json">JSON Array or &#123;measurements: [...]&#125;</option>
@@ -1119,7 +1119,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                 </div>
 
                 <div>
-                  <label htmlFor="device-import-textarea" className="block text-xs text-[#E5E5E4]/80 mb-1">
+                  <label htmlFor="device-import-textarea" className="block text-xs text-[var(--tc-text-secondary)] mb-1">
                     Raw Telemetry Payload (units &amp; Gy/Sv separation enforced automatically)
                   </label>
                   <textarea
@@ -1128,7 +1128,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                     rows={5}
                     value={importRawText}
                     onChange={(e) => setImportRawText(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 font-mono text-xs text-[#FAF9FA]"
+                    className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] font-mono text-xs text-[var(--tc-text)]"
                   />
                 </div>
 
@@ -1147,7 +1147,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                 <button
                   type="button"
                   onClick={() => handleParseImport(selectedDevice)}
-                  className="px-4 py-2 rounded-lg text-xs font-semibold bg-[#EEF0F6] text-[#040404] hover:bg-white inline-flex items-center gap-1.5"
+                  className="px-4 py-2 rounded-lg text-xs font-semibold bg-[var(--tc-btn-bg)] text-[var(--tc-btn-fg)] hover:bg-white inline-flex items-center gap-1.5"
                 >
                   <Upload className="w-3.5 h-3.5" aria-hidden="true" />
                   Parse &amp; Validate Units
@@ -1157,9 +1157,9 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
 
             {/* SHARED STAGED CONFIRMATION WORKFLOW (Simulation & File Import) */}
             {stagedReadings.length > 0 && (
-              <div className="rounded-xl bg-[#181C2E] border border-[#A5D8FF]/30 p-4 space-y-3">
+              <div className="rounded-xl bg-[var(--tc-elevated)] border border-[var(--tc-border-strong)] p-4 space-y-3">
                 <div className="flex items-center justify-between gap-2">
-                  <div className="text-sm font-bold text-[#FAF9FA]">
+                  <div className="text-sm font-bold text-[var(--tc-text)]">
                     Astronaut Review &amp; Confirmation ({stagedReadings.length} readings staged)
                   </div>
                   <span className="text-xs text-amber-300">
@@ -1170,7 +1170,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                 <div className="overflow-x-auto">
                   <table className="w-full text-xs text-left">
                     <thead>
-                      <tr className="border-b border-white/10 text-[#E5E5E4]/70">
+                      <tr className="border-b border-[var(--tc-border)] text-[var(--tc-text-secondary)]">
                         <th className="py-2 pr-2">Confirm</th>
                         <th className="py-2 pr-3">Measurement</th>
                         <th className="py-2 pr-3">Value &amp; Unit</th>
@@ -1200,10 +1200,10 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                                 aria-label={`Confirm ${r.measurement_type} reading`}
                               />
                             </td>
-                            <td className="py-2 pr-3 font-medium text-[#FAF9FA]">
+                            <td className="py-2 pr-3 font-medium text-[var(--tc-text)]">
                               {r.measurement_type.replace(/_/g, ' ')}
                             </td>
-                            <td className="py-2 pr-3 font-mono text-[#A5D8FF]">
+                            <td className="py-2 pr-3 font-mono text-[var(--tc-accent)]">
                               {r.value ?? r.value_text ?? '—'} {r.unit}
                             </td>
                             <td className="py-2 pr-3">
@@ -1211,7 +1211,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                                 className={`px-2 py-0.5 rounded text-[11px] ${
                                   r.data_source === 'simulated'
                                     ? 'bg-amber-500/15 text-amber-300'
-                                    : 'bg-[#0B0D1A] text-[#FAF9FA] border border-white/15'
+                                    : 'bg-[var(--tc-bg)] text-[var(--tc-text)] border border-[var(--tc-border)]'
                                 }`}
                               >
                                 {r.data_source === 'simulated' ? 'SIMULATED DEMO' : r.data_source}
@@ -1222,7 +1222,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                                 {r.quality_status}: {r.quality_note}
                               </span>
                             </td>
-                            <td className="py-2 text-[#E5E5E4]/75">{formatRecordedTime(r.recorded_at)}</td>
+                            <td className="py-2 text-[var(--tc-text-secondary)]">{formatRecordedTime(r.recorded_at)}</td>
                           </tr>
                         );
                       })}
@@ -1231,7 +1231,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                 </div>
 
                 <div>
-                  <label htmlFor="confirm-device-note" className="block text-xs text-[#E5E5E4]/80 mb-1">
+                  <label htmlFor="confirm-device-note" className="block text-xs text-[var(--tc-text-secondary)] mb-1">
                     Astronaut / CMO Verification Note (Optional)
                   </label>
                   <input
@@ -1241,7 +1241,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                     value={confirmNote}
                     onChange={(e) => setConfirmNote(e.target.value)}
                     placeholder="e.g., Post-exercise resting confirmation, Sol 184"
-                    className="w-full px-3 py-1.5 rounded-lg bg-[#0B0D1A] border border-white/15 text-xs text-[#FAF9FA]"
+                    className="w-full px-3 py-1.5 rounded-lg bg-[var(--tc-bg)] border border-[var(--tc-border)] text-xs text-[var(--tc-text)]"
                   />
                 </div>
 
@@ -1249,7 +1249,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                   <button
                     type="button"
                     onClick={() => handleConfirmMeasurements(selectedDevice, true)}
-                    className="px-4 py-2 rounded-lg text-xs font-semibold bg-[#EEF0F6] text-[#040404] hover:bg-white inline-flex items-center gap-1.5"
+                    className="px-4 py-2 rounded-lg text-xs font-semibold bg-[var(--tc-btn-bg)] text-[var(--tc-btn-fg)] hover:bg-white inline-flex items-center gap-1.5"
                   >
                     <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" />
                     Confirm, Save &amp; Run Health Assessment
@@ -1257,7 +1257,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                   <button
                     type="button"
                     onClick={() => handleConfirmMeasurements(selectedDevice, false)}
-                    className="px-3.5 py-2 rounded-lg text-xs font-medium bg-[#0B0D1A] border border-white/20 text-[#FAF9FA]"
+                    className="px-3.5 py-2 rounded-lg text-xs font-medium bg-[var(--tc-bg)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                   >
                     Confirm &amp; Save Only
                   </button>
@@ -1267,8 +1267,8 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
 
             {/* TAB 3: GUIDED EXAMINATION / COUNTERMEASURE / ACTIVITY */}
             {consoleTab === 'exam' && selectedDevice.capabilities.supports_guided_exam && (
-              <div className="rounded-xl bg-[#0B0D1A] border border-white/10 p-4 space-y-4">
-                <div className="text-sm font-semibold text-[#FAF9FA]">
+              <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-4 space-y-4">
+                <div className="text-sm font-semibold text-[var(--tc-text)]">
                   Guided Examination &amp; Clinical Session Form
                 </div>
 
@@ -1279,7 +1279,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                       TARS Care logs ultrasound exam dates, vascular/cardiac window notes, and uploaded reports/images only. It does NOT perform automated ultrasound scanning or diagnosis.
                     </div>
                     <div>
-                      <label htmlFor="us-window-input" className="block text-[#E5E5E4]/80 mb-1">
+                      <label htmlFor="us-window-input" className="block text-[var(--tc-text-secondary)] mb-1">
                         Ultrasound Anatomical Window / Protocol
                       </label>
                       <input
@@ -1288,10 +1288,10 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         type="text"
                         value={ultrasoundWindow}
                         onChange={(e) => setUltrasoundWindow(e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                        className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                       />
                     </div>
-                    <label htmlFor="us-cmo-flag" className="inline-flex items-center gap-2 text-[#FAF9FA]">
+                    <label htmlFor="us-cmo-flag" className="inline-flex items-center gap-2 text-[var(--tc-text)]">
                       <input
                         id="us-cmo-flag"
                         name="ultrasound_cmo_flag"
@@ -1308,7 +1308,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                   <div className="space-y-3 text-xs">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label htmlFor="iop-od-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="iop-od-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Right Eye IOP OD (mmHg) — Flagged if &gt; 21 mmHg
                         </label>
                         <input
@@ -1318,11 +1318,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           step="0.5"
                           value={iopOd}
                           onChange={(e) => setIopOd(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                       <div>
-                        <label htmlFor="iop-os-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="iop-os-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Left Eye IOP OS (mmHg) — Flagged if asymmetry &gt;= 4 mmHg
                         </label>
                         <input
@@ -1332,12 +1332,12 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           step="0.5"
                           value={iopOs}
                           onChange={(e) => setIopOs(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-4">
-                      <label htmlFor="iop-wavy-check" className="inline-flex items-center gap-2 text-[#FAF9FA]">
+                      <label htmlFor="iop-wavy-check" className="inline-flex items-center gap-2 text-[var(--tc-text)]">
                         <input
                           id="iop-wavy-check"
                           name="iop_wavy"
@@ -1347,7 +1347,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         />
                         Wavy lines / Amsler distortion detected
                       </label>
-                      <label htmlFor="iop-acuity-check" className="inline-flex items-center gap-2 text-[#FAF9FA]">
+                      <label htmlFor="iop-acuity-check" className="inline-flex items-center gap-2 text-[var(--tc-text)]">
                         <input
                           id="iop-acuity-check"
                           name="iop_acuity"
@@ -1365,7 +1365,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           setSelectedDeviceId(null);
                           onOpenSansModal();
                         }}
-                        className="px-3 py-1.5 rounded-lg bg-[#181C2E] border border-[#A5D8FF]/30 text-[#A5D8FF]"
+                        className="px-3 py-1.5 rounded-lg bg-[var(--tc-elevated)] border border-[var(--tc-border-strong)] text-[var(--tc-accent)]"
                       >
                         Launch Interactive 8×8 SANS Amsler Vision Grid →
                       </button>
@@ -1375,11 +1375,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
 
                 {selectedDevice.device_id === 'MRI_NEURO_OCULAR' && (
                   <div className="space-y-3 text-xs">
-                    <div className="text-[#E5E5E4]/80">
+                    <div className="text-[var(--tc-text-secondary)]">
                       Specialized ground/medical-facility MRI archive only — NOT an onboard wearable or continuous spacecraft sensor.
                     </div>
                     <div>
-                      <label htmlFor="mri-date-input" className="block text-[#E5E5E4]/80 mb-1">
+                      <label htmlFor="mri-date-input" className="block text-[var(--tc-text-secondary)] mb-1">
                         MRI Examination Date
                       </label>
                       <input
@@ -1388,11 +1388,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         type="date"
                         value={mriStudyDate}
                         onChange={(e) => setMriStudyDate(e.target.value)}
-                        className="w-full sm:w-64 px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                        className="w-full sm:w-64 px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                       />
                     </div>
                     <div className="flex flex-wrap gap-4">
-                      <label htmlFor="mri-vent-check" className="inline-flex items-center gap-2 text-[#FAF9FA]">
+                      <label htmlFor="mri-vent-check" className="inline-flex items-center gap-2 text-[var(--tc-text)]">
                         <input
                           id="mri-vent-check"
                           name="mri_ventricle"
@@ -1402,7 +1402,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         />
                         Ventricular volume change noted in radiology report
                       </label>
-                      <label htmlFor="mri-globe-check" className="inline-flex items-center gap-2 text-[#FAF9FA]">
+                      <label htmlFor="mri-globe-check" className="inline-flex items-center gap-2 text-[var(--tc-text)]">
                         <input
                           id="mri-globe-check"
                           name="mri_globe"
@@ -1419,7 +1419,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                 {selectedDevice.device_id === 'TBONE_3D_SCANNER' && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                     <div>
-                      <label htmlFor="tbone-vbmd-input" className="block text-[#E5E5E4]/80 mb-1">
+                      <label htmlFor="tbone-vbmd-input" className="block text-[var(--tc-text-secondary)] mb-1">
                         Distal Tibia Total vBMD (mg HA/cm³)
                       </label>
                       <input
@@ -1429,11 +1429,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         step="0.1"
                         value={tboneVbmd}
                         onChange={(e) => setTboneVbmd(e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                        className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                       />
                     </div>
                     <div>
-                      <label htmlFor="tbone-delta-input" className="block text-[#E5E5E4]/80 mb-1">
+                      <label htmlFor="tbone-delta-input" className="block text-[var(--tc-text-secondary)] mb-1">
                         Change vs. Pre-Flight Baseline (%)
                       </label>
                       <input
@@ -1443,7 +1443,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         step="0.1"
                         value={tboneDeltaPct}
                         onChange={(e) => setTboneDeltaPct(e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                        className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                       />
                     </div>
                   </div>
@@ -1451,12 +1451,12 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
 
                 {selectedDevice.device_id === 'THIGH_CUFFS_COUNTERMEASURE' && (
                   <div className="space-y-3 text-xs">
-                    <div className="p-3 rounded-lg bg-[#181C2E] border border-white/15 text-[#E5E5E4]">
+                    <div className="p-3 rounded-lg bg-[var(--tc-elevated)] border border-[var(--tc-border)] text-[var(--tc-text-secondary)]">
                       Countermeasure logging only: Thigh cuffs do NOT measure physiological vitals and never alter heart rate or blood pressure telemetry.
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label htmlFor="cuff-mins-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="cuff-mins-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Session Duration (mins)
                         </label>
                         <input
@@ -1465,11 +1465,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           type="number"
                           value={cuffDuration}
                           onChange={(e) => setCuffDuration(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                       <div>
-                        <label htmlFor="cuff-pressure-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="cuff-pressure-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Compression Protocol / Garment ID
                         </label>
                         <input
@@ -1478,7 +1478,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           type="text"
                           value={cuffPressure}
                           onChange={(e) => setCuffPressure(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                     </div>
@@ -1488,7 +1488,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                 {selectedDevice.device_id === 'RADI_N2_BUBBLE' && (
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                     <div>
-                      <label htmlFor="radin-serial-input" className="block text-[#E5E5E4]/80 mb-1">
+                      <label htmlFor="radin-serial-input" className="block text-[var(--tc-text-secondary)] mb-1">
                         Detector Serial ID
                       </label>
                       <input
@@ -1497,11 +1497,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         type="text"
                         value={radinSerial}
                         onChange={(e) => setRadinSerial(e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                        className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                       />
                     </div>
                     <div>
-                      <label htmlFor="radin-loc-input" className="block text-[#E5E5E4]/80 mb-1">
+                      <label htmlFor="radin-loc-input" className="block text-[var(--tc-text-secondary)] mb-1">
                         Deployment Module Location
                       </label>
                       <input
@@ -1510,11 +1510,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         type="text"
                         value={radinLocation}
                         onChange={(e) => setRadinLocation(e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                        className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                       />
                     </div>
                     <div>
-                      <label htmlFor="radin-bubbles-input" className="block text-[#E5E5E4]/80 mb-1">
+                      <label htmlFor="radin-bubbles-input" className="block text-[var(--tc-text-secondary)] mb-1">
                         Manual / Reader Bubble Count
                       </label>
                       <input
@@ -1523,7 +1523,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         type="number"
                         value={radinBubbles}
                         onChange={(e) => setRadinBubbles(e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                        className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                       />
                     </div>
                   </div>
@@ -1533,7 +1533,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                   <div className="space-y-3 text-xs">
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <div>
-                        <label htmlFor="survey-mood-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="survey-mood-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Mood Score (1–10)
                         </label>
                         <input
@@ -1545,11 +1545,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           step="0.5"
                           value={surveyMood}
                           onChange={(e) => setSurveyMood(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                       <div>
-                        <label htmlFor="survey-stress-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="survey-stress-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Stress Level (1–10)
                         </label>
                         <input
@@ -1561,11 +1561,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           step="0.5"
                           value={surveyStress}
                           onChange={(e) => setSurveyStress(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                       <div>
-                        <label htmlFor="survey-sleepq-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="survey-sleepq-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Sleep Quality (%)
                         </label>
                         <input
@@ -1576,12 +1576,12 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           max="100"
                           value={surveySleepQ}
                           onChange={(e) => setSurveySleepQ(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="survey-private-journal" className="block text-[#E5E5E4]/80 mb-1">
+                      <label htmlFor="survey-private-journal" className="block text-[var(--tc-text-secondary)] mb-1">
                         Private Crewmember Reflection (PIN-isolated from fleet summaries)
                       </label>
                       <textarea
@@ -1590,10 +1590,10 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         rows={2}
                         value={surveyReflection}
                         onChange={(e) => setSurveyReflection(e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                        className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                       />
                     </div>
-                    <label htmlFor="exam-sync-telemetry" className="inline-flex items-center gap-2 text-[#FAF9FA]">
+                    <label htmlFor="exam-sync-telemetry" className="inline-flex items-center gap-2 text-[var(--tc-text)]">
                       <input
                         id="exam-sync-telemetry"
                         name="exam_sync_telemetry"
@@ -1610,7 +1610,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                   <div className="space-y-3 text-xs">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label htmlFor="posture-bal-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="posture-bal-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Balance Stability Score (/100)
                         </label>
                         <input
@@ -1621,11 +1621,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           max="100"
                           value={postureBalance}
                           onChange={(e) => setPostureBalance(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                       <div>
-                        <label htmlFor="posture-coord-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="posture-coord-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Coordination Score (/100)
                         </label>
                         <input
@@ -1636,11 +1636,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           max="100"
                           value={postureCoord}
                           onChange={(e) => setPostureCoord(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                     </div>
-                    <label htmlFor="posture-update-check" className="inline-flex items-center gap-2 text-[#FAF9FA]">
+                    <label htmlFor="posture-update-check" className="inline-flex items-center gap-2 text-[var(--tc-text)]">
                       <input
                         id="posture-update-check"
                         name="posture_update"
@@ -1657,7 +1657,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                   <div className="space-y-3 text-xs">
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                       <div>
-                        <label htmlFor="ergo-pwr-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="ergo-pwr-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Mean Output (W)
                         </label>
                         <input
@@ -1666,11 +1666,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           type="number"
                           value={ergoPower}
                           onChange={(e) => setErgoPower(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                       <div>
-                        <label htmlFor="ergo-mins-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="ergo-mins-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Duration (mins)
                         </label>
                         <input
@@ -1679,11 +1679,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           type="number"
                           value={ergoMins}
                           onChange={(e) => setErgoMins(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                       <div>
-                        <label htmlFor="ergo-perf-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="ergo-perf-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Performance (%)
                         </label>
                         <input
@@ -1692,11 +1692,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           type="number"
                           value={ergoPerf}
                           onChange={(e) => setErgoPerf(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                       <div>
-                        <label htmlFor="ergo-str-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="ergo-str-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Strength Index
                         </label>
                         <input
@@ -1705,11 +1705,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           type="number"
                           value={ergoStrength}
                           onChange={(e) => setErgoStrength(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                     </div>
-                    <label htmlFor="ergo-update-check" className="inline-flex items-center gap-2 text-[#FAF9FA]">
+                    <label htmlFor="ergo-update-check" className="inline-flex items-center gap-2 text-[var(--tc-text)]">
                       <input
                         id="ergo-update-check"
                         name="ergo_update"
@@ -1724,12 +1724,12 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
 
                 {selectedDevice.device_id === 'VEGGIE_SPACE_GARDENING' && (
                   <div className="space-y-3 text-xs">
-                    <div className="p-3 rounded-lg bg-[#181C2E] border border-white/15 text-[#E5E5E4]">
+                    <div className="p-3 rounded-lg bg-[var(--tc-elevated)] border border-[var(--tc-border)] text-[var(--tc-text-secondary)]">
                       Wellbeing Activity Notice: Space gardening supports crew psychological resilience — it is NOT a medical diagnostic device and never modifies vital signs.
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label htmlFor="veggie-crop-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="veggie-crop-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Crop Pillow / Botanical Module
                         </label>
                         <input
@@ -1738,11 +1738,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           type="text"
                           value={veggieCrop}
                           onChange={(e) => setVeggieCrop(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                       <div>
-                        <label htmlFor="veggie-mood-input" className="block text-[#E5E5E4]/80 mb-1">
+                        <label htmlFor="veggie-mood-input" className="block text-[var(--tc-text-secondary)] mb-1">
                           Subjective Restoration Score (1–10)
                         </label>
                         <input
@@ -1753,7 +1753,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                           max="10"
                           value={veggieMoodLift}
                           onChange={(e) => setVeggieMoodLift(e.target.value)}
-                          className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                          className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                         />
                       </div>
                     </div>
@@ -1763,7 +1763,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                 {/* Shared Notes & Medical Document/Image Upload */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                   <div>
-                    <label htmlFor="exam-summary-note" className="block text-[#E5E5E4]/80 mb-1">
+                    <label htmlFor="exam-summary-note" className="block text-[var(--tc-text-secondary)] mb-1">
                       Examination / Session Notes
                     </label>
                     <input
@@ -1773,11 +1773,11 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                       value={examSummary}
                       onChange={(e) => setExamSummary(e.target.value)}
                       placeholder="Clinical observations, position, or context..."
-                      className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                      className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                     />
                   </div>
                   <div>
-                    <label htmlFor="exam-file-upload" className="block text-[#E5E5E4]/80 mb-1">
+                    <label htmlFor="exam-file-upload" className="block text-[var(--tc-text-secondary)] mb-1">
                       Attach Report / Image / File (.pdf, .png, .jpg, .txt, .json)
                     </label>
                     <input
@@ -1787,7 +1787,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                       multiple
                       accept=".pdf,.png,.jpg,.jpeg,.txt,.csv,.json"
                       onChange={handleAttachmentPick}
-                      className="block w-full text-xs text-[#E5E5E4] file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-[#181C2E] file:text-[#FAF9FA]"
+                      className="block w-full text-xs text-[var(--tc-text-secondary)] file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-[var(--tc-elevated)] file:text-[var(--tc-text)]"
                     />
                   </div>
                 </div>
@@ -1797,16 +1797,16 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                     {examAttachments.map((att, idx) => (
                       <span
                         key={idx}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#181C2E] border border-white/15 text-[#FAF9FA]"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[var(--tc-elevated)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                       >
-                        <FileText className="w-3.5 h-3.5 text-[#A5D8FF]" aria-hidden="true" />
+                        <FileText className="w-3.5 h-3.5 text-[var(--tc-accent)]" aria-hidden="true" />
                         {att.filename}
                       </span>
                     ))}
                   </div>
                 )}
 
-                <label htmlFor="exam-confirm-checkbox" className="inline-flex items-center gap-2 text-xs text-[#FAF9FA]">
+                <label htmlFor="exam-confirm-checkbox" className="inline-flex items-center gap-2 text-xs text-[var(--tc-text)]">
                   <input
                     id="exam-confirm-checkbox"
                     name="exam_confirmed"
@@ -1821,7 +1821,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                   <button
                     type="button"
                     onClick={() => handleSaveExamination(selectedDevice)}
-                    className="px-4 py-2 rounded-lg text-xs font-semibold bg-[#EEF0F6] text-[#040404] hover:bg-white inline-flex items-center gap-1.5"
+                    className="px-4 py-2 rounded-lg text-xs font-semibold bg-[var(--tc-btn-bg)] text-[var(--tc-btn-fg)] hover:bg-white inline-flex items-center gap-1.5"
                   >
                     <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" />
                     Confirm &amp; Save Examination Record
@@ -1833,15 +1833,15 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
             {/* TAB 4: BIOLOGICAL SAMPLES & ASSAYS */}
             {consoleTab === 'biosample' && selectedDevice.capabilities.supports_biosample && (
               <div className="space-y-4">
-                <div className="rounded-xl bg-[#0B0D1A] border border-white/10 p-4 space-y-3 text-xs">
-                  <div className="p-3 rounded-lg bg-[#181C2E] border border-white/15 text-[#E5E5E4]">
-                    <FlaskConical className="w-4 h-4 inline mr-1.5 text-[#A5D8FF]" aria-hidden="true" />
+                <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-4 space-y-3 text-xs">
+                  <div className="p-3 rounded-lg bg-[var(--tc-elevated)] border border-[var(--tc-border)] text-[var(--tc-text-secondary)]">
+                    <FlaskConical className="w-4 h-4 inline mr-1.5 text-[var(--tc-accent)]" aria-hidden="true" />
                     <strong>Specimen Kit Rule:</strong> Collection kits record sample metadata and storage only — they NEVER fabricate live physiological vitals. Laboratory assay results must be imported separately once processed.
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="biosample-type-select" className="block text-[#E5E5E4]/80 mb-1">
+                      <label htmlFor="biosample-type-select" className="block text-[var(--tc-text-secondary)] mb-1">
                         Biological Matrix / Specimen Type
                       </label>
                       <select
@@ -1849,7 +1849,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         name="biosample_type"
                         value={bioType}
                         onChange={(e) => setBioType(e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                        className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                       >
                         <option value="Saliva Filter-Paper Strip">Saliva Filter-Paper Strip</option>
                         <option value="Whole Blood">Whole Blood</option>
@@ -1863,7 +1863,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                       </select>
                     </div>
                     <div>
-                      <label htmlFor="biosample-storage-input" className="block text-[#E5E5E4]/80 mb-1">
+                      <label htmlFor="biosample-storage-input" className="block text-[var(--tc-text-secondary)] mb-1">
                         Cold Stowage / Booklet Archive Location
                       </label>
                       <input
@@ -1872,13 +1872,13 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         type="text"
                         value={bioStorage}
                         onChange={(e) => setBioStorage(e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                        className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="biosample-notes-input" className="block text-[#E5E5E4]/80 mb-1">
+                    <label htmlFor="biosample-notes-input" className="block text-[var(--tc-text-secondary)] mb-1">
                       Collection Timing / Fasting Context
                     </label>
                     <input
@@ -1888,27 +1888,27 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                       value={bioNotes}
                       onChange={(e) => setBioNotes(e.target.value)}
                       placeholder="e.g., Morning waking +30 min, pre-meal..."
-                      className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                      className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                     />
                   </div>
 
                   <button
                     type="button"
                     onClick={() => handleLogBiosample(selectedDevice)}
-                    className="px-4 py-2 rounded-lg text-xs font-semibold bg-[#EEF0F6] text-[#040404]"
+                    className="px-4 py-2 rounded-lg text-xs font-semibold bg-[var(--tc-btn-bg)] text-[var(--tc-btn-fg)]"
                   >
                     Register Biological Specimen
                   </button>
                 </div>
 
                 {/* Separate Lab Assay Import Panel */}
-                <div className="rounded-xl bg-[#0B0D1A] border border-white/10 p-4 space-y-3 text-xs">
-                  <div className="text-sm font-semibold text-[#FAF9FA]">
+                <div className="rounded-xl bg-[var(--tc-bg)] border border-[var(--tc-border)] p-4 space-y-3 text-xs">
+                  <div className="text-sm font-semibold text-[var(--tc-text)]">
                     Separate Laboratory Assay Result Import
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="assay-sample-select" className="block text-[#E5E5E4]/80 mb-1">
+                      <label htmlFor="assay-sample-select" className="block text-[var(--tc-text-secondary)] mb-1">
                         Target Collected Sample UID
                       </label>
                       <select
@@ -1916,7 +1916,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         name="assay_sample_uid"
                         value={assaySampleUid}
                         onChange={(e) => setAssaySampleUid(e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                        className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                       >
                         <option value="">-- Select Registered Sample --</option>
                         {biosamples
@@ -1929,7 +1929,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                       </select>
                     </div>
                     <div>
-                      <label htmlFor="assay-format-select" className="block text-[#E5E5E4]/80 mb-1">
+                      <label htmlFor="assay-format-select" className="block text-[var(--tc-text-secondary)] mb-1">
                         Lab Report Format
                       </label>
                       <select
@@ -1937,7 +1937,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                         name="assay_format"
                         value={assayFormat}
                         onChange={(e) => setAssayFormat(e.target.value as 'json' | 'csv')}
-                        className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 text-[#FAF9FA]"
+                        className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] text-[var(--tc-text)]"
                       >
                         <option value="json">JSON Lab Assay</option>
                         <option value="csv">CSV Lab Assay</option>
@@ -1945,7 +1945,7 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="assay-raw-textarea" className="block text-[#E5E5E4]/80 mb-1">
+                    <label htmlFor="assay-raw-textarea" className="block text-[var(--tc-text-secondary)] mb-1">
                       Laboratory Assay Payload
                     </label>
                     <textarea
@@ -1954,13 +1954,13 @@ export const MedicalDevicesView: React.FC<MedicalDevicesViewProps> = ({
                       rows={3}
                       value={assayRaw}
                       onChange={(e) => setAssayRaw(e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg bg-[#121522] border border-white/15 font-mono text-[#FAF9FA]"
+                      className="w-full px-3 py-2 rounded-lg bg-[var(--tc-surface)] border border-[var(--tc-border)] font-mono text-[var(--tc-text)]"
                     />
                   </div>
                   <button
                     type="button"
                     onClick={handleImportAssay}
-                    className="px-4 py-2 rounded-lg text-xs font-semibold bg-[#181C2E] border border-[#A5D8FF]/40 text-[#A5D8FF] hover:bg-[#A5D8FF]/10"
+                    className="px-4 py-2 rounded-lg text-xs font-semibold bg-[var(--tc-elevated)] border border-[var(--tc-border-strong)] text-[var(--tc-accent)] hover:bg-[var(--tc-accent-soft)]"
                   >
                     Attach Lab Assay Results to Sample
                   </button>

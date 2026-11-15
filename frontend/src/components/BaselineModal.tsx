@@ -78,10 +78,10 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
       aria-modal="true"
       aria-labelledby="baseline-modal-title"
     >
-      <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-[#E5E5E4]/15 bg-[#121522] shadow-2xl">
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#E5E5E4]/10 bg-[#121522] px-6 py-4">
+      <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-[var(--tc-border)] bg-[var(--tc-surface)] shadow-2xl">
+        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[var(--tc-border)] bg-[var(--tc-surface)] px-6 py-4">
           <div className="flex items-center gap-3">
-            <SlidersHorizontal className="h-5 w-5 text-[#A5D8FF]" />
+            <SlidersHorizontal className="h-5 w-5 text-[var(--tc-accent)]" />
             <div>
               <h3 id="baseline-modal-title" className="text-lg font-medium text-[#EEF0F6]">
                 Crew Profile &amp; Personal Baseline Calibration
@@ -95,7 +95,7 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
             type="button"
             onClick={onClose}
             aria-label="Close baseline modal"
-            className="rounded-lg border border-[#E5E5E4]/15 p-1.5 text-[#94A3B8] hover:text-[#EEF0F6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A5D8FF]"
+            className="rounded-lg border border-[var(--tc-border)] p-1.5 text-[#94A3B8] hover:text-[#EEF0F6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A5D8FF]"
           >
             <X className="h-4 w-4" />
           </button>
@@ -113,7 +113,7 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-lg border border-[#E5E5E4]/15 bg-[#0B0D1A] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
+                className="w-full rounded-lg border border-[var(--tc-border)] bg-[var(--tc-bg)] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
               />
             </div>
             <div>
@@ -126,7 +126,7 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
                 type="text"
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="w-full rounded-lg border border-[#E5E5E4]/15 bg-[#0B0D1A] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
+                className="w-full rounded-lg border border-[var(--tc-border)] bg-[var(--tc-bg)] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
               />
             </div>
           </div>
@@ -145,7 +145,7 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
                 max="120"
                 value={hr}
                 onChange={(e) => setHr(e.target.value)}
-                className="w-full rounded-lg border border-[#E5E5E4]/15 bg-[#0B0D1A] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
+                className="w-full rounded-lg border border-[var(--tc-border)] bg-[var(--tc-bg)] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
               />
             </div>
             <div>
@@ -161,7 +161,7 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
                 max="170"
                 value={sysBp}
                 onChange={(e) => setSysBp(e.target.value)}
-                className="w-full rounded-lg border border-[#E5E5E4]/15 bg-[#0B0D1A] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
+                className="w-full rounded-lg border border-[var(--tc-border)] bg-[var(--tc-bg)] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
               />
             </div>
             <div>
@@ -177,7 +177,7 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
                 max="110"
                 value={diaBp}
                 onChange={(e) => setDiaBp(e.target.value)}
-                className="w-full rounded-lg border border-[#E5E5E4]/15 bg-[#0B0D1A] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
+                className="w-full rounded-lg border border-[var(--tc-border)] bg-[var(--tc-bg)] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
               />
             </div>
             <div>
@@ -193,7 +193,7 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
                 max="100"
                 value={spo2}
                 onChange={(e) => setSpo2(e.target.value)}
-                className="w-full rounded-lg border border-[#E5E5E4]/15 bg-[#0B0D1A] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
+                className="w-full rounded-lg border border-[var(--tc-border)] bg-[var(--tc-bg)] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
               />
             </div>
             <div>
@@ -209,7 +209,7 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
                 max="38.5"
                 value={tempC}
                 onChange={(e) => setTempC(e.target.value)}
-                className="w-full rounded-lg border border-[#E5E5E4]/15 bg-[#0B0D1A] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
+                className="w-full rounded-lg border border-[var(--tc-border)] bg-[var(--tc-bg)] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
               />
             </div>
             <div>
@@ -225,7 +225,7 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
                 max="11"
                 value={sleepHrs}
                 onChange={(e) => setSleepHrs(e.target.value)}
-                className="w-full rounded-lg border border-[#E5E5E4]/15 bg-[#0B0D1A] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
+                className="w-full rounded-lg border border-[var(--tc-border)] bg-[var(--tc-bg)] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
               />
             </div>
             <div>
@@ -241,7 +241,7 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
                 max="120"
                 value={strength}
                 onChange={(e) => setStrength(e.target.value)}
-                className="w-full rounded-lg border border-[#E5E5E4]/15 bg-[#0B0D1A] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
+                className="w-full rounded-lg border border-[var(--tc-border)] bg-[var(--tc-bg)] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
               />
             </div>
             <div>
@@ -257,7 +257,7 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
                 max="100"
                 value={balance}
                 onChange={(e) => setBalance(e.target.value)}
-                className="w-full rounded-lg border border-[#E5E5E4]/15 bg-[#0B0D1A] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
+                className="w-full rounded-lg border border-[var(--tc-border)] bg-[var(--tc-bg)] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
               />
             </div>
             <div>
@@ -273,7 +273,7 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
                 max="10"
                 value={moodBase}
                 onChange={(e) => setMoodBase(e.target.value)}
-                className="w-full rounded-lg border border-[#E5E5E4]/15 bg-[#0B0D1A] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
+                className="w-full rounded-lg border border-[var(--tc-border)] bg-[var(--tc-bg)] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
               />
             </div>
             <div>
@@ -289,7 +289,7 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
                 max="10"
                 value={stressBase}
                 onChange={(e) => setStressBase(e.target.value)}
-                className="w-full rounded-lg border border-[#E5E5E4]/15 bg-[#0B0D1A] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
+                className="w-full rounded-lg border border-[var(--tc-border)] bg-[var(--tc-bg)] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
               />
             </div>
           </div>
@@ -304,7 +304,7 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
               type="text"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              className="w-full rounded-lg border border-[#E5E5E4]/15 bg-[#0B0D1A] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
+              className="w-full rounded-lg border border-[var(--tc-border)] bg-[var(--tc-bg)] px-3 py-2 text-sm text-[#EEF0F6] focus:border-[#A5D8FF] focus:outline-none"
             />
           </div>
 
@@ -321,11 +321,11 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
             </div>
           )}
 
-          <div className="flex flex-wrap items-center justify-end gap-3 border-t border-[#E5E5E4]/10 pt-4">
+          <div className="flex flex-wrap items-center justify-end gap-3 border-t border-[var(--tc-border)] pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg border border-[#E5E5E4]/15 bg-[#181C2E] px-4 py-2 text-sm text-[#EEF0F6] hover:bg-[#181C2E]/80"
+              className="rounded-lg border border-[var(--tc-border)] bg-[var(--tc-elevated)] px-4 py-2 text-sm text-[#EEF0F6] hover:bg-[var(--tc-elevated)]"
             >
               Close
             </button>
@@ -340,21 +340,21 @@ export const BaselineModal: React.FC<BaselineModalProps> = ({ state, onClose, on
         </form>
 
         {history.length > 0 && (
-          <div className="border-t border-[#E5E5E4]/10 px-6 py-4">
+          <div className="border-t border-[var(--tc-border)] px-6 py-4">
             <div className="mb-2.5 flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-[#94A3B8]">
-              <History className="h-3.5 w-3.5 text-[#A5D8FF]" />
+              <History className="h-3.5 w-3.5 text-[var(--tc-accent)]" />
               Calibration Audit Trail
             </div>
             <div className="max-h-40 space-y-2 overflow-y-auto pr-1">
               {history.map((item, idx) => (
-                <div key={idx} className="rounded-lg border border-[#E5E5E4]/10 bg-[#0B0D1A] p-3 text-xs">
+                <div key={idx} className="rounded-lg border border-[var(--tc-border)] bg-[var(--tc-bg)] p-3 text-xs">
                   <div className="flex flex-wrap items-center justify-between gap-2 text-[#94A3B8]">
                     <span className="font-medium text-[#EEF0F6]">{item.reason}</span>
                     <span>{formatRecordedTime(item.timestamp)}</span>
                   </div>
                   <div className="mt-1 flex flex-wrap gap-2 text-[11px] text-[#94A3B8]">
                     {Object.entries(item.changed_fields || {}).map(([field, diff]) => (
-                      <span key={field} className="rounded bg-[#181C2E] px-2 py-0.5 text-[#EEF0F6]">
+                      <span key={field} className="rounded bg-[var(--tc-elevated)] px-2 py-0.5 text-[#EEF0F6]">
                         {field}: {String(diff.from)} → {String(diff.to)}
                       </span>
                     ))}
